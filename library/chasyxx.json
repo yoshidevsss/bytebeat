@@ -8,12 +8,18 @@
     },
     {
         "description": "A new dimension: Classic",
+        "remixed": {
+            "description": "A NΞW DIMΞNSION",
+            "author": "burlynn n01se",
+            "url": "https://battleofthebits.org/arena/Entry/A+N%CE%9EW+DIM%CE%9ENSION/42606/"
+        },
         "children": [
             {
                 "description": "Stage 1",
                 "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
                 "date": "2021-10",
                 "file": "Chasyxx- New dimension classic 1.js",
+                "sampleRate": 22025,
                 "fileOriginal": true
             },
             {
@@ -21,6 +27,7 @@
                 "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
                 "date": "2021-10",
                 "file": "Chasyxx- New dimension classic 2.js",
+                "sampleRate": 22025,
                 "fileOriginal": true
             },
             {
@@ -28,9 +35,46 @@
                 "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
                 "date": "2021-10",
                 "file": "Chasyxx- New dimension classic finished.js",
+                "sampleRate": 22025,
                 "fileOriginal": true,
-                "FileMinified": true
+                "fileMinified": true,
+                "starred": 2
             }
         ]
+    },
+    {
+        "description": "The Bytebeat Beat",
+        "codeOriginal": "t*(t&t>>12)|t>>(t&65536?t&32768?(t&16384?t&8192?t&4096?4:5:3:t&8192?t&4096?4:3:5):6:(t&4096?t:t&8192?t*.01:t&2048?2:1))",
+        "starred": 1
+    },
+    {
+        "description": "Ocanic Rythymic Terror",
+        "url": "https://www.reddit.com/r/bytebeat/comments/rzf1b5/more_bytebeat_codes_by_me/",
+        "codeOriginal": "t&16384?(t*(t/(t&(t>>((t>>3)&t>>(t&t>>12))))))|t>>4:(((t*(t/(3+(t/(1<<13)))))%256)+(t&t>>8)%256)/2|t>>4"
+    },
+    {
+        "description": "Wave of power",
+        "url": "https://www.reddit.com/r/bytebeat/comments/rzf1b5/more_bytebeat_codes_by_me/",
+        "codeOriginal": "15-t%(t/65)&t>>4|t<<2&-t>>5"
+    },
+    {
+        "description": "Entering the Nowhere World",
+        "url": "https://www.reddit.com/r/bytebeat/comments/s9kmdw/entering_the_nowhere_world/",
+        "date": "2022-21-01",
+        "codeOriginal": "a=((t&t+(t>>8))&128)+((t&t+(t>>7))&64)+((t&t+(t>>6))&32)+((t&t+(t>>5))&16)+((t&t+(t>>4))&8)+((t&t+(t>>3))&4)+((t&t+(t>>2))&2)+((t&t+(t>>1))&1),(a^(a+(a>>(7-(t>>16)))))"
+    },
+    {
+        "description": "REV IT UP",
+        "url": "https://www.reddit.com/r/bytebeat/comments/s9kmdw/entering_the_nowhere_world/",
+        "codeOriginal": "(((((((t/(4E4>t?(2E4>t?t%(t>>9)*10|t/2&t:t*(t>>9)*10&t/2)|t%(t>>9)*3&t/16:t*(t>>9)^t))*(t>>4))-33)%256)+256)%256)+2)*8192",
+        "sampleRate": 65536,
+        "remixed" : {
+            "description": "12. PSYCHEDELIC",
+            "author": "Anonymous from Dollchan imageboards"
+        }
+    },{
+        "description": "ddCr&/ (The Wave)",
+        "url": "https://www.reddit.com/r/bytebeat/comments/uk2yli/introducing_the_new_collection_of_bytebeat_codes/",
+        "codeOriginal": "(t/(t&t>>10))*256"
     }
 ]
