@@ -171,14 +171,11 @@ class audioProcessor extends AudioWorkletProcessor {
 						return outValue;
 					};
 					break;
-									case '2048':
-					this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = (funcValue & 2047)/8) / 127.5 - 1;
-					break;
-				case 'logmode':
-					this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = (Math.log2(funcValue)*32)&255) / 127.5 - 1;
-					break;
-					case '2048':
-					this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = (funcValue & 2047)/8) / 127.5 - 1;
+				case '2048':
+					this.getValues = (funcValue, ch) => {
+						this.lastByteValue[ch] = ((funcValue/8)&255);
+						return (funcValue&2047)/1020-1
+					};
 					break;
 				case 'logmode':
 					this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = (Math.log2(funcValue)*32)&255) / 127.5 - 1;
