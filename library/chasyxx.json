@@ -2,8 +2,35 @@
     {
         "description": "Warping timeline",
         "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
-        "date": "2021-10-28",
+        "date": "2021-10",
         "file": "Chasyxx- warping timeline.js",
         "fileOriginal": true
+    },
+    {
+        "description": "A new dimension: Classic",
+        "children": [
+            {
+                "description": "Stage 1",
+                "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
+                "date": "2021-10",
+                "file": "Chasyxx- New dimension classic 1.js",
+                "fileOriginal": true
+            },
+            {
+                "description": "Stage 2",
+                "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
+                "date": "2021-10",
+                "file": "Chasyxx- New dimension classic 2.js",
+                "fileOriginal": true
+            },
+            {
+                "description": "&quot;A NEW DIMENSION: THE CLASSIC VERSION &quot;",
+                "url": "https://www.reddit.com/r/bytebeat/comments/qi3enp/with_new_bytecodes_already_posted_here_are_all/",
+                "date": "2021-10",
+                "file": "Chasyxx- New dimension classic finished.js",
+                "fileOriginal": true,
+                "FileMinified": true
+            }
+        ]
     }
 ]
