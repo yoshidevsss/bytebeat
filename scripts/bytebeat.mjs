@@ -52,15 +52,6 @@ globalThis.bytebeat = new class {
 		this.playbackSpeed = 1;
 		this.settings = { drawMode: 'Points', drawScale: 5, isSeconds: false, volume: .5 };
 		this.songData = { mode: 'Bytebeat', sampleRate: 8000 };
-		this.chyx = {
-			/*bit*/        "b": function(x,y,z) {return x&y?z:0},
-			/*bit reverse*/"br": function(x,size=8) {var result = 0; for(idx=0;idx<(size-0);idx++){result += chyx.b(x,2**idx,2**(size-(idx+1)))} return result},
-			/*sin that loops every 128 "steps", instead of every pi steps*/"sinf": function(x) {return Math.sin(x/(128/Math.PI))},
-			/*cos that loops every 128 "steps", instead of every pi steps*/"cosf": function(x) {return Math.cos(x/(128/Math.PI))},
-			/*tan that loops every 128 "steps", instead of every pi steps*/"tanf": function(x) {return Math.tan(x/(128/Math.PI))},
-			/*corrupt sound*/"crpt": function(x,y=8) {return chyx.br(chyx.br(x,y)+t,y)^chyx.br(t,y)},
-			/*decorrupt sound*/"decrpt": function(x,y=8) {return chyx.br(chyx.br(x^chyx.br(t,y),y)-t,y)}
-		}
 			
 		this.init();
 	}

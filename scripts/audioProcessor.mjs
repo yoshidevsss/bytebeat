@@ -213,7 +213,6 @@ class audioProcessor extends AudioWorkletProcessor {
 		const params = Object.getOwnPropertyNames(Math);
 		const values = params.map(k => Math[k]);
 		params.push('int', 'window');
-		params.push(this.chyx)
 		values.push(Math.floor, globalThis);
 		audioProcessor.deleteGlobals();
 		// Optimize code like eval(unescape(escape`XXXX`.replace(/u(..)/g,"$1%")))
