@@ -138,7 +138,8 @@
         "e=((random()*255-64)*((((t>>8)+8)&15)<1)),","",
         
         "max(0,min(255,(a+(b*(bar>3))+(c*(bar>7))+(e*(bar>15)))))"
-        ]
+        ],
+        "codeMinified": "beat=(t>>12),bar=(t>>14),bar%=32,d=bar>11?[5,5,5,5,5,5,5,5,7,7,7,7,7,7,8,8][beat&15]:5,f=256-(bar>15?([1,3,1,3,1,3,1,3,2,6,2,6,4,6,8,16][beat&15]*16):64),a=(t*(2-(1&-t>>11))*d>>(3&t>>8))&f,b=((((t*t*1.1)&1023)/((t>>6)&63))&32)?63:0,c=((random()*255-128)*((((t>>6)+32)&31)<1)),e=((random()*255-64)*((((t>>8)+8)&15)<1)),max(0,min(255,(a+(b*(bar>3))+(c*(bar>7))+(e*(bar>15)))))"
     },
     {
         "description": "WARP_TUNNEL",
@@ -196,6 +197,7 @@
     },
     {
         "description": "Fourier addition",
+        "mode": "Floatbeat",
         "url": "https://www.reddit.com/r/bytebeat/comments/11obmfr/fourier_addition/",
         "date": "2023-03-10",
         "sampleRate": 48000,
