@@ -307,6 +307,10 @@ button[name="close"] {
 	color: yellow;
 }
 
+.entry.star-green::before {
+	color: #00ff62;
+}
+
 .entry-top {
 	padding: 6px 4px 8px 16px;
 }
