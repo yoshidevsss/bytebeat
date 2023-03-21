@@ -357,7 +357,7 @@ globalThis.bytebeat = new class {
 			case 'control-mode': this.setPlaybackMode(elem.value); break;
 			case 'control-samplerate':
 			case 'control-samplerate-select': this.setSampleRate(+elem.value); break;
-			case 'control-divisor': this.setSampleDivisor(++elem.value); break;
+			case 'control-divisor': this.setSampleDivisor(elem.value); break;
 			}
 			return;
 		case 'click':
