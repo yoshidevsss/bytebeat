@@ -23,7 +23,6 @@ class audioProcessor extends AudioWorkletProcessor {
 			/*corrupt sound*/"crpt": function(x,y=8) {return chyx.br(chyx.br(x,y)+t,y)^chyx.br(t,y)},
 			/*decorrupt sound*/"decrpt": function(x,y=8) {return chyx.br(chyx.br(x^chyx.br(t,y),y)-t,y)},
 			}
-			Math = Math + this.chyx;
 		Object.seal(this);
 		audioProcessor.deleteGlobals();
 		audioProcessor.freezeGlobals();
