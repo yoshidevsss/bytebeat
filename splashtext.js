@@ -1,5 +1,5 @@
 const splashes = [
-`What do you mean "this.func is not a function"!?!?`,
+`What do you mean "this.func is not a function"?!?!?`,
 `[object Object]`,
 `Bit reverse? Line break!`,
 `Line break? Bit reverse!`,
@@ -7,12 +7,13 @@ const splashes = [
 `Go away, logmode10!`,
 `Go away, Sinmode!`,
 `Go away, SinFreq!`,
-`chasyxx.guthub.io/minibaker`,
+`chasyxx.github.io/minibaker`,
 `0x8F <3`,
 `Fun fact! If you scroll down, the website looks just like dollChan! But it isn't, it says that right above me.`,
 `missingNo.`,
-`No, i'm not adding Pale Moon compatibillty, juan!`]
+`No, i'm not adding Pale Moon compatibillty, juan!`,
+`Don't misspell github as guthub! You'll regret it! I did...`]
 
-const splash = document.getElementById(`splash`)
+let splash = document.getElementById(`splash`)
 const rnd = Math.floor((Math.random())*splashes.length)
-splash.innerText= splashes[rnd]
+splash.innerext= splashes[rnd]
