@@ -824,7 +824,7 @@ globalThis.bytebeat = new class {
 		}
 	}
 	setSampleDivisor(x) {
-		if (x != 0 && typeof x == number) {
+		if (x != 0) {
 		x = Math.abs(x)
 		this.sendData({divisor: x})
 		}
