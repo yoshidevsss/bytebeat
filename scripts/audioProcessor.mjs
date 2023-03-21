@@ -13,7 +13,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.lastTime = -1;
 		this.outValue = [0, 0];
 		this.sampleRatio = 1;
-		this.sampleDivisor = 1;
+		this.sampleDivisor/*PRO*/ = 1;
 		Object.seal(this);
 		audioProcessor.deleteGlobals();
 		audioProcessor.freezeGlobals();
@@ -196,7 +196,7 @@ class audioProcessor extends AudioWorkletProcessor {
 			this.setSampleRatio(data.sampleRatio);
 		}
 		if(data.divisor !== undefined) {
-			this.sampleDivisor = data.divisor;
+			this.sampleDivisor/*PRO*/ = data.divisor-1;
 		}
 	}
 	sendData(data) {
