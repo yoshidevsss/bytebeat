@@ -36,6 +36,7 @@ globalThis.bytebeat = new class {
 		this.controlPlaybackMode = null;
 		this.controlRecord = null;
 		this.controlSampleRate = null;
+		this.controlSampleDivisor = null;
 		this.controlSampleRateSelect = null;
 		this.controlScaleDown = null;
 		this.controlTime = null;
@@ -356,6 +357,7 @@ globalThis.bytebeat = new class {
 			case 'control-mode': this.setPlaybackMode(elem.value); break;
 			case 'control-samplerate':
 			case 'control-samplerate-select': this.setSampleRate(+elem.value); break;
+			case 'control-divisor': this.setSampleDivisor(++elem.value); break;
 			}
 			return;
 		case 'click':
@@ -497,6 +499,7 @@ globalThis.bytebeat = new class {
 		this.controlPlayForward = document.getElementById('control-play-forward');
 		this.controlRecord = document.getElementById('control-rec');
 		this.controlSampleRate = document.getElementById('control-samplerate');
+		this.controlSampleDivisor = document.getElementById('control-divisor');
 		this.controlSampleRateSelect = document.getElementById('control-samplerate-select');
 		this.controlScaleDown = document.getElementById('control-scaledown');
 		this.setScale(0);
@@ -819,6 +822,9 @@ globalThis.bytebeat = new class {
 			this.updateUrl();
 			this.sendData({ sampleRatio: this.songData.sampleRate / this.audioCtx.sampleRate });
 		}
+	}
+	setSampleDivisor(x) {
+		this.sendDate({divisor: x})
 	}
 	setScale(amount, buttonElem) {
 		if(buttonElem?.getAttribute('disabled')) {
