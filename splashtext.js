@@ -24,7 +24,7 @@ globalThis.splashclass = new class {
 			rnd=x-1
 		} else {
 		rnd = Math.floor((Math.random())*splashes.length)
-		console.log(`splash ${rnd=1}`)
+		console.log(`splash ${rnd+1}`)
 		}
 		this.splash.innerText= splashes[rnd]
 		return(splashes[rnd])
