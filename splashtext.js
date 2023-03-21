@@ -14,6 +14,24 @@ const splashes = [
 `No, i'm not adding Pale Moon compatibillty, juan!`,
 `Don't misspell github as guthub! You'll regret it! I did...`]
 
-const splash = document.getElementById(`splash`)
-const rnd = Math.floor((Math.random())*splashes.length)
-splash.innerext= splashes[rnd]
+globalThis.splashclass = new class {
+	constructor(){
+		this.splash = document.getElementById(`splash`)
+	}
+	dosplash(x) {
+		let rnd = null
+		if (x) {
+			rnd=x-1
+		} else {
+		rnd = Math.floor((Math.random())*splashes.length)
+		console.log(`splash ${rnd}`)
+		}
+		this.splash.innerText= splashes[rnd]
+		return(splashes[rnd])
+	}
+	howlong() {
+		return `${ splashes.length+1 } splashes.`
+	}
+}
+
+splashclass.dosplash()
