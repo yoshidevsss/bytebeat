@@ -24,13 +24,13 @@ globalThis.splashclass = new class {
 			rnd=x-1
 		} else {
 		rnd = Math.floor((Math.random())*splashes.length)
-		console.log(`splash ${rnd}`)
+		console.log(`splash ${rnd=1}`)
 		}
 		this.splash.innerText= splashes[rnd]
 		return(splashes[rnd])
 	}
 	howlong() {
-		return `${ splashes.length+1 } splashes.`
+		return `${ splashes.length } splashes.`
 	}
 }
 
