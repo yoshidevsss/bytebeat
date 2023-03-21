@@ -480,7 +480,7 @@ button[name="close"] {
 }
 
 #control-divisor {
-	width: 20px;
+	width: 40px;
 	border-radius: var(--control-corners) var(--control-corners) var(--control-corners) var(--control-corners);
 }
 
