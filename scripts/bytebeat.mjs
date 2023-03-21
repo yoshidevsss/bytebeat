@@ -357,7 +357,7 @@ globalThis.bytebeat = new class {
 			case 'control-mode': this.setPlaybackMode(elem.value); break;
 			case 'control-samplerate':
 			case 'control-samplerate-select': this.setSampleRate(+elem.value); break;
-			case 'control-divisor': this.setSampleDivisor(elem.value); break;
+			case 'control-divisor': if (elem.value == 0) {elem.value = this.divisor} else {this.setSampleDivisor(elem.value); break;}
 			}
 			return;
 		case 'click':
@@ -824,6 +824,7 @@ globalThis.bytebeat = new class {
 		}
 	}
 	setSampleDivisor(x) {
+		x=Math.abs(x)
 		this.sendData({divisor: x})
 	}
 	setScale(amount, buttonElem) {
