@@ -824,8 +824,7 @@ globalThis.bytebeat = new class {
 		}
 	}
 	setSampleDivisor(x) {
-		let divdivdiv= x-1;
-		this.sendData({divisor: divdivdiv})
+		this.sendData({divisor: x})
 	}
 	setScale(amount, buttonElem) {
 		if(buttonElem?.getAttribute('disabled')) {
