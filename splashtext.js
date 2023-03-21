@@ -14,6 +14,6 @@ const splashes = [
 `No, i'm not adding Pale Moon compatibillty, juan!`,
 `Don't misspell github as guthub! You'll regret it! I did...`]
 
-let splash = document.getElementById(`splash`)
+const splash = document.getElementById(`splash`)
 const rnd = Math.floor((Math.random())*splashes.length)
 splash.innerext= splashes[rnd]
