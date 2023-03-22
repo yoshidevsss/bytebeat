@@ -189,6 +189,13 @@ class audioProcessor extends AudioWorkletProcessor {
 						return out / 127.5 - 1
 					};
 					break;
+				case 'logHack2':
+				this.getValues = (funcValue, ch) => {
+					const neg = funcValue<0
+					const out = this.lastByteValue[ch] = ((Math.log2(Math.abs(funcValue))*(neg?-16:16))+(neg?-127:128))&255
+					return out / 127.5 - 1
+				};
+				break;
 
 			default: this.getValues = (_funcValue, ch) => (this.lastByteValue[ch] = NaN);
 			}
