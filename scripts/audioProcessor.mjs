@@ -182,6 +182,9 @@ class audioProcessor extends AudioWorkletProcessor {
 				case 'logmode':
 					this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = (Math.log2(funcValue)*32)&255) / 127.5 - 1;
 					break;
+				case 'logHack':
+					this.getValues = (funcValue, ch) => (neg=funcValue<0?-32:32,this.lastByteValue[ch] = (Math.log2(Math.abs(funcValue))*neg)&255) / 127.5 - 1;
+					break;
 
 			default: this.getValues = (funcValue, ch) => (this.lastByteValue[ch] = NaN);
 			}
