@@ -993,7 +993,16 @@
 		"starred": 1
 	},
 	{
-		"author": "Glebguything",
+		"description": "Bytebiast",
+		"codeOriginal": "((t>>3&t>>9|t>>4&t>>10|t>>5&t>>11|t>>6&t>>12|t>>7&t>>13|t>>8&t>>14|t>>6&t>>15|t/2|t>>3)^t>>12&t>>6)%(((t>>9)^(t>>13))+t>>6)",
+		"date": "2023-03-21",
+		"sampleRate": 8500,
+		"mode": "Bitbeat",
+		"author": "u/glebguything",
+		"starred": 1
+	},
+	{
+		"author": "u/T_yknow",
 		"children": [
 			{
 				"description": "bitbeat thingy",
@@ -1013,14 +1022,6 @@
 				"date": "2023-03-21",
 				"mode": "Bitbeat",
 				"sampleRate": 16000
-			},
-			{
-				"description": "Bytebiast",
-				"codeOriginal": "((t>>3&t>>9|t>>4&t>>10|t>>5&t>>11|t>>6&t>>12|t>>7&t>>13|t>>8&t>>14|t>>6&t>>15|t/2|t>>3)^t>>12&t>>6)%(((t>>9)^(t>>13))+t>>6)",
-				"date": "2023-03-21",
-				"sampleRate": 8500,
-				"mode": "Bitbeat",
-				"starred": 1
 			}
 		]
 	}
