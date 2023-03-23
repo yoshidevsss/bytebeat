@@ -12,7 +12,8 @@ const splashes = [
 `Fun fact! If you scroll down, the website looks just like dollChan! But it isn't, it says that right above me.`,
 `missingNo.`,
 `No, i'm not adding Pale Moon compatibillty, juan!`,
-`Don't misspell github as guthub! You'll regret it! I did...`]
+`Don't misspell github as guthub! You'll regret it! I did...`,
+`Nobody talks about how I mixed up all of soneome's songs! Trust me, it happened, and i fixed it!`]
 
 globalThis.splashclass = new class {
 	constructor(){

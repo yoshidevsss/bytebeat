@@ -999,6 +999,7 @@
 		"sampleRate": 8500,
 		"mode": "Bitbeat",
 		"author": "u/glebguything",
+		"url": "https://www.reddit.com/r/bytebeat/comments/11xeu0c/bytebiast/",
 		"starred": 1
 	},
 	{
@@ -1008,20 +1009,31 @@
 				"description": "bitbeat thingy",
 				"codeOriginal": "t>>4&t>>10|t>>8&t>>11|t>>5&t>>12",
 				"date": "2023-03-21",
-				"mode": "Bitbeat"
+				"mode": "Bitbeat",
+				"url": "https://www.reddit.com/r/bytebeat/comments/11xcxyy/bitbeat_thingy/"
 			},
 			{
 				"description": "another bitbeat thingy",
 				"codeOriginal": "(t%255&t%257)>>6|t>>5&(t%255)>>6",
 				"date": "2023-03-21",
-				"mode": "Bitbeat"
+				"mode": "Bitbeat",
+				"url": "https://www.reddit.com/r/bytebeat/comments/11xe1zr/another_bitbeat_thingy/"
 			},
 			{
 				"description": "yet another bitbeat thingy",
 				"codeOriginal": "t>>(t&2048?5:4)+(t&8192?1:0)",
 				"date": "2023-03-21",
 				"mode": "Bitbeat",
+				"url": "https://www.reddit.com/r/bytebeat/comments/11xe98r/yet_another_bitbeat_thingy/",
 				"sampleRate": 16000
+			}
+			,
+			{
+				"description": "not%ral",
+				"codeOriginal": "t%255|(t&t>>2|t>>5)",
+				"date": "2023-03-23",
+				"url": "https://www.reddit.com/r/bytebeat/comments/11zgafh/notral/",
+				"sampleRate": 11025
 			}
 		]
 	}
