@@ -3145,6 +3145,7 @@
 			{
 				"description": "brain powder",
 				"codeOriginal": "t/=4,(129*t*4%(t>>7))%256/3+sin(4e3/(t%4096))*50+50+(random ()*50&-t>>6)*[0,1][(t>>12)%2]+sin(t%(t>>10&t|t>>13&t))*25+25",
+				"sampleRate": 44100,
 				"date": "2023-03-21",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11y6oi1/brain_powder/",
 				"starred": 1
@@ -3153,6 +3154,7 @@
 				"description": "Guitar serpinski",
 				"codeOriginal": "t/=4,y=(t==0?0:y),a=1,b=8,x=((t*4&t>>5)+(t>>7&t*2)+(t>>9&t))-5,y=((y*b)+((x&255)*a))/(a+b)",
 				"codeMinified": "t/=4,this.y??=0,y=(y*8+((t*4&t>>5)+(t>>7&t*2)+(t>>9&t)-5&255))/9",
+				"sampleRate": 48000,
 				"date": "2023-03-22",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11yi7pn/guitar_serpenski/"
 			},
@@ -3160,6 +3162,7 @@
 				"description": "Vrown",
 				"codeOriginal": "(t/=5.5,(((t*(0xBA789>>(t>>9&14)&15)|t*4>>8)*2)/2%(10*(t>>6|t))/4|t>>9)+5|t>>8|t>>4)%(t%(t%(t&t>>9)))%256*(-t/2&2047)/2E3",
 				"codeMinified": "t/=5.5,(((t*(0xBA789>>(t>>9&14)&15)|t*4>>7)/2%10*(t>>6|t)/4|t>>9)+5|t>>8|t>>4)%(t%(t%(t&t>>9)))%256*(-t/2&2047)/2E3",
+				"sampleRate": 44100,
 				"date": "2023-03-23",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11zps08/vrown/"
 			}
