@@ -3085,22 +3085,6 @@
 		],
 		"codeMinified": "(t*((t&4096?59392>t%65536?7:t&7:16)+(1&t>>14))>>(3&-t>>(t&2048?2:10))|t>>(t&16384?t&4096?10:3:2))%256/3+(3E5/(t&4095)&63)+(t*random()&31|t>>6&63)"
 	}, {
-		"author": "Glebguything",
-		"children": [{
-			"description": "a music made in school",
-			"url": "https://www.reddit.com/r/bytebeat/comments/10sdupn/a_music_made_in_school/",
-			"date": "2023-02-03",
-			"sampleRate": 44100,
-			"codeOriginal": "t=t/4,((melody=t*[1,2,3,4,3,2,5,5][(t>>11)%8]/[1,2,3,2.5][(t>>14)%4],melody%75+melody%75.99+sin(melody/3)*50)+50)",
-			"codeMinified": "t/=4,(melody=t*[1,2,3,4,3,2,5,5][(t>>11)%8]/[1,2,3,2.5][(t>>14)%4],melody%75+melody%75.99+50*sin(melody/3))+50",
-			"starred": 1
-		}, {
-			"description": "a robotic voice",
-			"url": "https://www.reddit.com/r/bytebeat/comments/10xv1w7/a_robotic_voice/",
-			"date": "2023-02-09",
-			"codeOriginal": "sin(t/[5,6,7,8][(t>>13)%4]%20)*128+128^t>>5|t>>4^t/90"
-		}]
-	}, {
 		"author": "sean",
 		"description": "factory settings",
 		"url": "https://battleofthebits.org/arena/Entry/factory+settings.txt/58158/",
@@ -3123,11 +3107,23 @@
 			"codeMinified": "(t>0)*(t<16E3)*((1*t&32)+(1.24469258*t&32)+(1.49375896*t&32))+(t>16E3)*(t<32E3)*((1*t&32)+(1.24469258*t&32)+(1.60682245*t&32))+(t>32E3)*(t<48E3)*((1*t&32)+(1.3389041*t&32)+(1.66652401*t&32))+(t>48E3)*(t<64E3)*((1*t&32)+(1.3389041*t&32)+(1.60682245*t&32))+(t>0)*(t<1E4)*(5*t&32)+(t>1E4)*(t<12E3)*(5.333333333333333*t&32)+(t>12E3)*(t<14E3)*(5*t&32)+(t>14E3)*(t<16E3)*(4.5*t&32)+(t>16E3)*(t<2E4)*(5*t&32)+(t>2E4)*(t<24E3)*(4*t&32)+(t>24E3)*(t<28E3)*(3.75*t&32)+(t>28E3)*(t<32E3)*(4*t&32)+(t>32E3)*(t<36E3)*(3.3333333333333335*t&32)+(t>36E3)*(t<39E3)*(6*t&32)+(t>39E3)*(t<4E4)*0+(t>4E4)*(t<44E3)*(6*t&32)+(t>44E3)*(t<48E3)*(3.3333333333333335*t&32)+(t>48E3)*(t<64E3)*(3.2*t&32)",
 			"starred": 1
 		}]
-	},
-	{
+	}, {
 		"author": "u/Glebguything",
 		"children": [
 			{
+				"description": "a music made in school",
+				"url": "https://www.reddit.com/r/bytebeat/comments/10sdupn/a_music_made_in_school/",
+				"date": "2023-02-03",
+				"sampleRate": 44100,
+				"codeOriginal": "t=t/4,((melody=t*[1,2,3,4,3,2,5,5][(t>>11)%8]/[1,2,3,2.5][(t>>14)%4],melody%75+melody%75.99+sin(melody/3)*50)+50)",
+				"codeMinified": "t/=4,(melody=t*[1,2,3,4,3,2,5,5][(t>>11)%8]/[1,2,3,2.5][(t>>14)%4],melody%75+melody%75.99+50*sin(melody/3))+50",
+				"starred": 1
+			}, {
+				"description": "a robotic voice",
+				"url": "https://www.reddit.com/r/bytebeat/comments/10xv1w7/a_robotic_voice/",
+				"date": "2023-02-09",
+				"codeOriginal": "sin(t/[5,6,7,8][(t>>13)%4]%20)*128+128^t>>5|t>>4^t/90"
+			}, {
 				"description": "CAPERMISSION",
 				"codeOriginal": "((t*(0x9273727>>(t>>9&30)&15)|t>>8)%256/2+sin(4e3/(t%4096))*50+50)%256*(-t&2047)/2E3+(t*4&-t>>8)%256/4",
 				"date": "2023-03-21",
@@ -3141,24 +3137,21 @@
 				"date": "2023-03-21",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11xck6r/remix_of_catgirl/",
 				"starred": 2
-			},
-			{
+			}, {
 				"description": "brain powder",
 				"codeOriginal": "t/=4,(129*t*4%(t>>7))%256/3+sin(4e3/(t%4096))*50+50+(random ()*50&-t>>6)*[0,1][(t>>12)%2]+sin(t%(t>>10&t|t>>13&t))*25+25",
 				"sampleRate": 44100,
 				"date": "2023-03-21",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11y6oi1/brain_powder/",
 				"starred": 1
-			},
-			{
+			}, {
 				"description": "Guitar serpinski",
 				"codeOriginal": "t/=4,y=(t==0?0:y),a=1,b=8,x=((t*4&t>>5)+(t>>7&t*2)+(t>>9&t))-5,y=((y*b)+((x&255)*a))/(a+b)",
 				"codeMinified": "t/=4,this.y??=0,y=(y*8+((t*4&t>>5)+(t>>7&t*2)+(t>>9&t)-5&255))/9",
 				"sampleRate": 48000,
 				"date": "2023-03-22",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11yi7pn/guitar_serpenski/"
-			},
-			{
+			}, {
 				"description": "Vrown",
 				"codeOriginal": "(t/=5.5,(((t*(0xBA789>>(t>>9&14)&15)|t*4>>8)*2)/2%(10*(t>>6|t))/4|t>>9)+5|t>>8|t>>4)%(t%(t%(t&t>>9)))%256*(-t/2&2047)/2E3",
 				"codeMinified": "t/=5.5,(((t*(0xBA789>>(t>>9&14)&15)|t*4>>7)/2%10*(t>>6|t)/4|t>>9)+5|t>>8|t>>4)%(t%(t%(t&t>>9)))%256*(-t/2&2047)/2E3",

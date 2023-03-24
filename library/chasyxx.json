@@ -220,5 +220,52 @@
         "a=WAVE(1, 1, (31.25)*6,(t>>14))"
         ],
         "codeMinified":"SR=48000,WAVE=function(m,a,f=440,depth=10){a=a-m;out=0;for(let i=1;i<depth;i++){out+=Math.sin((t*(f*((i*m)+a)))/((128/Math.PI)*(SR/8000)*31.25))/i;}return out/(Math.pow(depth,1/14)*1.3)/2;},a=WAVE(1,1,(31.25)*6,(t>>14))"
+    },
+    {
+        "description": "WARPING_POINT",
+        "url": "https://www.reddit.com/r/bytebeat/comments/11uwhst/warping_point/",
+        "date": "2023-03-18",
+        "codeOriginal": "a=(t*(t>>8*(t>>15|t>>8)&(20|5*(t>>19)>>t|t>>3))),(a&255)<((t>>4)&255)?(t&(t+(a>>4))>>4):(a|t>>4)",
+        "remixed": {
+            "author": "visy",
+            "url": "http://viznut.fi/demos/unix/bytebeat_formulas.txt"
+        }
+    },
+    {
+        "description": "nɔmba wan we dɛn rimiks",
+        "url": "https://www.reddit.com/r/bytebeat/comments/11vejrl/n%C9%94mba_wan_we_d%C9%9Bn_rimiks/",
+        "date": "2023-03-19",
+        "sampleRate": 11025,
+        "codeOriginal": "z=t*'1242'[3&t>>10],((((z*[1,1.2,1.8,2.7][3&t>>14])&255)/2)+(tan(256/(t&4095))*4e1)+64)^(sin((t/(128/PI))/(1<<8))*30)",
+        "remixed": {
+            "description": "namber wan",
+            "author": "Rio zack",
+            "url": "https://dollchan.net/btb/res/204.html#232"
+        }
+    },
+    {
+        "description": "let number = 0b100",
+        "url": "https://www.reddit.com/r/bytebeat/comments/11vsfau/let_number_0b100/",
+        "date": "2023-03-19",
+        "codeOriginal": "eval(unescape(escape`瘽琯㉞⡴☶㐿㘳㨰⤬瘽⡶簱㔩㸾⡶簲⤬⠨瘯⠱⬨瘾㸷⤩♴⼳㈩簨⡴㸾ㄱ⤥㠥㌪琪琦ㄵ⤫ㄶ⤫⡴慮⠴攲⼨琦㐰㤵⤩⨴⤠`.replace(/u(..)/g,\"$1%\")))",
+        "sampleRate": 9000,
+        "remixed": {
+            "description": "No. 4",
+            "author": "yehar",
+            "url": "http://www.pouet.net/topic.php?which=8357&page=21#c401817"
+        }
+    }
+    ,
+    {
+        "description": "sequencebek",
+        "url": "https://www.reddit.com/r/bytebeat/comments/11vxqi2/the_lead_sounds_familiar/",
+        "date": "2023-03-19",
+        "codeOriginal": "eval(unescape(escape`獰敥搽㈬汥湧瑨㴲㔶Ɫ㴨琪ㄮ〵㤴㘳〹㐳㔹㈹㔳⨪嬰Ⱜ〬ⰱ㈬ⰰⰬ〬ⰱ㜬ⰰⰬ〬ⰱ㐬ⰰⰬ〬ⰱ〬ⰰⰬ〬ⰱ㈬ⰰⰬ〬ⰰⰬㄵⰱ㈬㜬㌬〬ⰰⰬㄴⰱ㈬㜬㌬〬ⰰⰬㄲⰷⰳⰰⰭㄲⰬ〬ⰱ㔬ㄲⰷⰳⰭ㐬Ⱝ㐬ⰱ㈬Ⱝ㐬Ⱝ㐬ⰱ㔬Ⱝ㐬Ⱝ㐬ⰱ㐬Ⱝ㐬Ⱝ㐬ⰱ〬Ⱝ㐬Ⱝ㐬ⰱ㈬Ⱝ㐬Ⱝ㐬Ⱝ㐬ⰱ㈬Ⱝ㐬Ⱝ㐬ⰱ㔬Ⱝ㐬Ⱝ㐬ⰱ㐬Ⱝ㐬Ⱝ㐬ⰱ〬Ⱝ㐬Ⱝ㐬ⰱ㈬Ⱝ㐬ⰭㄶⰬⴱ㘬ⰱ㈬ⰭㄶⰬⴱ㘬ⰱ㈬ⰭㄶⰬⴱ㜬ⰱ㐬ⰭㄶⰬⴱ㘬ⰱ〬ⰭㄶⰬⴱ㘬ⰱ㈬ⰭㄶⰬⴱ㘬Ⱝ㐬ⰱ㔬ㄲⰷⰳⰭㄶⰬⴱ㘬ⰱ㐬ㄲⰷⰳⰭ㐬Ⱝ㐬ⰱ㈬㜬㌬ⴱ㘬ⴱ㈬ⰭㄶⰬㄵⰱ㈬㜬㌬ⴱ㤬ⰭㄹⰬㄲⰬⴱ㤬ⰭㄹⰬㄵⰬⴱ㤬ⰭㄹⰬㄴⰬⴱ㤬ⰭㄹⰬ㄰Ⱜⴱ㤬ⰭㄹⰬㄲⰬⴱ㤬ⰭㄹⰬⴱ㤬ⰱ㈬ⰭㄹⰬⴱ㤬ⰱ㔬ⰭㄹⰬⴱ㤬ⰱ㐬ⰭㄹⰬⴱ㤬ⰱ〬ⰭㄹⰬⴱ㤬ⰱ㈬ⰭㄹⰬ嵛楮琨琪獰敥搯㐰㤶⤥汥湧瑨崭ㄩⱲ㴨愬戩㴾筬整⁯畴‽‰㭦潲⡩⁯映愩筯畴⬽⠨截椩☱㈸⤯⡡⹬敮杴栯ㄮ㤩素牥瑵牮⁯畴紬⠨捯猨⡲⡛ㄬ㍝Ɫ⥼⡴⼱㘩⤯⠱㈸⽐䤩⤫ㄩ⨶㐩⬊⡭慸⠰ⰴ⴨⡴⼲〴㠩┸⤩⨨牡湤潭⠩⼴⤩⨱㈸`.replace(/u(..)/g,\"$1%\")))",
+        "sampleRate": 44100,
+        "remixed": {
+            "description": "simple step squencer",
+            "author": "neverforgettoleave",
+            "url": "https://www.reddit.com/r/bytebeat/comments/jmbsoh/simple_step_sequencer/"
+        }
     }
 ]
