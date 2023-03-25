@@ -8,12 +8,13 @@ const splashes = [
 `Go away, Sinmode!`,
 `Go away, SinFreq!`,
 `chasyxx.github.io/minibaker`,
-`0x8F <3`,
+`0x8F &lt;3`,
 `Fun fact! If you scroll down, the website looks just like dollChan! But it isn't, it says that right above me.`,
 `missingNo.`,
 `No, i'm not adding Pale Moon compatibillty, juan!`,
 `Don't misspell github as guthub! You'll regret it! I did...`,
-`Nobody talks about how I mixed up all of soneome's songs! Trust me, it happened, and i fixed it!`]
+`Nobody talks about how I mixed up all of soneome's songs! Trust me, it happened, and i fixed it!`,
+`See an issue? <a href="https://github.com/Chasyxx/EnBeat_NEW/issues" target="_blank">Tell me!</a>`]
 
 globalThis.splashclass = new class {
 	constructor(){
@@ -27,7 +28,7 @@ globalThis.splashclass = new class {
 		rnd = Math.floor((Math.random())*splashes.length)
 		console.log(`splash ${rnd+1}`)
 		}
-		this.splash.innerText= splashes[rnd]
+		this.splash.innerHTML= splashes[rnd]
 		return(splashes[rnd])
 	}
 	howlong() {
