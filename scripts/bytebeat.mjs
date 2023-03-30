@@ -834,10 +834,11 @@ globalThis.bytebeat = new class {
 		}
 	}
 	setMenu(x) {
-		var oldMenu= document.getElementById(`controls${this.visibleMenu}`);
-		var newMenu= document.getElementById(`controls${x}`);
+		var oldMenu = document.getElementById(`controls${this.visibleMenu}`);
+		var newMenu = document.getElementById(`controls${x}`);
 		oldMenu.classList.add('hidden');
 		newMenu.classList.remove('hidden');
+		this.visibleMenu = x;
 	}
 	setScale(amount, buttonElem) {
 		if(buttonElem?.getAttribute('disabled')) {
