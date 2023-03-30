@@ -70,9 +70,9 @@ class audioProcessor extends AudioWorkletProcessor {
 			const currentTime = Math.floor(time);
 			if(this.lastTime !== currentTime) {
 				let funcValue;
-				const currentSample = Math.floor(byteSample);
+				const currentSample = Math.floor(byteSample/divisor)*divisor;
 				try {
-					funcValue = this.func(Math.floor(currentSample/divisor)*divisor);
+					funcValue = this.func(currentSample);
 				} catch(err) {
 					if(this.errorDisplayed) {
 						this.errorDisplayed = false;

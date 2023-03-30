@@ -21,7 +21,7 @@
 			<div id="editor-container">
 				<textarea  id="editor-default" spellcheck="false">(t&amp;t&gt;&gt;1)+(t/(t&gt;&gt;9))</textarea>
 			</div>
-			<div class="controls">
+			<div class="controls" id="controls0">
 				<div class="controls-group controls-grow">
 					<button id="control-counter-units" class="control-button" title="Time units">t</button>
 					<input type="text" id="control-counter" value="0" title="Set time to jump along the timeline then press Enter">
@@ -61,6 +61,14 @@
 					<option value="Points" selected>Points</option>
 					<option value="Waveform">Waveform</option>
 				</select>
+				<div class="controls-group controls-grow">
+					<input id="control-volume" type="range" min="0" max="1" value=".5" step="any" title="Volume">
+				</div>
+				<select id="control-menu-select" class="control-select" title="Control menus">
+					<option value="1" title="MENU 1- SAMPLERATE, MODE, CHARCOUNT,  DIVISOR" selected>MENU 1- SONG OPTIONS</option>
+				</select>
+			</div>
+			<div class="controls" id="controls1">
 				<select id="control-mode" class="control-select controls-grow" title="Sound mode">
 					<option value="Bytebeat" selected>Bytebeat</option>
 					<option value="Signed Bytebeat">Signed Bytebeat</option>
@@ -98,9 +106,11 @@
 					</button>
 					<span id="control-codesize" title="Code size in characters"></span>
 				</div>
-				<div class="controls-group controls-grow">
-					<input id="control-volume" type="range" min="0" max="1" value=".5" step="any" title="Volume">
-				</div>
+			</div>
+			<div class="controls" id="controls2">
+				<select title="test">
+					<option>TEST</option>
+				</select>
 			</div>
 			<div id="error"></div>
 			<div id="canvas-container" title="Click to play">
