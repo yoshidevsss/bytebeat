@@ -21,11 +21,12 @@ globalThis.MAT = new class { //Menus and transformations
 			var toencode = code.value
 		}
 		var inString = false;
+		var inArray = false;
 		var stringCount = 0;
 			for (var i=0;i<toencode.length;i++) {
 				switch(toencode[i]){
 					case `,`: case `;`:
-						if(!inString && toencode[i+1] != `\n`) {
+						if(!inArray && !inString && toencode[i+1] != `\n`) {
 							temp = toencode.slice(0,i) + `${toencode[i]}\n` + toencode.slice(i+1,toencode.length)
 							toencode = temp
 						}
@@ -34,7 +35,19 @@ globalThis.MAT = new class { //Menus and transformations
 					case `\``: case `'`: case `"`:
 						inString = !inString
 						stringCount++
-						break
+					break
+
+					case `[`: 
+						if(!inString) {
+							inArray = true
+						}
+					break
+
+					case `]`: 
+						if(!inString) {
+							inArray = false
+						}	
+					break
 				}
 			}
 			if(stringCount&1){
