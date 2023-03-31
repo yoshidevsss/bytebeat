@@ -228,7 +228,7 @@ button[name="close"] {
 	margin: 0;
 	padding: 0;
 	border: none;
-	color: #75ff53;
+	color: #ffd153;
 	background: none;
 	font: var(--font-size)/16px monospace;
 	text-align: left;
@@ -241,7 +241,7 @@ button[name="close"] {
 }
 
 .code-text:hover {
-	color: #a0fca0 !important;
+	color: #3fe2e2 !important;
 }
 
 .code-button {
@@ -291,7 +291,7 @@ button[name="close"] {
 	margin-left: 11px;
 }
 
-.entry.star-white::before, .entry.star-yellow::before {
+.entry.star-white::before, .entry.star-green::before {
 	content: "\2605";
 	position: absolute;
 	top: 0;
