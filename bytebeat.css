@@ -18,11 +18,11 @@ body {
 }
 
 a, a:visited {
-	color: #89c2ff;
+	color: #89ffa3;
 }
 
 a:hover {
-	color: #ed88fb !important;
+	color: #88eefb !important;
 }
 
 :focus-visible {
@@ -228,7 +228,7 @@ button[name="close"] {
 	margin: 0;
 	padding: 0;
 	border: none;
-	color: #ffcc53;
+	color: #75ff53;
 	background: none;
 	font: var(--font-size)/16px monospace;
 	text-align: left;
@@ -241,7 +241,7 @@ button[name="close"] {
 }
 
 .code-text:hover {
-	color: #ed88fb !important;
+	color: #a0fca0 !important;
 }
 
 .code-button {
