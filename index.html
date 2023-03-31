@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="bytebeat.css?version=2023022000">
 	<link rel="modulepreload" href="./scripts/audioProcessor.mjs?version=2023022000">
 	<script type="module" async src="./scripts/bytebeat.mjs?version=2023022000"></script>
-	<script async src="splashtext.js"></script>
+	<script async src="menus.js"></script>
 </head>
 <body>
 	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
@@ -76,8 +76,9 @@
 				<div class="controls-group controls-grow">
 					<input id="control-volume" type="range" min="0" max="1" value=".5" step="any" title="Volume">
 				</div>
-				<select id="control-menu-select" class="control-select" title="Control menus">
+				<select id="control-menu-select" class="control-select" title="Control menus" onchange="MAT.changeMenu(this.value)">
 					<option value="1" title="MODE, SAMPLERATE, DIVISOR" selected>MENU 1 - SONG OPTIONS</option>
+					<option value="2">MENU 2 - TRANSFORMATIONS</option>
 					<!--option value="2" title="MENU 2- TEST">MENU 2 - TEST</option-->
 				</select>
 			</div>
@@ -109,9 +110,9 @@
 				</div>
 			</div>
 			<div class="controls hidden" id="controls2">
-				<select title="test">
-					<option>TEST</option>
-				</select>
+				<button id="control-test" class="control-button text-padding" title="Formats code based off of commas and semicolons" onclick="MAT.commaFormat()">
+					FORMAT , and ;
+				</button>
 			</div>
 			<div id="error"></div>
 			<div id="canvas-container" title="Click to play">

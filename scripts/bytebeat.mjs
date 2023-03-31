@@ -36,8 +36,6 @@ globalThis.bytebeat = new class {
 		this.controlPlaybackMode = null;
 		this.controlRecord = null;
 		this.controlSampleRate = null;
-			this.controlMenus = null;
-			this.visibleMenu = 1;
 			this.controlSampleDivisor = null;
 		this.controlSampleRateSelect = null;
 		this.controlScaleDown = null;
@@ -360,7 +358,6 @@ globalThis.bytebeat = new class {
 			case 'control-samplerate':
 			case 'control-samplerate-select': this.setSampleRate(+elem.value); break;
 			case 'control-divisor': this.setSampleDivisor(elem.value); break;
-			case 'control-menu-select': this.setMenu(elem.value); break;
 			}
 			return;
 		case 'click':
@@ -505,7 +502,6 @@ globalThis.bytebeat = new class {
 		this.controlSampleDivisor = document.getElementById('control-divisor');
 		this.controlSampleRateSelect = document.getElementById('control-samplerate-select');
 		this.controlScaleDown = document.getElementById('control-scaledown');
-		this.controlMenus = document.getElementById('control-menu-select');
 		this.setScale(0);
 
 		// Time counter
@@ -832,13 +828,6 @@ globalThis.bytebeat = new class {
 		x = Math.abs(x)
 		this.sendData({divisor: x})
 		}
-	}
-	setMenu(x) {
-		var oldMenu = document.getElementById(`controls${this.visibleMenu}`);
-		var newMenu = document.getElementById(`controls${x}`);
-		oldMenu.classList.add('hidden');
-		newMenu.classList.remove('hidden');
-		this.visibleMenu = x;
 	}
 	setScale(amount, buttonElem) {
 		if(buttonElem?.getAttribute('disabled')) {

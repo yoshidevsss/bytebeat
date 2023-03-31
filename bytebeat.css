@@ -386,6 +386,10 @@ button[name="close"] {
 	background-image: linear-gradient(to bottom, #3c6341, #224725);
 }
 
+.text-padding {
+	padding: 0 10px 0 8px !important
+}
+
 .control-button > svg {
 	width: var(--control-size);
 	height: var(--control-size);
