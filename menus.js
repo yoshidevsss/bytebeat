@@ -40,6 +40,16 @@ globalThis.MAT = new class { //Menus and transformations
 			if(stringCount&1){
 				console.error("Error in comma-formatting: Unterminated string")
 			}
+			if(global) {
+				bytebeat.editorView.dispatch({
+					changes: {
+						from: 0,
+						to: bytebeat.editorView.state.doc.toString().length,
+						insert: toencode
+					}
+				})
+			} else {
 			code.value = toencode
+			}
 		}
 }
