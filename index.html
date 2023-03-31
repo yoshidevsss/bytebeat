@@ -14,8 +14,8 @@
 	<script async src="splashtext.js"></script>
 </head>
 <body>
-	<p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
-	<p id="splash" align="center" style="color: #00FFFF; font-size: 12px">I'm the splash text... and Mr. Script isn't giving me my line! So annoying...</p>
+	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
+	<p id="splash" align="center" style="color: #00FFFF; font-size: 12px">MissingNo, but it's <i>true!</i></p-->
 	<main id="content">
 		<section id="container-fixed">
 			<div id="editor-container">
@@ -61,11 +61,23 @@
 					<option value="Points" selected>Points</option>
 					<option value="Waveform">Waveform</option>
 				</select>
+				<div class="controls-group">
+					<button id="control-rec" class="control-button" title="Record to the file">
+						<svg><use xlink:href="#symbol-rec"></use></svg>
+					</button>
+					<button id="control-link" class="control-button" title="Copy the song link">
+						<svg><use xlink:href="#symbol-link"></use></svg>
+					</button>
+					<button id="control-expand" class="control-button" title="Expand the code editor">
+						<svg><use xlink:href="#symbol-expand"></use></svg>
+					</button>
+					<span id="control-codesize" title="Code size in characters"></span>
+				</div>
 				<div class="controls-group controls-grow">
 					<input id="control-volume" type="range" min="0" max="1" value=".5" step="any" title="Volume">
 				</div>
 				<select id="control-menu-select" class="control-select" title="Control menus">
-					<option value="1" title="MENU 1- SAMPLERATE, MODE, CHARCOUNT,  DIVISOR" selected>MENU 1 - SONG OPTIONS</option>
+					<option value="1" title="MODE, SAMPLERATE, DIVISOR" selected>MENU 1 - SONG OPTIONS</option>
 					<!--option value="2" title="MENU 2- TEST">MENU 2 - TEST</option-->
 				</select>
 			</div>
@@ -78,7 +90,7 @@
 					<option value="2048" title="Wraps around at 2048 instead of 256. Exotic mode.">2048</option>
 					<option value="logmode" title="&quot;log2()*32&quot; view of code. Exotic mode.">Logmode</option>
 					<option value="logHack" title="Logmode, but suppourts negative numbers.">LogHack</option>
-					<option value="logHack2" title="LogHack, but 128 added. Multiplies by 16 instead. Especially exotic with numbers less then 1.">LogHack2</option>
+					<option value="logHack2" title="LogHack, but 128 added. Multiplies by 16 instead. Especially exotic with numbers from -1 to 1.">LogHack2</option>
 				</select>
 				<div class="controls-group controls-grow">
 					<input type="text" id="control-samplerate" title="Set sample rate (in Hz) then press Enter">
@@ -94,18 +106,6 @@
 				</div>
 				<div class="controls-group controls-grow" width="128">
 					<input value="1" type="number" id="control-divisor" title="Set sample rate divisor then press Enter">
-				</div>
-				<div class="controls-group">
-					<button id="control-rec" class="control-button" title="Record to the file">
-						<svg><use xlink:href="#symbol-rec"></use></svg>
-					</button>
-					<button id="control-link" class="control-button" title="Copy the song link">
-						<svg><use xlink:href="#symbol-link"></use></svg>
-					</button>
-					<button id="control-expand" class="control-button" title="Expand the code editor">
-						<svg><use xlink:href="#symbol-expand"></use></svg>
-					</button>
-					<span id="control-codesize" title="Code size in characters"></span>
 				</div>
 			</div>
 			<div class="controls hidden" id="controls2">

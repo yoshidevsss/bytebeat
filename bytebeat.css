@@ -103,12 +103,12 @@ footer {
 
 #canvas-container:hover > #canvas-play {
 	display: block;
-	background-image: linear-gradient(to bottom, #92aeec, #181f33) !important;
+	background-image: linear-gradient(to bottom, #65c775, #18331d) !important;
 }
 
 .canvas-initial {
 	display: block !important;
-	background-image: linear-gradient(to bottom, #67789d, #181f33);
+	background-image: linear-gradient(to bottom, #3c9b40, #183319);
 }
 
 .canvas-pause > #svg-canvas-play, .canvas-play > #svg-canvas-pause {
@@ -249,7 +249,7 @@ button[name="close"] {
 	padding: 2px 6px;
 	border: none;
 	border-radius: 3px;
-	background-image: linear-gradient(to bottom, #424242, #171b22);
+	background-image: linear-gradient(to bottom, #171b22, #21bb2e);
 	color: #ced5e1;
 	font: var(--font-size)/var(--font-size) sans-serif;
 	white-space: nowrap;
@@ -257,7 +257,7 @@ button[name="close"] {
 }
 
 .code-button:hover {
-	background-image: linear-gradient(to bottom, #3c508a, #1f2331);
+	background-image: linear-gradient(to bottom, #35473d, #2edd3d);
 	color: #c2dfff;
 }
 
@@ -303,10 +303,6 @@ button[name="close"] {
 	color: white;
 }
 
-.entry.star-yellow::before {
-	color: yellow;
-}
-
 .entry.star-green::before {
 	color: #00ff62;
 }
@@ -331,12 +327,12 @@ button[name="close"] {
 .library-header {
 	padding: 4px 8px;
 	border-radius: 3px;
-	background-image: linear-gradient(to bottom, #202c46, #0b0d17);
+	background-image: linear-gradient(to bottom, #204620, #0b170c);
 	cursor: pointer;
 }
 
 .library-header:hover, .library-header:focus-visible {
-	background-image: linear-gradient(to bottom, #32426c, #151b2b);
+	background-image: linear-gradient(to bottom, #326c35, #192b15);
 	color: #94c7ff;
 }
 
@@ -370,7 +366,7 @@ button[name="close"] {
 	padding: 0;
 	border: none;
 	border-radius: var(--control-corners);
-	background-image: linear-gradient(to bottom, #959595, #242a37);
+	background-image: linear-gradient(to bottom, #427745, #224725);
 	color: #e3e3e3;
 	font: bold var(--font-size)/var(--control-size) sans-serif;
 	cursor: pointer;
@@ -382,12 +378,12 @@ button[name="close"] {
 }
 
 .control-button:not([disabled]):hover, .control-select:hover {
-	background-image: linear-gradient(to bottom, #738cc1, #28314a);
+	background-image: linear-gradient(to bottom, #528a5c, #224725);
 	color: #c2dfff;
 }
 
 .control-button:not([disabled]):active, .control-select:active  {
-	background-image: linear-gradient(to bottom, #505f84, #1c1e26);
+	background-image: linear-gradient(to bottom, #3c6341, #224725);
 }
 
 .control-button > svg {
@@ -404,7 +400,7 @@ button[name="close"] {
 #control-codesize, #control-counter, #control-samplerate, #control-divisor {
 	height: var(--control-size);
 	padding: 0 4px;
-	background: linear-gradient(to top, #3a445e, #181c26);
+	background: linear-gradient(to top, #3a5e3d, #224725);
 	color: #e3e3e3;
 	border: none;
 	font: bold var(--font-size)/var(--control-size) monospace;
@@ -495,7 +491,7 @@ button[name="close"] {
 }
 
 .control-select > option {
-	color: #435071;
+	color: #43714d;
 }
 
 #control-volume {
@@ -513,12 +509,12 @@ button[name="close"] {
 	height: var(--control-size);
 	border: none;
 	border-radius: 4px;
-	background-image: linear-gradient(to bottom, #aeaeae, #484c55);
+	background-image: linear-gradient(to bottom, #57aa62, #2f8536);
 	cursor: pointer;
 }
 
 #control-volume::-moz-range-thumb:hover {
-	background-image: linear-gradient(to bottom, #90a7d7, #3f4c71);
+	background-image: linear-gradient(to bottom, #57cf67, #2c6432);
 }
 
 #control-volume::-webkit-slider-thumb {
@@ -527,12 +523,12 @@ button[name="close"] {
 	height: var(--control-size);
 	border: none;
 	border-radius: 4px;
-	background-image: linear-gradient(to bottom, #aeaeae, #484c55);
+	background-image: linear-gradient(to bottom, #aeaeae, #2f8536);
 	cursor: pointer;
 }
 
 #control-volume::-webkit-slider-thumb:hover {
-	background-image: linear-gradient(to bottom, #90a7d7, #3f4c71);
+	background-image: linear-gradient(to bottom, #71d876, #2f8536);
 }
 
 .controls {

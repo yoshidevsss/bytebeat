@@ -36,4 +36,4 @@ globalThis.splashclass = new class {
 	}
 }
 
-splashclass.dosplash()
+//splashclass.dosplash()
