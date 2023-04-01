@@ -118,9 +118,9 @@ globalThis.MAT = new class { //Menus and transformations
 				if (this.isErrored) {break} // error handling
 				switch(toEncode[i]){
 					case `,`: case `;`:
-						if((parenLayerCount == 0 || !this.considerParens) && (arrayLayerCount == 0) && !inString && toencode[i+1] != `\n`) {
+						if((parenLayerCount == 0 || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i+1] != `\n`) {
 							temp = toEncode.slice(0,i) + `${toEncode[i]}\n` + toEncode.slice(i+1,toEncode.length)
-							toencode = temp
+							toEncode = temp
 						}
 					break
 
@@ -193,7 +193,8 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 	bake(){
 		try { //global testing
-			var toEncode = bytebeat.editorValue;
+				var toEncode = bytebeat.editorValue;
+				bytebeat.playbackToggle(false)
 				this.global = true;
 		} catch(err) { //local testing
 				console.log(`Locally testing because ${err.message}`);
@@ -203,7 +204,8 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 	debake(){
 		try { //global testing
-			var toEncode = bytebeat.editorValue;
+				var toEncode = bytebeat.editorValue;
+				bytebeat.playbackToggle(false)
 				this.global = true;
 		} catch(err) { //local testing
 				console.log(`Locally testing because ${err.message}`);
