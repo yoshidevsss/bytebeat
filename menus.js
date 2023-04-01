@@ -53,6 +53,7 @@ globalThis.MAT = new class { //Menus and transformations
 	constructor() {
 		this.currentMenu = 1;
 		this.errorReason = null;
+		this.errorChar = null;
 		this.isErrored = false;
 		this.considerParens = true; //Console should be able to change this
 		this.formatted = null;
@@ -73,8 +74,9 @@ globalThis.MAT = new class { //Menus and transformations
 		newMenu.classList.remove('hidden');
 		this.currentMenu = x;
 	}
-	startError(reason){
+	startError(reason, char=-1){
 		this.errorReason = reason;
+		this.errorChar = char;
 		this.isErrored = true;
 	}
 	setCodeMirrorEditor(string){
@@ -122,8 +124,7 @@ globalThis.MAT = new class { //Menus and transformations
 				switch(toEncode[i]){
 					case `,`: case `;`:
 						if((parenLayerCount == 0 || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i+1] != `\n`) {
-							temp = toEncode.slice(0,i) + `${toEncode[i]}\n` + toEncode.slice(i+1,toEncode.length)
-							toEncode = temp
+							toEncode = toEncode.slice(0,i) + `${toEncode[i]}\n` + toEncode.slice(i+1,toEncode.length)
 						}
 					break
 
@@ -142,7 +143,7 @@ globalThis.MAT = new class { //Menus and transformations
 						if(!inString) {
 							arrayLayerCount--
 							if (arrayLayerCount<0){
-								this.startError("Unbalanced arrays!")
+								this.startError("Unbalanced array!",i)
 							}
 						}							
 					break
@@ -157,7 +158,7 @@ globalThis.MAT = new class { //Menus and transformations
 						if(!inString) {
 							parenLayerCount--
 							if (parenLayerCount<0){
-								this.startError("Unbalanced parenthesies!")
+								this.startError("Unbalanced parenthesies!",i)
 							}
 						}
 					break
@@ -168,14 +169,14 @@ globalThis.MAT = new class { //Menus and transformations
 			if(stringCount&1){
 				console.error(this.errorText = "Error in comma-formatting: Unterminated string!")
 				this.isErrored = true
-			} else if(arrayLayerCount != 0) {
+			} else if(arrayLayerCount > 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced array!")
 				this.isErrored = true
-			} else if(parenLayerCount != 0) {
+			} else if(parenLayerCount > 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced parenthesies!")
 				this.isErrored = true
 			} else if (this.isErrored) {
-				console.error(this.errorText = `Error in comma-formatting: ${this.errorReason}`)
+				console.error(this.errorText = `Error in comma-formatting at char ${this.errorChar}: ${this.errorReason}`)
 			} else {this.output(this.formatted,true)}
 			if(this.isErrored){
 				console.warn("This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output() or click Force output")

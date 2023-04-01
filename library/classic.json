@@ -1034,6 +1034,12 @@
 				"date": "2023-03-23",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11zgafh/notral/",
 				"sampleRate": 11025
+			},
+			{
+				"description": "wait this is not name\\... The Compressor",
+				"codeOriginal": "t*(t&-(t>>8)&t>>(t>>15)&t>>(t>>15))",
+				"date": "2023-01-04. April fools!",
+				"url": "https://discord.com/channels/1038088201409155132/1090411018343174186/1091831072775479387"
 			}
 		]
 	}
