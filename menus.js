@@ -7,8 +7,11 @@ globalThis.MAT = new class { //Menus and transformations
 		this.formatted = null;
 		this.code = document.getElementById('editor-default');
 		this.forceElem = document.getElementById('control-force-output');
+		this.clearElem = document.getElementById('control-clear-output');
+		this.startElem = document.getElementById('control-format');
 		this.global = false;
 		this.errorText = null;
+		this.oldCode = null;
 	}
 	changeMenu(x) {
 		var oldMenu = document.getElementById(`controls${this.currentMenu}`);
@@ -36,12 +39,18 @@ globalThis.MAT = new class { //Menus and transformations
 		} else {
 		this.code.value = text
 		}
+		this.forceElem.classList.add("hidden")
+		this.startElem.classList.remove(`hidden`);
+		this.clearElem.classList.add("hidden")
 		return text
+	}
+	clear(){
+		this.output(this.oldCode)
 	}
 	commaFormat(){
 		var initialCode;
 		var temp = null;
-		var parenCount = 0;
+		var parenLayerCount = 0;
 		this.global = false
 		try { //global testing
 		var toencode = initialCode = bytebeat.editorValue;
@@ -51,13 +60,13 @@ globalThis.MAT = new class { //Menus and transformations
 			var toencode = initialCode = this.code.value;
 		}
 		var inString = false;
-		var inArray = false;
+		var arrayLayerCount = false;
 		var stringCount = 0;
 			for (var i=0;i<toencode.length;i++) {
-				if (this.isErrored) {break}
+				if (this.isErrored) {break} // error handling
 				switch(toencode[i]){
 					case `,`: case `;`:
-						if((parenCount == 0 || !this.considerParens) && !inArray && !inString && toencode[i+1] != `\n`) {
+						if((parenLayerCount == 0 || !this.considerParens) && (arrayLayerCount == 0) && !inString && toencode[i+1] != `\n`) {
 							temp = toencode.slice(0,i) + `${toencode[i]}\n` + toencode.slice(i+1,toencode.length)
 							toencode = temp
 						}
@@ -70,29 +79,29 @@ globalThis.MAT = new class { //Menus and transformations
 
 					case `[`: 
 						if(!inString) {
-							inArray = true
+							arrayLayerCount++
 						}
 					break
 
 					case `]`: 
-						if (!inArray) {
-							this.startError("Unbalanced array!")
-						}
-						else if(!inString) {
-							inArray = false
-						}	
+						if(!inString) {
+							arrayLayerCount--
+							if (arrayLayerCount<0){
+								this.startError("Unbalanced arrays!")
+							}
+						}							
 					break
 
 					case `(`: 
 						if(!inString) {
-							parenCount++
+							parenLayerCount++
 						}
 					break
 
 					case `)`: 
 						if(!inString) {
-							parenCount--
-							if (parenCount<0){
+							parenLayerCount--
+							if (parenLayerCount<0){
 								this.startError("Unbalanced parenthesies!")
 							}
 						}
@@ -104,24 +113,29 @@ globalThis.MAT = new class { //Menus and transformations
 			if(stringCount&1){
 				console.error(this.errorText = "Error in comma-formatting: Unterminated string!")
 				this.isErrored = true
-			} else if(inArray) {
+			} else if(arrayLayerCount != 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced array!")
 				this.isErrored = true
-			} else if(parenCount != 0) {
+			} else if(parenLayerCount != 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced parenthesies!")
 				this.isErrored = true
 			} else if (this.isErrored) {
 				console.error(this.errorText = `Error in comma-formatting: ${this.errorReason}`)
 			} else {this.output()}
 			if(this.isErrored){
-				console.warn("This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output()")
+				console.warn("This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output() or click Force output")
 			} else {
 				console.log("Sucessfully formatted!")
-				this.forceElem.classList.add('hidden');			
+				this.forceElem.classList.add('hidden');	
+				this.startElem.classList.remove(`hidden`);
+				this.clearElem.classList.add('hidden');			
 			}
 			if(this.isErrored){
-				this.output(`${initialCode} \n\n// ${this.errorText} \n// This simply means the formatting may be incorrect. To force the formatted code to output, click "Force output"`)
+				this.output(`${initialCode} \n\n// ${this.errorText} \n// This simply means the formatting may be incorrect. To force the formatted code to output, click "Force output"`);
+				this.oldCode = initialCode;
 				this.forceElem.classList.remove('hidden');
+				this.startElem.classList.add(`hidden`);
+				this.clearElem.classList.remove('hidden');	
 			}
 			this.isErrored=false
 		}

@@ -376,6 +376,10 @@ button[name="close"] {
 	background-image: linear-gradient(to bottom, #774242, #472222) !important
 }
 
+.blue {
+	background-image: linear-gradient(to bottom, #4091b1, #2e6f7e) !important	
+}
+
 .control-button[disabled] {
 	opacity: 0.5;
 	cursor: default;
