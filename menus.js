@@ -197,7 +197,7 @@ globalThis.MAT = new class { //Menus and transformations
 	bake(){
 		try { //global testing
 				var toEncode = bytebeat.editorValue;
-				var wasPlaying = audioProcessor.isPlaying
+				var wasPlaying = bytebeat.isPlaying
 				bytebeat.playbackToggle(false)
 				this.global = true;
 		} catch(err) { //local testing
@@ -205,14 +205,14 @@ globalThis.MAT = new class { //Menus and transformations
 				var toEncode = this.code.value;
 		}
 		baker.minibake(toEncode)
-		if(global){if(wasPlaying){
+		if(this.global){if(wasPlaying){
 			bytebeat.playbackToggle(true)
 		}}
 	}
 	debake(){
 		try { //global testing
 				var toEncode = bytebeat.editorValue;
-				var wasPlaying = audioProcessor.isPlaying
+				var wasPlaying = bytebeat.isPlaying
 				bytebeat.playbackToggle(false)
 				this.global = true;
 		} catch(err) { //local testing
@@ -220,7 +220,7 @@ globalThis.MAT = new class { //Menus and transformations
 				var toEncode = this.code.value;
 		}
 		baker.debake(toEncode)
-		if(global){if(wasPlaying){
+		if(this.global){if(wasPlaying){
 			bytebeat.playbackToggle(true)
 		}}
 	}
