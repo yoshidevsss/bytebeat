@@ -372,6 +372,10 @@ button[name="close"] {
 	cursor: pointer;
 }
 
+.danger {
+	background-image: linear-gradient(to bottom, #774242, #472222) !important
+}
+
 .control-button[disabled] {
 	opacity: 0.5;
 	cursor: default;

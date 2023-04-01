@@ -6,6 +6,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.considerParens = true; //Console should be able to change this
 		this.formatted = null;
 		this.code = document.getElementById('editor-default');
+		this.forceElem = document.getElementById('control-force-output');
 		this.global = false;
 		this.errorText = null;
 	}
@@ -115,10 +116,12 @@ globalThis.MAT = new class { //Menus and transformations
 			if(this.isErrored){
 				console.warn("This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output()")
 			} else {
-				console.log("Sucessfully formatted!")				
+				console.log("Sucessfully formatted!")
+				this.forceElem.classList.add('hidden');			
 			}
 			if(this.isErrored){
-				this.output(`${initialCode} \n\n// ${this.errorText} \n// This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output() in console`)
+				this.output(`${initialCode} \n\n// ${this.errorText} \n// This simply means the formatting may be incorrect. To force the formatted code to output, click "Force output"`)
+				this.forceElem.classList.remove('hidden');
 			}
 			this.isErrored=false
 		}
