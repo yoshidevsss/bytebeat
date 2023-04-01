@@ -36,8 +36,11 @@ globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 			temp=str.charCodeAt(i)
 			this.cc1=temp>>8
 			this.cc2=temp&255
+			if(this.cc1!=0){
 			output += String.fromCharCode(this.cc1);
+			} if(this.cc2!=0){
 			output += String.fromCharCode(this.cc2);
+			}
 			//output += String.fromCodePoint(cmb);
 		}
 		if(output != "") {
