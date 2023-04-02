@@ -502,8 +502,7 @@ button[name="close"] {
 }
 
 #control-parens {
-	width: 45px;
-	font-size: 0;
+	width: 30px;
 	border-radius: var(--control-corners) var(--control-corners) var(--control-corners) var(--control-corners);
 }
 
