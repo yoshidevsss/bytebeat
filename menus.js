@@ -66,6 +66,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.global = false;
 		this.errorText = null;
 		this.oldCode = null;
+		this.MaxParenLayersAllowed = 0;
 	}
 	changeMenu(x) {
 		var oldMenu = document.getElementById(`controls${this.currentMenu}`);
@@ -106,8 +107,8 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 	commaFormat(){
 		var initialCode;
-		var temp = null;
 		var parenLayerCount = 0;
+		console.log(this.MaxParenLayersAllowed)
 		this.global = false
 		try { //global testing
 		var toEncode = initialCode = bytebeat.editorValue;
@@ -123,7 +124,8 @@ globalThis.MAT = new class { //Menus and transformations
 				if (this.isErrored) {break} // error handling
 				switch(toEncode[i]){
 					case `,`: case `;`:
-						if((parenLayerCount == 0 || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i+1] != `\n`) {
+						console.log(this.MaxParenLayersAllowed + " , " + parenLayerCount + ": " + (parenLayerCount < (this.MaxParenLayersAllowed+1)))
+						if((parenLayerCount < (this.MaxParenLayersAllowed+1) || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i+1] != `\n`) {
 							toEncode = toEncode.slice(0,i) + `${toEncode[i]}\n` + toEncode.slice(i+1,toEncode.length)
 						}
 					break
@@ -224,5 +226,10 @@ globalThis.MAT = new class { //Menus and transformations
 		if(this.global){if(wasPlaying){
 			bytebeat.playbackToggle(true)
 		}}
+	}
+	setParens(x){
+		x-=0
+		this.MaxParenLayersAllowed = x
+		console.log(x + ": " + typeof x)
 	}
 }

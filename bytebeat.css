@@ -380,6 +380,15 @@ button[name="close"] {
 	background-image: linear-gradient(to bottom, #4091b1, #2e6f7e) !important	
 }
 
+.light {
+	background-image: linear-gradient(to bottom, #b3b3b3, #7e7e7e) !important;
+	color: black !important;
+}
+
+.dark {
+	background-image: linear-gradient(to bottom, #535353, #7e7e7e) !important	
+}
+
 .control-button[disabled] {
 	opacity: 0.5;
 	cursor: default;
@@ -409,7 +418,7 @@ button[name="close"] {
 	cursor: default;
 }
 
-#control-codesize, #control-counter, #control-samplerate, #control-divisor {
+#control-codesize, #control-counter, #control-samplerate, #control-divisor, #control-parens {
 	height: var(--control-size);
 	padding: 0 4px;
 	background: linear-gradient(to top, #3a5e3d, #224725);
@@ -490,6 +499,12 @@ button[name="close"] {
 	width: 22px;
 	font-size: 0;
 	border-radius: 0 var(--control-corners) var(--control-corners) 0;
+}
+
+#control-parens {
+	width: 45px;
+	font-size: 0;
+	border-radius: var(--control-corners) var(--control-corners) var(--control-corners) var(--control-corners);
 }
 
 #control-divisor {

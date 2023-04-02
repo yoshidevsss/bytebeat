@@ -110,6 +110,9 @@
 				</div>
 			</div>
 			<div class="controls hidden" id="controls2">
+				<div class="controls-group">
+					<input onchange="MAT.setParens(this.value)" type="number" id="control-parens" title="Maximum parentesies layers the Formatter will formatt" value="0">
+				</div>
 				<button id="control-clear-output" class="control-button text-padding blue hidden" title="Clears output of format button" onclick="MAT.clear()">
 					Clear output
 				</button>
@@ -119,10 +122,10 @@
 				<button id="control-force-output" class="control-button text-padding danger hidden" title="Forces output of format button" onclick="MAT.output()">
 					Force output
 				</button>
-				<button id="control-minibake" class="control-button text-padding" title="Minibakes code" onclick="MAT.bake()">
+				<button id="control-minibake" class="control-button text-padding dark" title="Minibakes code" onclick="MAT.bake()">
 					Minibake code
 				</button>
-				<button id="control-deminibake" class="control-button text-padding" title="Minibakes code" onclick="MAT.debake()">
+				<button id="control-deminibake" class="control-button text-padding light" title="Minibakes code" onclick="MAT.debake()">
 					Deminibake code
 				</button>
 				<!--button id="control-test" class="control-button text-padding" title="FORMAT, but includes commas and semicolons in parenthesies" onclick="MAT.commaFormat(true)">
