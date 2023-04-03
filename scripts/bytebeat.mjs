@@ -776,6 +776,7 @@ globalThis.bytebeat = new class {
 		this.saveSettings();
 	}
 	setFunction() {
+		MAT.seed(true)
 		this.sendData({ setFunction: this.editorValue });
 	}
 	setPlaybackMode(mode) {

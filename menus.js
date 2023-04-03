@@ -63,6 +63,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.startElem = document.getElementById('control-format');
 		this.bakeElem = document.getElementById('control-minibake');
 		this.debakeElem = document.getElementById('control-deminibake');
+		this.tabName = document.getElementById('TAB-NAME')
 		this.global = false;
 		this.errorText = null;
 		this.oldCode = null;
@@ -231,5 +232,27 @@ globalThis.MAT = new class { //Menus and transformations
 		x-=0
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
+	}
+	seed(forTitle=false){ //No, it's not a checksum! One character doesn't affect the whole thing!
+		try { //global testing
+			var toEncode = bytebeat.editorValue;
+				this.global = true;
+			} catch(err) { //local testing
+				console.log(`Locally testing because ${err.message}`);
+				var toEncode = this.code.value;
+			}
+		var initialCode = toEncode
+
+			var temp = 0
+			var temp3 = 0
+			for(var i=0;i<toEncode.length;i++){
+				temp += toEncode.charCodeAt(i)
+				temp3 += toEncode.charCodeAt(i)*i
+			}
+			var temp2 = btoa(temp.toString(36)).replace('=','')
+			var temp4 = btoa(temp3.toString(36)).replace('=','')
+			var finalSeed = (temp2 + "-" + temp4)
+			this.tabName.innerText = finalSeed.length>7?("CHYX: " + finalSeed):("CHYX Composer: " + finalSeed)
+		return forTitle?(temp2 + "-" + temp4):(initialCode + "\n\n// Sum: " + temp2 + "-" + temp4)
 	}
 }
