@@ -536,6 +536,7 @@ globalThis.bytebeat = new class {
 			data.setFunction = code;
 		}
 		this.sendData(data);
+		MAT.seed(true);
 	}
 	mod(a, b) {
 		return ((a % b) + b) % b;
@@ -628,7 +629,7 @@ globalThis.bytebeat = new class {
 		}
 		let songData;
 		if(hash.startsWith('#v3b64') || hash.startsWith('#EnBeat2-')) {
-			const hashString = hash.startsWith('#EnBeat2-')?atob(hash.substr(9)):atob(hash.substr(6));
+			const hashString = hash.startsWith('#EnBeat2-')?atob(hash.slice(9)):atob(hash.slice(6));
 			const dataBuffer = new Uint8Array(hashString.length);
 			for(const i in hashString) {
 				if(Object.prototype.hasOwnProperty.call(hashString, i)) {

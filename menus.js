@@ -253,6 +253,6 @@ globalThis.MAT = new class { //Menus and transformations
 			var temp4 = btoa(temp3.toString(36)).replace('=','')
 			var finalSeed = (temp2 + "-" + temp4)
 			this.tabName.innerText = finalSeed.length>7?("CHYX: " + finalSeed):("CHYX Composer: " + finalSeed)
-		return forTitle?(temp2 + "-" + temp4):(initialCode + "\n\n// Sum: " + temp2 + "-" + temp4)
+		return forTitle?finalSeed:(initialCode + "\n\n// Sum: " + finalSeed)
 	}
 }
