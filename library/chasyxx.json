@@ -268,4 +268,14 @@
             "url": "https://www.reddit.com/r/bytebeat/comments/jmbsoh/simple_step_sequencer/"
         }
     }
+    ,
+    {
+        "description": "It is I",
+        "codeOriginal": "((t*(t>>11&t>>8&251&t>>3))*((t>>3)/((t>>3)-(t>>2))))",
+        "date": "2023-04-03",
+        "remixed": {
+            "author": "Tejeez",
+            "url": "http://viznut.fi/demos/unix/bytebeat_formulas.txt"
+        }
+    }
 ]
