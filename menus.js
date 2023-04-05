@@ -78,14 +78,28 @@ globalThis.MAT = new class { //Menus and transformations
 		this.errorText = null
 		this.oldCode = null
 		this.MaxParenLayersAllowed = 0
+		this.localTest = null
 
 		// Disappear items in disappear array if global (when I locally test the bytebeat script doesn't load to automatically call some functions; I use this to create manual uttons for these functions instead; When the bytebeat script doesn't load the bytebeat class doesn't exist, os it throws an exception that is then caught and switches course, meaning the buttons do not disappear and i can more easily test things like seed().)
 
 
+	}
 
+	get codeText() {
+		return this.localTest?this.code.value:bytebeat.editorValue
+	}
 
+	changeMenu(x) {
+		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
+		var newMenu = document.getElementById(`controls${x}`)
+		oldMenu.classList.add('hidden')
+		newMenu.classList.remove('hidden')
+		this.currentMenu = x
+
+		if (x==2&&this.localTest==null){
+			
 		try {
-			var x = (bytebeat.editorValue)
+			var xQr = (bytebeat.editorValue)
 			this.disappear.forEach(X => {
 				X.classList.add('hidden')
 			});
@@ -94,34 +108,7 @@ globalThis.MAT = new class { //Menus and transformations
 			this.localTest=error.message
 			console.warn(`Local testing (${error.message})`)
 		}
-
-		this.bytebeatReady = new Promise(resolve => { //Promise idea by ChatGPT
-			const checkLoaded = () => {
-			  if (typeof bytebeat != 'undefined') {
-				resolve();
-			  } else {
-				setTimeout(checkLoaded(), 50);
-			  }
-			};
-			checkLoaded();
-		  });
-
-		  this.bytebeatReady.then(() => { //Promise idea by ChatGPT
-			// The bytebeat class has fully loaded, so we can safely access its properties and methods
-			if (bytebeat.editorValue === undefined) {
-			  this.localTest = true;
-			}
-	  
-			// Call the seed function now that we have access to the editorValue
-			this.seed(true);
-		  });
-	}
-	changeMenu(x) {
-		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
-		var newMenu = document.getElementById(`controls${x}`)
-		oldMenu.classList.add('hidden')
-		newMenu.classList.remove('hidden')
-		this.currentMenu = x
+		}
 	}
 	startError(reason, char=-1){
 		this.errorReason = reason
@@ -137,18 +124,14 @@ globalThis.MAT = new class { //Menus and transformations
 				}
 			})
 	}
-	async output(text = this.formatted, update=false){
-
-		// Wait for the bytebeatReady Promise to resolve before continuing. This idea is by ChatGPT
-		await this.bytebeatReady;
-
+	output(text = this.formatted, update=false){
 		if(this.localTest) {
 			this.code.value = text
 		} else {
 			this.setCodeMirrorEditor(text)
 		}
 		this.forceElem.classList.add("hidden")
-		this.startElem.classList.remove("hidden")
+		this.startElem.classList.remove(`hidden`)
 		this.clearElem.classList.add("hidden")
 		try{if(update && !this.localTest) {
 			bytebeat.updateUrl() //Commit changes to the saved URL
@@ -278,15 +261,11 @@ globalThis.MAT = new class { //Menus and transformations
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
 	}
-	async seed(forTitle=false, toEncode){
-
-		    // Wait for the bytebeatReady Promise to resolve before continuing. This idea is by ChatGPT
-			await this.bytebeatReady;
-
+	seed(forTitle=false, toEncode){ //No, it's not a checksum! One character doesn't affect the whole thing!
 		if(this.localTest && !toEncode) {
-				var toEncode = initialCode = this.code.value
+				var toEncode = this.code.value
 			} else if (!toEncode) {
-				var toEncode = initialCode = bytebeat.editorValue
+				var toEncode = bytebeat.editorValue
 			}
 			var inputLength = toEncode.length
 			var temp = 0
@@ -297,15 +276,10 @@ globalThis.MAT = new class { //Menus and transformations
 			}
 			var temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
 			var temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
-			var finalSeed = (temp2 + "=" + temp4)
+			var finalSeed = (temp2 + "-3-" + temp4)
 			if(forTitle){
 				this.tabName.innerText = "CHYX: " + finalSeed
 			}
-
-			this.output(initialCode + "\n\n//seed " + finalSeed)
-
 		return finalSeed
 	}
 }
-
-//MAT.output(MAT.seed())
