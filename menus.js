@@ -94,6 +94,27 @@ globalThis.MAT = new class { //Menus and transformations
 			this.localTest=error.message
 			console.warn(`Local testing (${error.message})`)
 		}
+
+		this.bytebeatReady = new Promise(resolve => { //Promise idea by ChatGPT
+			const checkLoaded = () => {
+			  if (typeof bytebeat != 'undefined') {
+				resolve();
+			  } else {
+				setTimeout(checkLoaded(), 50);
+			  }
+			};
+			checkLoaded();
+		  });
+
+		  this.bytebeatReady.then(() => { //Promise idea by ChatGPT
+			// The bytebeat class has fully loaded, so we can safely access its properties and methods
+			if (bytebeat.editorValue === undefined) {
+			  this.localTest = true;
+			}
+	  
+			// Call the seed function now that we have access to the editorValue
+			this.seed(true);
+		  });
 	}
 	changeMenu(x) {
 		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
@@ -116,14 +137,18 @@ globalThis.MAT = new class { //Menus and transformations
 				}
 			})
 	}
-	output(text = this.formatted, update=false){
+	async output(text = this.formatted, update=false){
+
+		// Wait for the bytebeatReady Promise to resolve before continuing. This idea is by ChatGPT
+		await this.bytebeatReady;
+
 		if(this.localTest) {
 			this.code.value = text
 		} else {
 			this.setCodeMirrorEditor(text)
 		}
 		this.forceElem.classList.add("hidden")
-		this.startElem.classList.remove(`hidden`)
+		this.startElem.classList.remove("hidden")
 		this.clearElem.classList.add("hidden")
 		try{if(update && !this.localTest) {
 			bytebeat.updateUrl() //Commit changes to the saved URL
@@ -253,11 +278,15 @@ globalThis.MAT = new class { //Menus and transformations
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
 	}
-	seed(forTitle=false, toEncode){ //No, it's not a checksum! One character doesn't affect the whole thing!
+	async seed(forTitle=false, toEncode){
+
+		    // Wait for the bytebeatReady Promise to resolve before continuing. This idea is by ChatGPT
+			await this.bytebeatReady;
+
 		if(this.localTest && !toEncode) {
-				var toEncode = this.code.value
+				var toEncode = initialCode = this.code.value
 			} else if (!toEncode) {
-				var toEncode = bytebeat.editorValue
+				var toEncode = initialCode = bytebeat.editorValue
 			}
 			var inputLength = toEncode.length
 			var temp = 0
@@ -270,8 +299,13 @@ globalThis.MAT = new class { //Menus and transformations
 			var temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
 			var finalSeed = (temp2 + "=" + temp4)
 			if(forTitle){
-			this.tabName.innerText = "CHYX: " + finalSeed
+				this.tabName.innerText = "CHYX: " + finalSeed
 			}
+
+			this.output(initialCode + "\n\n//seed " + finalSeed)
+
 		return finalSeed
 	}
 }
+
+//MAT.output(MAT.seed())

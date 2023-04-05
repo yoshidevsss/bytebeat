@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="bytebeat.css?version=2023022000">
 	<link rel="modulepreload" href="./scripts/audioProcessor.mjs?version=2023022000">
 	<script type="module" async src="./scripts/bytebeat.mjs?version=2023022000"></script>
-	<script async src="menus.js"></script>
+	<script type="module" async src="menus.js"></script>
 </head>
 <body>
 	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
@@ -128,9 +128,9 @@
 				<button id="control-deminibake" class="control-button text-padding light" title="Deminibakes code" onclick="MAT.debake()">
 					Deminibake code
 				</button>
-				<button id="control-sum" class="control-button text-padding" title="THIS BUTTON SHOULD NOT BE SEEN GLOBALLY BUT ALL IT DOES IS MAKE THE SEED YOU SEE IN THE TAB NAME" onclick="alert(MAT.seed())">
+				<!--button id="control-sum" class="control-button text-padding" title="Sum\n\nNote: This shouldn't be s" onclick="MAT.output(bytebeat.editorView + '\n\n\/\/ Seed:' + (MAT.seed(false)))">
 					Sum
-				</button>
+				</button-->
 			</div>
 			<div id="error"></div>
 			<div id="canvas-container" title="Click to play">
