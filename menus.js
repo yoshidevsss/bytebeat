@@ -1,3 +1,7 @@
+globalThis.constructError = function(tpe,msg,loc){
+	console.error(`${tpe}: ${msg} at CustomErrorLocation ${loc}`)
+}
+
 globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 	constructor() {
 		this.in = null
@@ -49,6 +53,12 @@ globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 	}
 }
 
+/*===========================  ==     ==  ==  === =   =  ===========================*/
+/*===========================  = =   = = =  =  =  ==  =  ===========================*/
+/*===========================  =  = =  = ====  =  = = =  ===========================*/
+/*===========================  =   =   = =  = === =  ==  ===========================*/
+
+
 globalThis.MAT = new class { //Menus and transformations
 	constructor() {
 		this.currentMenu = 1
@@ -64,10 +74,26 @@ globalThis.MAT = new class { //Menus and transformations
 		this.bakeElem = document.getElementById('control-minibake')
 		this.debakeElem = document.getElementById('control-deminibake')
 		this.tabName = document.getElementById('TAB-NAME')
-		this.global = false
+		this.disappear = [document.getElementById(`control-sum`)]
 		this.errorText = null
 		this.oldCode = null
 		this.MaxParenLayersAllowed = 0
+
+		// Disappear items in disappear array if global (when I locally test the bytebeat script doesn't load to automatically call some functions; I use this to create manual uttons for these functions instead; When the bytebeat script doesn't load the bytebeat class doesn't exist, os it throws an exception that is then caught and switches course, meaning the buttons do not disappear and i can more easily test things like seed().)
+
+
+
+
+		try {
+			var x = (bytebeat.editorValue)
+			this.disappear.forEach(X => {
+				X.classList.add('hidden')
+			});
+			this.localTest=false
+		} catch (error) {
+			this.localTest=error.message
+			console.warn(`Local testing (${error.message})`)
+		}
 	}
 	changeMenu(x) {
 		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
@@ -91,15 +117,15 @@ globalThis.MAT = new class { //Menus and transformations
 			})
 	}
 	output(text = this.formatted, update=false){
-		if(this.global) {
-		this.setCodeMirrorEditor(text)
+		if(this.localTest) {
+			this.code.value = text
 		} else {
-		this.code.value = text
+			this.setCodeMirrorEditor(text)
 		}
 		this.forceElem.classList.add("hidden")
 		this.startElem.classList.remove(`hidden`)
 		this.clearElem.classList.add("hidden")
-		try{if(update) {
+		try{if(update && !this.localTest) {
 			bytebeat.updateUrl() //Commit changes to the saved URL
 		}}catch(err){console.error(`URL not saved (${err.message})`)}
 	}
@@ -109,14 +135,10 @@ globalThis.MAT = new class { //Menus and transformations
 	commaFormat(){
 		var initialCode
 		var parenLayerCount = 0
-		console.log(this.MaxParenLayersAllowed)
-		this.global = false
-		try { //global testing
-		var toEncode = initialCode = bytebeat.editorValue
-			this.global = true
-		} catch(err) { //local testing
-			console.log(`Locally testing because ${err.message}`)
+		if(this.localTest) {
 			var toEncode = initialCode = this.code.value
+		} else {
+			var toEncode = initialCode = bytebeat.editorValue
 		}
 		var inString = false
 		var arrayLayerCount = false
@@ -199,59 +221,54 @@ globalThis.MAT = new class { //Menus and transformations
 		this.isErrored=false
 	}
 	bake(){
-		try { //global testing
-				var toEncode = bytebeat.editorValue
-				var wasPlaying = bytebeat.isPlaying
-				bytebeat.playbackToggle(false)
-				this.global = true
-		} catch(err) { //local testing
-				console.log(`Locally testing because ${err.message}`)
-				var toEncode = this.code.value
+		var wasPlaying = false;
+		if(this.localTest) {
+			var toEncode = this.code.value
+		} else {
+			var toEncode = bytebeat.editorValue
+			wasPlaying = bytebeat.isPlaying
+			bytebeat.playbackToggle(false)
 		}
 		baker.minibake(toEncode)
-		if(this.global){if(wasPlaying){
+		if(wasPlaying){
 			bytebeat.playbackToggle(true)
-		}}
+		}
 	}
 	debake(){
-		try { //global testing
-				var toEncode = bytebeat.editorValue
-				var wasPlaying = bytebeat.isPlaying
-				bytebeat.playbackToggle(false)
-				this.global = true
-		} catch(err) { //local testing
-				console.log(`Locally testing because ${err.message}`)
-				var toEncode = this.code.value
+		var wasPlaying = false;
+		if(this.localTest) {
+			var toEncode = this.code.value
+		} else {
+			var toEncode = bytebeat.editorValue
+			wasPlaying = bytebeat.isPlaying
+			bytebeat.playbackToggle(false)
 		}
 		baker.debake(toEncode)
-		if(this.global){if(wasPlaying){
+		if(wasPlaying){
 			bytebeat.playbackToggle(true)
-		}}
+		}
 	}
 	setParens(x){
 		x-=0
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
 	}
-	seed(forTitle=false){ //No, it's not a checksum! One character doesn't affect the whole thing!
-		try { //global testing
-			var toEncode = bytebeat.editorValue
-				this.global = true
-			} catch(err) { //local testing
-				console.log(`Locally testing because ${err.message}`)
+	seed(forTitle=false, toEncode){ //No, it's not a checksum! One character doesn't affect the whole thing!
+		if(this.localTest && !toEncode) {
 				var toEncode = this.code.value
+			} else if (!toEncode) {
+				var toEncode = bytebeat.editorValue
 			}
-		var initialCode = toEncode
-
+			var inputLength = toEncode.length
 			var temp = 0
 			var temp3 = 0
-			for(var i=0;i<toEncode.length;i++){
-				temp += toEncode.charCodeAt(i)
-				temp3 += toEncode.charCodeAt(i)*i
+			for(var i=0;i<inputLength;i++){
+				temp += toEncode.charCodeAt(Math.floor(i*1.5)%inputLength)
+				temp3 += toEncode.charCodeAt(i)*(i&1?i:-i)
 			}
-			var temp2 = btoa(temp.toString(36)).replace('=','')
-			var temp4 = btoa(temp3.toString(36)).replace('=','')
-			var finalSeed = (temp2 + "-" + temp4)
+			var temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
+			var temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
+			var finalSeed = (temp2 + "=" + temp4)
 			if(forTitle){
 			this.tabName.innerText = "CHYX: " + finalSeed
 			}

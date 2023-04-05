@@ -273,6 +273,7 @@
         "description": "It is I",
         "codeOriginal": "((t*(t>>11&t>>8&251&t>>3))*((t>>3)/((t>>3)-(t>>2))))",
         "date": "2023-04-03",
+        "url": "https://dollchan.net/btb/res/756.html#756",
         "remixed": {
             "author": "Tejeez",
             "url": "http://viznut.fi/demos/unix/bytebeat_formulas.txt"
