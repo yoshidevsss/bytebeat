@@ -278,5 +278,17 @@
             "author": "Tejeez",
             "url": "http://viznut.fi/demos/unix/bytebeat_formulas.txt"
         }
+    },
+    {
+        "description": "Complex IIOR: Preview",
+        "sampleRate": 44100,
+        "file": "Chasyxx- Complex IIOR.js",
+        "fileOriginal": true,
+        "url": "https://www.reddit.com/r/bytebeat/comments/12dyfvv/darn_i_made_the_main_preview_so_quickly/",
+        "remixed": {
+            "description": "inside castle",
+            "author": "Rio zack",
+            "url": "https://dollchan.net/btb/res/204.html#480"
+        }
     }
 ]
