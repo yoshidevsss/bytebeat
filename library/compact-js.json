@@ -3160,5 +3160,12 @@
 				"url": "https://www.reddit.com/r/bytebeat/comments/11zps08/vrown/"
 			}
 		]
+	},{
+		"description": "token",
+		"author": "Racmobile#6717",
+		"codeOriginal": "((t/6*(t/4>>9&t/4>>12&t/4>>7))&128)+(4e5/(t/4%4096)%256/2&64)",
+		"sampleRate": 32000,
+		"date": "2023-04-05",
+		"starred": 2
 	}
 ]

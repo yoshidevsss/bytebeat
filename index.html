@@ -16,6 +16,7 @@
 <body>
 	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
 	<p id="splash" align="center" style="color: #00FFFF; font-size: 12px">MissingNo, but it's <i>true!</i></p-->
+		<div id="log"></div>
 	<main id="content">
 		<section id="container-fixed">
 			<div id="editor-container">
@@ -58,8 +59,8 @@
 					</button>
 				</div>
 				<select id="control-drawmode" class="control-select controls-grow" title="Drawing mode">
-					<option value="Points" selected>Points</option>
-					<option value="Waveform">Waveform</option>
+					<option class="song-options" value="Points" selected>Points</option>
+					<option class="song-options" value="Waveform">Waveform</option>
 				</select>
 				<div class="controls-group">
 					<button id="control-rec" class="control-button" title="Record to the file">
@@ -77,32 +78,32 @@
 					<input id="control-volume" type="range" min="0" max="1" value=".5" step="any" title="Volume">
 				</div>
 				<select id="control-menu-select" class="control-select" title="Control menus" onchange="MAT.changeMenu(this.value)">
-					<option value="1" title="MODE, SAMPLERATE, DIVISOR" selected>MENU 1 - SONG OPTIONS</option>
-					<option value="2">MENU 2 - TRANSFORMATIONS</option>
+					<option class="song-options"  value="1" title="MODE, SAMPLERATE, DIVISOR" selected>MENU 1 - SONG OPTIONS</option>
+					<option class="song-options"  value="2">MENU 2 - TRANSFORMATIONS</option>
 					<!--option value="2" title="MENU 2- TEST">MENU 2 - TEST</option-->
 				</select>
 			</div>
 			<div class="controls" id="controls1">
 				<select id="control-mode" class="control-select controls-grow" title="Sound mode">
-					<option value="Bytebeat" selected>Bytebeat</option>
-					<option value="Signed Bytebeat">Signed Bytebeat</option>
-					<option value="Floatbeat">Floatbeat</option>
-					<option value="Bitbeat" title="&quot;&amp;1&quot; view of code. Exotic mode.">Bitbeat</option>
-					<option value="2048" title="Wraps around at 2048 instead of 256. Exotic mode.">2048</option>
-					<option value="logmode" title="&quot;log2()*32&quot; view of code. Exotic mode.">Logmode</option>
-					<option value="logHack" title="Logmode, but suppourts negative numbers.">LogHack</option>
-					<option value="logHack2" title="LogHack, but 128 added. Multiplies by 16 instead. Especially exotic with numbers from -1 to 1.">LogHack2</option>
+					<option class="song-options" value="Bytebeat" selected>Bytebeat</option>
+					<option class="song-options"  value="Signed Bytebeat">Signed Bytebeat</option>
+					<option class="song-options"  value="Floatbeat">Floatbeat</option>
+					<option class="song-options" value="Bitbeat" title="&quot;&amp;1&quot; view of code. Exotic mode.">Bitbeat</option>
+					<option class="song-options"  value="2048" title="Wraps around at 2048 instead of 256. Exotic mode.">2048</option>
+					<option class="song-options"  value="logmode" title="&quot;log2()*32&quot; view of code. Exotic mode.">Logmode</option>
+					<option class="song-options"  value="logHack" title="Logmode, but suppourts negative numbers.">LogHack</option>
+					<option class="song-options"  value="logHack2" title="LogHack, but 128 added. Multiplies by 16 instead. Especially exotic with numbers from -1 to 1.">LogHack2</option>
 				</select>
 				<div class="controls-group controls-grow">
 					<input type="text" id="control-samplerate" title="Set sample rate (in Hz) then press Enter">
 					<select id="control-samplerate-select" class="control-select" title="Sample rate">
-						<option value="8000">8000Hz</option>
-						<option value="11025">11025Hz</option>
-						<option value="16000">16000Hz</option>
-						<option value="22050">22025Hz</option>
-						<option value="32000">32000Hz</option>
-						<option value="44100">44100Hz</option>
-						<option value="48000">48000Hz</option>
+						<option value="8000"  class="song-options">8000Hz</option>
+						<option value="11025" class="song-options">11025Hz</option>
+						<option value="16000" class="song-options">16000Hz</option>
+						<option value="22050" class="song-options">22025Hz</option>
+						<option value="32000" class="song-options">32000Hz</option>
+						<option value="44100" class="song-options">44100Hz</option>
+						<option value="48000" class="song-options">48000Hz</option>
 					</select>
 				</div>
 				<div class="controls-group controls-grow" width="128">

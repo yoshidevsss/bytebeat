@@ -1,5 +1,12 @@
-globalThis.constructError = function(tpe,msg,loc){
-	console.error(`${tpe}: ${msg} at CustomErrorLocation ${loc}`)
+String.prototype.corrupt = (x) => {
+	let construction = ""
+	let str = this.valueOf()
+
+	for(let i=0; i<this.length;i++){
+		construction += fromCharCode(str.charCodeAt(i)+x)
+	}
+
+	return construction
 }
 
 globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
@@ -75,6 +82,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.debakeElem = document.getElementById('control-deminibake')
 		this.tabName = document.getElementById('TAB-NAME')
 		this.disappear = [document.getElementById(`control-sum`)]
+		this.AprilFoolsElements=[this.forceElem,this.clearElem,this.startElem,this.bakeElem,this.debakeElem]
 		this.errorText = null
 		this.oldCode = null
 		this.MaxParenLayersAllowed = 0
@@ -283,3 +291,42 @@ globalThis.MAT = new class { //Menus and transformations
 		return finalSeed
 	}
 }
+
+let logdiv = document.getElementById('log')
+let headers = document.getElementsByClassName('library-header')
+let modes = document.getElementsByClassName('song-options')
+let currentDate = new Date()
+let day = currentDate.getDate()
+let month = currentDate.getMonth() + 1
+
+let apfo = async () => {try{
+
+if(month==4&&day==1){
+	let r = "Uncaught ReferenceError: April.first is not defined\n"
+
+	MAT.setCodeMirrorEditor(r/*[Math.floor(Math.random()*(r.length+1))]*/)
+	MAT.AprilFoolsElements.forEach(X => {
+		X.innerText=r
+	});
+	for(let i=0;i<headers.length;i++){
+		headers.item(i).innerText = r
+	}
+	for(let i=0;i<modes.length;i++){
+		modes.item(i).innerText = r
+	}
+	let s = Math.floor(Math.random()*(r.length)*8)+(r.length*4)
+	for(let i=0;i<s;i++){
+		IIOR=Math.random()>0.5
+		logdiv.innerHTML+= r[i%r.length] + (IIOR?"<br>":"")
+		if(IIOR) {
+		await new Promise(resolve => setTimeout(resolve, 25));
+		}
+	}
+}
+
+} catch(ERR) {
+	logdiv.innerText = ERR.stack
+}}
+
+setTimeout(apfo,1000)
+
