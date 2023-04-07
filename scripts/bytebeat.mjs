@@ -582,7 +582,7 @@ globalThis.bytebeat = new class {
 				status } ${ response.statusText }</div>`;
 			return;
 		}
-		containerElem.innerHTML = '';
+	containerElem.innerHTML = '';
 		let libraryHTML = '';
 		const libraryArr = await response.json();
 		for(let i = 0, len = libraryArr.length; i < len; ++i) {

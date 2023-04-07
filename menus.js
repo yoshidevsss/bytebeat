@@ -1,14 +1,3 @@
-String.prototype.corrupt = (x) => {
-	let construction = ""
-	let str = this.valueOf()
-
-	for(let i=0; i<this.length;i++){
-		construction += fromCharCode(str.charCodeAt(i)+x)
-	}
-
-	return construction
-}
-
 globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 	constructor() {
 		this.in = null
@@ -88,9 +77,31 @@ globalThis.MAT = new class { //Menus and transformations
 		this.MaxParenLayersAllowed = 0
 		this.localTest = null
 
-		// Disappear items in disappear array if global (when I locally test the bytebeat script doesn't load to automatically call some functions; I use this to create manual uttons for these functions instead; When the bytebeat script doesn't load the bytebeat class doesn't exist, os it throws an exception that is then caught and switches course, meaning the buttons do not disappear and i can more easily test things like seed().)
+		this.bytebeatReady = new Promise(resolve => {
+			const checkLoaded = () => {
+			  if (typeof bytebeat !== 'undefined') {
+				resolve();
+			  } else {
+				setTimeout(checkLoaded, 50);
+			  }
+			};
+			checkLoaded();
+		  });
 
-
+		  this.bytebeatReady.then(() => {
+			const lookforeditor=()=>{
+				if (bytebeat.editorValue === undefined) {
+					this.localTest = true;
+				}
+			}
+			// The bytebeat class has fully loaded, so we can safely access its properties and methods. 
+			// Check to make sure the editor value is registered after 50ms
+			try{
+				lookforeditor()
+			}catch{
+				setTimeout(lookforeditor,50)
+			}
+		  });
 	}
 
 	get codeText() {
@@ -104,7 +115,7 @@ globalThis.MAT = new class { //Menus and transformations
 		newMenu.classList.remove('hidden')
 		this.currentMenu = x
 
-		if (x==2&&this.localTest==null){
+		/*if (x==2&&this.localTest==null){
 			
 		try {
 			var xQr = (bytebeat.editorValue)
@@ -116,7 +127,7 @@ globalThis.MAT = new class { //Menus and transformations
 			this.localTest=error.message
 			console.warn(`Local testing (${error.message})`)
 		}
-		}
+		}*/
 	}
 	startError(reason, char=-1){
 		this.errorReason = reason
@@ -132,7 +143,10 @@ globalThis.MAT = new class { //Menus and transformations
 				}
 			})
 	}
-	output(text = this.formatted, update=false){
+	async output(text = this.formatted, update=false){
+
+		await this.bytebeatReady;
+		
 		if(this.localTest) {
 			this.code.value = text
 		} else {
@@ -148,7 +162,10 @@ globalThis.MAT = new class { //Menus and transformations
 	clear(){
 		this.output(this.oldCode,true)
 	}
-	commaFormat(){
+	async commaFormat(){
+
+		await this.bytebeatReady;
+
 		var initialCode
 		var parenLayerCount = 0
 		if(this.localTest) {
@@ -236,8 +253,11 @@ globalThis.MAT = new class { //Menus and transformations
 			}
 		this.isErrored=false
 	}
-	bake(){
+	async bake(){
 		var wasPlaying = false;
+
+		await this.bytebeatReady;
+
 		if(this.localTest) {
 			var toEncode = this.code.value
 		} else {
@@ -250,8 +270,11 @@ globalThis.MAT = new class { //Menus and transformations
 			bytebeat.playbackToggle(true)
 		}
 	}
-	debake(){
+	async debake(){
 		var wasPlaying = false;
+
+		await this.bytebeatReady;
+
 		if(this.localTest) {
 			var toEncode = this.code.value
 		} else {
@@ -269,7 +292,10 @@ globalThis.MAT = new class { //Menus and transformations
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
 	}
-	seed(forTitle=false, toEncode){ //No, it's not a checksum! One character doesn't affect the whole thing!
+	async seed(forTitle=false, toEncode){
+
+		await this.bytebeatReady;
+
 		if(this.localTest && !toEncode) {
 				var toEncode = this.code.value
 			} else if (!toEncode) {
@@ -279,12 +305,12 @@ globalThis.MAT = new class { //Menus and transformations
 			var temp = 0
 			var temp3 = 0
 			for(var i=0;i<inputLength;i++){
-				temp += toEncode.charCodeAt(Math.floor(i*1.5)%inputLength)
+				temp += toEncode.charCodeAt(Math.ceil(i*1.5)%inputLength)
 				temp3 += toEncode.charCodeAt(i)*(i&1?i:-i)
 			}
 			var temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
 			var temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
-			var finalSeed = (temp2 + "-3-" + temp4)
+			var finalSeed = (temp2 + ":" + temp4)
 			if(forTitle){
 				this.tabName.innerText = "CHYX: " + finalSeed
 			}
