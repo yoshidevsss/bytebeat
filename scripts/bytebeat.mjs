@@ -252,10 +252,11 @@ globalThis.bytebeat = new class {
 	}
 	drawDiagramMono(data,DW,j,V,DI,scale){
 		const size=256/(2**scale)
-		for (let k=0;k<(256-(DI*size));k++) {
+		for (let k=0;k<size;k++) {
 			let i = ((k+(DI*size))*DW+j)<<2
 		data[i++] = data[i++] = data[i] = V&255;
 		}
+
 	}
 	drawDiagramStereo(data,DW,j,V,DI,scale,ch){
 		const size=256/(2**scale)
@@ -466,6 +467,7 @@ globalThis.bytebeat = new class {
 		this.initElements();
 		this.parseUrl();
 		loadScript('./scripts/codemirror.min.mjs');
+		this.sendData({ DMode: this.settings.drawMode })
 	}
 	async initAudioContext() {
 		this.audioCtx = new AudioContext({ latencyHint: 'balanced', sampleRate: 48000 });
@@ -803,6 +805,7 @@ globalThis.bytebeat = new class {
 	setDrawMode() {
 		this.settings.drawMode = this.controlDrawMode.value;
 		this.saveSettings();
+		this.sendData({ DMode: this.settings.drawMode })
 	}
 	setFunction() {
 		this.sendData({ setFunction: this.editorValue });

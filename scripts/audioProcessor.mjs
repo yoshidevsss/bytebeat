@@ -14,6 +14,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.outValue = [0, 0];
 		this.sampleRatio = 1;
 		this.sampleDivisor/*PRO*/ = 1;
+		this.DMode = 'Bytebeat';
 		Object.seal(this);
 		audioProcessor.deleteGlobals();
 		audioProcessor.freezeGlobals();
@@ -94,7 +95,7 @@ class audioProcessor extends AudioWorkletProcessor {
 					} catch(err) {
 						funcValue[ch] = NaN;
 					}
-					if(funcValue[ch] === this.lastFuncValue[ch]) {
+					if(funcValue[ch] === this.lastFuncValue[ch] && this.DMode != 'Diagram') {
 						continue;
 					} else if(!isNaN(funcValue[ch])) {
 						this.outValue[ch] = this.getValues(funcValue[ch], ch);
@@ -211,6 +212,9 @@ class audioProcessor extends AudioWorkletProcessor {
 		}
 		if(data.divisor !== undefined) {
 			this.sampleDivisor/*PRO*/ = data.divisor;
+		}
+		if(data.DMode !== undefined) {
+			this.DMode = data.DMode;
 		}
 	}
 	sendData(data) {
