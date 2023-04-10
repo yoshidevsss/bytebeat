@@ -198,7 +198,7 @@ globalThis.bytebeat = new class {
 					}
 				} else {//We're drawing diagram, use that
 					for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
-						drawDiagram(data, (drawWidth * (128) + x) << 2, curYCh, ch);
+						drawDiagram(data, drawWidth, x, curYCh, scale, ch);
 					}				
 				}
 			}
@@ -249,8 +249,11 @@ globalThis.bytebeat = new class {
 			data[i] = 160;
 		}
 	}
-	drawDiagramMono(data,i,V){
+	drawDiagramMono(data,DW,j,V,scale){
+		for (let k=0;k<Math.floor(256/(2**scale));k++) {
+			let i = (k*(DW)+j)<<2
 		data[i++] = data[i++] = data[i] = V&255;
+		}
 	}
 	drawDiagramStereo(data,i,ch){
 		
