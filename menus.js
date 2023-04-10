@@ -114,20 +114,6 @@ globalThis.MAT = new class { //Menus and transformations
 		oldMenu.classList.add('hidden')
 		newMenu.classList.remove('hidden')
 		this.currentMenu = x
-
-		/*if (x==2&&this.localTest==null){
-			
-		try {
-			var xQr = (bytebeat.editorValue)
-			this.disappear.forEach(X => {
-				X.classList.add('hidden')
-			});
-			this.localTest=false
-		} catch (error) {
-			this.localTest=error.message
-			console.warn(`Local testing (${error.message})`)
-		}
-		}*/
 	}
 	startError(reason, char=-1){
 		this.errorReason = reason
