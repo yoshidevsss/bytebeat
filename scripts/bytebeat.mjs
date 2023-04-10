@@ -260,7 +260,7 @@ globalThis.bytebeat = new class {
 	}
 	drawDiagramStereo(data,DW,j,V,DI,scale,ch){
 		const size=256/(2**scale)
-		for (let k=0;k<(256-(DI*size));k++) {
+		for (let k=0;k<size;k++) {
 			let i = ((k+(DI*size))*DW+j)<<2
 			if(ch==1){
 				data[i] = data[i+2] = V&255;				
