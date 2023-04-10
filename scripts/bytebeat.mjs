@@ -142,7 +142,8 @@ globalThis.bytebeat = new class {
 		}
 		// Drawing in a segment
 		const isWaveform = this.settings.drawMode === 'Waveform';
-		let ch, drawPoint, drawWaveLine;
+		const isDiagram = this.settings.drawMode === 'Diagram';
+		let ch, drawPoint, drawWaveLine, drawDiagram;
 		for(let i = 0; i < bufferLen; ++i) {
 			const curY = buffer[i].value;
 			const prevY = buffer[i - 1]?.value ?? [NaN, NaN];
@@ -151,6 +152,7 @@ globalThis.bytebeat = new class {
 			const nextTime = buffer[i + 1]?.t ?? endTime;
 			const curX = this.mod(Math.floor(this.getX(isReverse ? nextTime + 1 : curTime)) - startX, width);
 			const nextX = this.mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
+			const diagramIteration = curTime%(2**this.settings.drawScale)
 			// Error value - filling with red color
 			if(isNaNCurY[0] || isNaNCurY[1]) {
 				for(let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
@@ -166,31 +168,39 @@ globalThis.bytebeat = new class {
 			if((curY[0] === curY[1] || isNaNCurY[0] && isNaNCurY[1]) && prevY[0] === prevY[1]) {
 				drawPoint = this.drawPointMono;
 				drawWaveLine = this.drawWaveLineMono;
+				drawDiagram = this.drawDiagramMono;
 				ch = 1;
 			} else {
 				drawPoint = this.drawPointStereo;
 				drawWaveLine = this.drawWaveLineStereo;
+				drawDiagram = this.drawDiagramStereo;
 				ch = 2;
 			}
-			while(ch--) {
-				if(isNaNCurY[ch]) {
+			while (ch--) {
+				if (isNaNCurY[ch]) {
 					continue;
 				}
 				const curYCh = curY[ch];
-				// Points drawing
-				for(let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
-					drawPoint(data, (drawWidth * (255 - curYCh) + x) << 2, ch);
-				}
-				// Waveform mode: vertical lines drawing
-				if(isWaveform) {
-					const prevYCh = prevY[ch];
-					if(isNaN(prevYCh)) {
-						continue;
+				if (!isDiagram) { // We are not drawing diagram
+					// Points drawing
+					for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
+						drawPoint(data, (drawWidth * (255 - curYCh) + x) << 2, ch);
 					}
-					const x = isReverse ? this.mod(Math.floor(this.getX(curTime)) - startX, width) : curX;
-					for(let dy = prevYCh < curYCh ? 1 : -1, y = prevYCh; y !== curYCh; y += dy) {
-						drawWaveLine(data, (drawWidth * (255 - y) + x) << 2, ch);
+					// Waveform mode: vertical lines drawing
+					if (isWaveform) {
+						const prevYCh = prevY[ch];
+						if (isNaN(prevYCh)) {
+							continue;
+						}
+						const x = isReverse ? this.mod(Math.floor(this.getX(curTime)) - startX, width) : curX;
+						for (let dy = prevYCh < curYCh ? 1 : -1, y = prevYCh; y !== curYCh; y += dy) {
+							drawWaveLine(data, (drawWidth * (255 - y) + x) << 2, ch);
+						}
 					}
+				} else {//We're drawing diagram, use that
+					for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
+						drawDiagram(data, drawWidth, x, curYCh, diagramIteration, scale, ch);
+					}				
 				}
 			}
 		}
@@ -216,8 +226,8 @@ globalThis.bytebeat = new class {
 		// Clear buffer
 		this.drawBuffer = [{ t: endTime, value: buffer[bufferLen - 1].value }];
 	}
-	drawPointMono(data, i) {
-		data[i++] = data[i++] = data[i] = 255;
+	drawPointMono(data, i,V) {
+		data[i++] = data[i++] = data[i] = V;
 	}
 	drawPointStereo(data, i, ch) {
 		if(ch) {
@@ -239,6 +249,24 @@ globalThis.bytebeat = new class {
 		} else if(!data[++i]) {
 			data[i] = 160;
 		}
+	}
+	drawDiagramMono(data,DW,j,V,DI,scale){
+		const size=256/(2**scale)
+		for (let k=0;k<256-(DI*size);k++) {
+			let i = ((k+(DI*size))*DW+j)<<2
+		data[i++] = data[i++] = data[i] = V&255;
+		}
+	}
+	drawDiagramStereo(data,DW,j,V,DI,scale,ch){
+		const size=256/(2**scale)
+		for (let k=0;k<size;k++) {
+			let i = ((k+(DI*size))*DW+j)<<2
+			if(ch==1){
+				data[i] = data[i+2] = V&255;				
+			}else{
+				data[i+1] = V&255;
+			}
+		}		
 	}
 	escapeHTML(text) {
 		this.cacheTextElem.nodeValue = text;
