@@ -252,7 +252,7 @@ globalThis.bytebeat = new class {
 	}
 	drawDiagramMono(data,DW,j,V,DI,scale){
 		const size=256/(2**scale)
-		for (let k=0;k<size;k++) {
+		for (let k=0;k<256-(DI*size);k++) {
 			let i = ((k+(DI*size))*DW+j)<<2
 		data[i++] = data[i++] = data[i] = V&255;
 		}
