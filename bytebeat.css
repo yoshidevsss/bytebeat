@@ -361,7 +361,7 @@ button[name="close"] {
 
 /* ==[ Controls ] ========================================================================================= */
 
-.control-button, .control-select {
+.control-button, .control-select, .control-indicator {
 	height: var(--control-size);
 	padding: 0;
 	border: none;
@@ -389,6 +389,10 @@ button[name="close"] {
 	background-image: linear-gradient(to bottom, #535353, #7e7e7e) !important	
 }
 
+.tube {
+	border-radius: 0;
+}
+
 .control-button[disabled] {
 	opacity: 0.5;
 	cursor: default;
@@ -404,7 +408,7 @@ button[name="close"] {
 }
 
 .text-padding {
-	padding: 0 10px 0 8px !important
+	padding: 0 10px 0 10px !important
 }
 
 .control-button > svg {
@@ -528,6 +532,10 @@ button[name="close"] {
 	border-radius: 4px;
 	background-color: #393d44;
 	align-self: center;
+}
+
+#tube {
+	border-radius: 0;
 }
 
 #control-volume::-moz-range-thumb {

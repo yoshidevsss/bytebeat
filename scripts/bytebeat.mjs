@@ -875,6 +875,7 @@ globalThis.bytebeat = new class {
 		} else {
 			this.controlScaleDown.removeAttribute('disabled');
 		}
+		document.getElementById('scale-indicator').innerText = `${this.settings.drawScale?`1/`:``}${2**this.settings.drawScale}x`
 	}
 	setVolume(isInit) {
 		let volumeValue = NaN;
