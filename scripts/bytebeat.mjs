@@ -152,6 +152,7 @@ globalThis.bytebeat = new class {
 			const nextTime = buffer[i + 1]?.t ?? endTime;
 			const curX = this.mod(Math.floor(this.getX(isReverse ? nextTime + 1 : curTime)) - startX, width);
 			const nextX = this.mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
+			const diagramIteration = curTime%this.settings.scale
 			// Error value - filling with red color
 			if(isNaNCurY[0] || isNaNCurY[1]) {
 				for(let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
@@ -198,7 +199,7 @@ globalThis.bytebeat = new class {
 					}
 				} else {//We're drawing diagram, use that
 					for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
-						drawDiagram(data, drawWidth, x, curYCh, scale, ch);
+						drawDiagram(data, drawWidth, x, curYCh, diagramIteration, scale, ch);
 					}				
 				}
 			}
@@ -249,13 +250,14 @@ globalThis.bytebeat = new class {
 			data[i] = 160;
 		}
 	}
-	drawDiagramMono(data,DW,j,V,scale){
-		for (let k=0;k<Math.floor(256/(2**scale));k++) {
-			let i = (k*(DW)+j)<<2
+	drawDiagramMono(data,DW,j,V,DI,scale){
+		const size=256/(2**scale)
+		for (let k=0;k<Math.ceil(size*256);k++) {
+			let i = (k*(DW*(DI+1)*size)+j)<<2
 		data[i++] = data[i++] = data[i] = V&255;
 		}
 	}
-	drawDiagramStereo(data,i,ch){
+	drawDiagramStereo(data,DW,j,V,DI,scale,ch){
 		
 	}
 	escapeHTML(text) {
