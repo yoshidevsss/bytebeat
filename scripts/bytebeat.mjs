@@ -252,14 +252,14 @@ globalThis.bytebeat = new class {
 	}
 	drawDiagramMono(data,DW,j,V,DI,scale){
 		const size=256/(2**scale)
-		for (let k=0;(k<DI==0?256:(256-(DI*size)));k++) {
+		for (let k=0;k<(256-(DI*size));k++) {
 			let i = ((k+(DI*size))*DW+j)<<2
 		data[i++] = data[i++] = data[i] = V&255;
 		}
 	}
 	drawDiagramStereo(data,DW,j,V,DI,scale,ch){
 		const size=256/(2**scale)
-		for (let k=0;(k<DI==0?256:(256-(DI*size)));k++) {
+		for (let k=0;k<(256-(DI*size));k++) {
 			let i = ((k+(DI*size))*DW+j)<<2
 			if(ch==1){
 				data[i] = data[i+2] = V&255;				
