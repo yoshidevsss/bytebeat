@@ -152,7 +152,7 @@ globalThis.bytebeat = new class {
 			const nextTime = buffer[i + 1]?.t ?? endTime;
 			const curX = this.mod(Math.floor(this.getX(isReverse ? nextTime + 1 : curTime)) - startX, width);
 			const nextX = this.mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
-			const diagramIteration = curTime%(2**this.settings.drawScale)
+			const diagramIteration = this.mod(curTime,(2**this.settings.drawScale))
 			// Error value - filling with red color
 			if(isNaNCurY[0] || isNaNCurY[1]) {
 				for(let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
