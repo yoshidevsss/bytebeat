@@ -232,11 +232,23 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.outValue = [0, 0];
 	}
 	setFunction(codeText) {
+		const chyx = {
+			/*bit*/        "b": function(x,y,z) {return x&y?z:0},
+			/*bit reverse*/"br": function(x,size=8) {var result = 0; for(let idx=0;idx<(size-0);idx++){result += chyx.b(x,2**idx,2**(size-(idx+1)))} return result},
+			/*sin that loops every 128 "steps", instead of every pi steps*/"sinf": function(x) {return Math.sin(x/(128/Math.PI))},
+			/*cos that loops every 128 "steps", instead of every pi steps*/"cosf": function(x) {return Math.cos(x/(128/Math.PI))},
+			/*tan that loops every 128 "steps", instead of every pi steps*/"tanf": function(x) {return Math.tan(x/(128/Math.PI))},
+			/*converts t into a string composed of it's bits, regex's that*/"regG": function(t,X){return X.test(t.toString(2))}
+			/*corrupt sound"crpt": function(x,y=8) {return chyx.br(chyx.br(x,y)+t,y)^chyx.br(t,y)},
+			decorrupt sound"decrpt": function(x,y=8) {return chyx.br(chyx.br(x^chyx.br(t,y),y)-t,y)},*/
+			}
 		// Create shortened Math functions
 		const params = Object.getOwnPropertyNames(Math);
 		const values = params.map(k => Math[k]);
-		params.push('int', 'window');
-		values.push(Math.floor, globalThis);
+		const chyxNames = ['b','br','sinf','cosf','tanf','regG']
+		const chyxFuncs = [ chyx.b, chyx.br, chyx.sinf, chyx.cosf, chyx.tanf,chyx.regG]
+		params.push('int', 'window', ...chyxNames);
+		values.push(Math.floor, globalThis, ...chyxFuncs);
 		audioProcessor.deleteGlobals();
 		// Optimize code like eval(unescape(escape`XXXX`.replace(/u(..)/g,"$1%")))
 		codeText = codeText.trim().replace(
