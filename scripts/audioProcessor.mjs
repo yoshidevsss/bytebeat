@@ -233,8 +233,16 @@ class audioProcessor extends AudioWorkletProcessor {
 	}
 	setFunction(codeText) {
 		const chyx = {
-			/*bit*/        "b": function(x,y,z) {return x&y?z:0},
-			/*bit reverse*/"br": function(x,size=8) {var result = 0; for(let idx=0;idx<(size-0);idx++){result += chyx.b(x,2**idx,2**(size-(idx+1)))} return result},
+			/*bit*/        "bitC": function(x,y,z) {return x&y?z:0},
+			/*bit reverse*/"br": function(x,size=8) {
+				if (size>32) {throw new Error("br() Size cannot be greater than 32")} else {
+				let result = 0; 
+				for(let idx=0;idx<(size-0);idx++){
+					result += chyx.bitC(x,2**idx,2**(size-(idx+1)))
+				}
+				return result
+				}
+			},
 			/*sin that loops every 128 "steps", instead of every pi steps*/"sinf": function(x) {return Math.sin(x/(128/Math.PI))},
 			/*cos that loops every 128 "steps", instead of every pi steps*/"cosf": function(x) {return Math.cos(x/(128/Math.PI))},
 			/*tan that loops every 128 "steps", instead of every pi steps*/"tanf": function(x) {return Math.tan(x/(128/Math.PI))},
@@ -245,8 +253,8 @@ class audioProcessor extends AudioWorkletProcessor {
 		// Create shortened Math functions
 		const params = Object.getOwnPropertyNames(Math);
 		const values = params.map(k => Math[k]);
-		const chyxNames = ['b','br','sinf','cosf','tanf','regG']
-		const chyxFuncs = [ chyx.b, chyx.br, chyx.sinf, chyx.cosf, chyx.tanf,chyx.regG]
+		const chyxNames = ['bitC','br','sinf','cosf','tanf','regG']
+		const chyxFuncs = [ chyx.bitC, chyx.br, chyx.sinf, chyx.cosf, chyx.tanf,chyx.regG]
 		params.push('int', 'window', ...chyxNames);
 		values.push(Math.floor, globalThis, ...chyxFuncs);
 		audioProcessor.deleteGlobals();
