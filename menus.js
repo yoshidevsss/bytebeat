@@ -90,17 +90,17 @@ globalThis.MAT = new class { //Menus and transformations
 
 		  this.bytebeatReady.then(() => {
 			const lookforeditor=()=>{
-				if (bytebeat.editorValue === undefined) {
-					this.localTest = true;
+				try{
+					if (bytebeat.editorValue === undefined) {
+						this.localTest = true;
+					}
+				}catch{
+					setTimeout(lookforeditor,100)
 				}
 			}
 			// The bytebeat class has fully loaded, so we can safely access its properties and methods. 
 			// Check to make sure the editor value is registered after 50ms
-			try{
-				lookforeditor()
-			}catch{
-				setTimeout(lookforeditor,50)
-			}
+			lookforeditor()
 		  });
 	}
 
@@ -301,6 +301,11 @@ globalThis.MAT = new class { //Menus and transformations
 				this.tabName.innerText = "CHYX: " + finalSeed
 			}
 		return finalSeed
+	}
+
+	switch(X){
+		document.getElementById('optional1').classList.toggle("hidden",!X)
+		document.getElementById('optional2').classList.toggle("hidden",!X)
 	}
 }
 
