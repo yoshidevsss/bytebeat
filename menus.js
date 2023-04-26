@@ -1,3 +1,5 @@
+import "./scripts/jquery.js" // animator
+
 globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 	constructor() {
 		this.in = null
@@ -111,8 +113,12 @@ globalThis.MAT = new class { //Menus and transformations
 	changeMenu(x) {
 		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
 		var newMenu = document.getElementById(`controls${x}`)
-		oldMenu.classList.add('hidden')
-		newMenu.classList.remove('hidden')
+		$(oldMenu).animate({opacity: 0},250,'swing',function(){
+			$(oldMenu).addClass('hidden')
+			newMenu.style="opacity: 0"
+			$(newMenu).removeClass('hidden')
+			$(newMenu).animate({opacity: 1},250,'swing')
+		})
 		this.currentMenu = x
 	}
 	startError(reason, char=-1){
@@ -161,7 +167,6 @@ globalThis.MAT = new class { //Menus and transformations
 		}
 		var inString = false
 		var arrayLayerCount = false
-		var stringCount = 0
 			for (var i=0;i<toEncode.length;i++) {
 				if (this.isErrored) {break} // error handling
 				switch(toEncode[i]){
@@ -173,8 +178,13 @@ globalThis.MAT = new class { //Menus and transformations
 					break
 
 					case `\``: case `'`: case `"`:
-						inString = !inString
-						stringCount++
+						if (inString && toEncode[i-1]!='\\') {
+							if (inString == toEncode[i]) {
+							inString = false
+							}
+						} else (
+							inString=toEncode[i]
+						)
 					break
 
 					case `[`: 
@@ -187,7 +197,7 @@ globalThis.MAT = new class { //Menus and transformations
 						if(!inString) {
 							arrayLayerCount--
 							if (arrayLayerCount<0){
-								this.startError("Unbalanced array!",i)
+								this.startError("Unbalanced array",i)
 							}
 						}							
 					break
@@ -202,7 +212,7 @@ globalThis.MAT = new class { //Menus and transformations
 						if(!inString) {
 							parenLayerCount--
 							if (parenLayerCount<0){
-								this.startError("Unbalanced parenthesies!",i)
+								this.startError("Unbalanced parenthesies",i)
 							}
 						}
 					break
@@ -210,32 +220,21 @@ globalThis.MAT = new class { //Menus and transformations
 			}
 			this.formatted=toEncode
 			this.errorText=null
-			if(stringCount&1){
-				console.error(this.errorText = "Error in comma-formatting: Unterminated string!")
-				this.isErrored = true
-			} else if(arrayLayerCount > 0) {
+			if(arrayLayerCount > 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced array!")
 				this.isErrored = true
 			} else if(parenLayerCount > 0) {
 				console.error(this.errorText = "Error in comma-formatting: Unbalanced parenthesies!")
 				this.isErrored = true
 			} else if (this.isErrored) {
-				console.error(this.errorText = `Error in comma-formatting at char ${this.errorChar}: ${this.errorReason}`)
+				console.error(this.errorText = `Error in comma-formatting at char ${this.errorChar}: ${this.errorReason}!`)
 			} else {this.output(this.formatted,true)}
-			if(this.isErrored){
-				console.warn("This simply means the formatting may be incorrect. To force the formatted code to output use MAT.output() or click Force output")
-			} else {
-				console.log("Sucessfully formatted!")
-				this.forceElem.classList.add('hidden')	
-				this.startElem.classList.remove(`hidden`)
-				this.clearElem.classList.add('hidden')			
+			if(!this.isErrored){
+				console.log("Sucessfully formatted!")		
 			}
 			if(this.isErrored){
-				this.output(`${initialCode} \n\n// ${this.errorText} \n// This simply means the formatting may be incorrect. To force the formatted code to output, click "Force output"`,false)
+				this.output(`${initialCode} \n\n// ${this.errorText}`,false)
 				this.oldCode = initialCode
-				this.forceElem.classList.remove('hidden')
-				this.startElem.classList.add(`hidden`)
-				this.clearElem.classList.remove('hidden')	
 			}
 		this.isErrored=false
 	}

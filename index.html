@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="bytebeat.css?version=2023022000">
 	<link rel="modulepreload" href="./scripts/audioProcessor.mjs?version=2023022000">
 	<script type="module" async src="./scripts/bytebeat.mjs?version=2023022000"></script>
-	<script async src="menus.js"></script>
+	<script type="module" async src="menus.js"></script>
 </head>
 <body>
 	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br>Still, credit to SthephanShi for making the original site!</p>
@@ -115,19 +115,16 @@ c=&quot;Fork of StephanShi&apos;s player&quot;	,cc=c.charCodeAt(((t&amp;t&gt;&gt
 				<div class="controls-group controls-grow" width="128">
 					<input value="1" type="number" id="control-divisor" title="Set sample rate divisor then press Enter">
 				</div>
+				<button class="control-button text-padding" title="Formats code based off of commas and semicolons" onclick="MAT.commaFormat(false)">
+					FORMAT , and ;
+				</button>
 			</div>
 			<div class="controls hidden" id="controls2">
 				<div class="controls-group">
 					<input onchange="MAT.setParens(this.value)" type="number" id="control-parens" title="Maximum parentesies layers the Formatter will formatt" value="0">
 				</div>
-				<button id="control-clear-output" class="control-button text-padding blue hidden" title="Clears output of format button" onclick="MAT.clear()">
-					Clear output
-				</button>
 				<button id="control-format" class="control-button text-padding" title="Formats code based off of commas and semicolons" onclick="MAT.commaFormat(false)">
 					FORMAT , and ;
-				</button>
-				<button id="control-force-output" class="control-button text-padding danger hidden" title="Forces output of format button" onclick="MAT.output()">
-					Force output
 				</button>
 				<button id="control-minibake" class="control-button text-padding dark" title="Minibakes code" onclick="MAT.bake()">
 					Minibake code
