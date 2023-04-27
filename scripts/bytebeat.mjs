@@ -1,13 +1,13 @@
 import { deflateRaw, inflateRaw } from './pako.esm.min.mjs';
 
-const loadScript = src => new Promise(resolve => {
+const loadScript = src => new Promise((resolve, reject) => {
 	try {
 		const scriptElem = document.createElement('script');
 		scriptElem.type = 'module';
 		scriptElem.async = true;
 		scriptElem.src = src;
 		scriptElem.addEventListener('load', () => resolve());
-		scriptElem.addEventListener('error', () => console.error(`Failed to load the script ${src}`));
+		scriptElem.addEventListener('error', () => {console.error(`Failed to load the script ${src}`); reject(`Failed to load the script ${src}`)});
 		document.head.appendChild(scriptElem);
 	} catch (err) {
 		console.error(err.message);
@@ -534,7 +534,7 @@ globalThis.bytebeat = new class {
 		this.editorElem = document.getElementById('editor-default');
 		this.errorElem = document.getElementById('error');
 	}
-	loadCode({ code, sampleRate, mode }, isPlay = true) {
+	async loadCode({ code, sampleRate, mode }, isPlay = true) {
 		this.songData.mode = this.controlPlaybackMode.value = mode = mode || 'Bytebeat';
 		if (this.editorView) {
 			this.editorView.dispatch({
@@ -557,6 +557,19 @@ globalThis.bytebeat = new class {
 			data.setFunction = code;
 		}
 		this.sendData(data);
+		await new Promise(resolve => {
+			const LOOK=(x)=>{
+				if(typeof MAT === 'undefined') {
+					setTimeout(()=>{
+						console[x>8?'warn':'log']("Couldn't get MAT. Retrying. Attempt " + (x+1))
+						LOOK(x+1)
+					},50*Math.pow(1.2,x))
+				} else {
+					resolve()
+				}
+			}
+			LOOK(1)
+		})
 		MAT.seed(true);
 	}
 	mod(a, b) {

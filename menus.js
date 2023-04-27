@@ -73,7 +73,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.debakeElem = document.getElementById('control-deminibake')
 		this.tabName = document.getElementById('TAB-NAME')
 		this.disappear = [document.getElementById(`control-sum`)]
-		this.AprilFoolsElements=[this.forceElem,this.clearElem,this.startElem,this.bakeElem,this.debakeElem]
+		this.AprilFoolsElements = [this.bakeElem, this.debakeElem]
 		this.errorText = null
 		this.oldCode = null
 		this.MaxParenLayersAllowed = 0
@@ -81,29 +81,29 @@ globalThis.MAT = new class { //Menus and transformations
 
 		this.bytebeatReady = new Promise(resolve => {
 			const checkLoaded = () => {
-			  if (typeof bytebeat !== 'undefined') {
-				resolve();
-			  } else {
-				setTimeout(checkLoaded, 50);
-			  }
+				if (typeof bytebeat !== 'undefined') {
+					resolve();
+				} else {
+					setTimeout(checkLoaded, 50);
+				}
 			};
 			checkLoaded();
-		  });
+		});
 
-		  this.bytebeatReady.then(() => {
-			const lookforeditor=()=>{
-				try{
-					if (bytebeat.editorValue === undefined) {
+		this.bytebeatReady.then(() => {
+			const lookforeditor = () => {
+				try {
+					if (bytebeat?.editorValue === undefined) {
 						this.localTest = true;
 					}
-				}catch{
-					setTimeout(lookforeditor,100)
+				} catch {
+					setTimeout(lookforeditor, 100)
 				}
 			}
 			// The bytebeat class has fully loaded, so we can safely access its properties and methods. 
 			// Check to make sure the editor value is registered after 50ms
 			lookforeditor()
-		  });
+		});
 	}
 
 	get codeText() {
@@ -144,15 +144,9 @@ globalThis.MAT = new class { //Menus and transformations
 		} else {
 			this.setCodeMirrorEditor(text)
 		}
-		this.forceElem.classList.add("hidden")
-		this.startElem.classList.remove(`hidden`)
-		this.clearElem.classList.add("hidden")
 		try{if(update && !this.localTest) {
 			bytebeat.updateUrl() //Commit changes to the saved URL
 		}}catch(err){console.error(`URL not saved (${err.message})`)}
-	}
-	clear(){
-		this.output(this.oldCode,true)
 	}
 	async commaFormat(){
 
@@ -303,10 +297,27 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 
 	switch(X){
-		document.getElementById('optional1').classList.toggle("hidden",!X)
-		document.getElementById('optional2').classList.toggle("hidden",!X)
+		let collection = document.getElementsByClassName('optionalEntry')
+		for (let i=0; i<collection.length; i++) {
+			let x=collection.item(i)
+			if(X==1){x.style="opacity: 0 ";$(x).removeClass('hidden')}
+			$(x).animate({opacity: X?1:0},250,()=>{
+				if(X==0){$(x).addClass('hidden')}
+			})
+		}
 	}
 }
+
+await new Promise(resolve => {
+	const checkLoaded = () => {
+		if (typeof bytebeat !== 'undefined') {
+			resolve();
+		} else {
+			setTimeout(checkLoaded, 50);
+		}
+	};
+	checkLoaded();
+});
 
 let logdiv = document.getElementById('log')
 let headers = document.getElementsByClassName('library-header')
@@ -318,21 +329,24 @@ let month = currentDate.getMonth() + 1
 let apfo = async () => {try{
 
 if(month==4&&day==1){
-	let r = "Uncaught ReferenceError: April.first is not defined\n"
+	let r = "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start."
+	const trigger = bytebeat.editorValue=="a=\"CHASYXX Bytebeat composer\",aa=a.charCodeAt((((t&t>>14)&7)+t*(t>>11&7^t>>10&3))%(a.length)),\nb=\"by Chase T\",bb=b.charCodeAt((((t&t>>17)&7)+t*(t>>12&7^t>>10&7))%(b.length)),\nc=\"Fork of StephanShi's player\"	,cc=c.charCodeAt(((t&t>>20)+((t*1.07)>>2)*(t>>13&7^t>>10&15))%(c.length)),\n((aa+bb+cc)/2)|t>>4"
 
-	MAT.setCodeMirrorEditor(r/*[Math.floor(Math.random()*(r.length+1))]*/)
+	if(trigger){
+		MAT.setCodeMirrorEditor(r)
 	MAT.AprilFoolsElements.forEach(X => {
 		X.innerText=r
 	});
 	for(let i=0;i<headers.length;i++){
-		headers.item(i).innerText = r
+		headers.item(i).innerText = "pls??"
 	}
-	for(let i=0;i<modes.length;i++){
-		modes.item(i).innerText = r
-	}
-	let s = Math.floor(Math.random()*(r.length)*8)+(r.length*4)
+}
+for(let i=0;i<modes.length;i++){
+	modes.item(i).innerText = trigger?"ngl you should try it":"You should've seen the quote!"
+}
+	let s = Math.floor(Math.random()*(r.length)*2)+(r.length*1)
 	for(let i=0;i<s;i++){
-		IIOR=Math.random()>0.5
+		const IIOR=Math.random()>0.5
 		logdiv.innerHTML+= r[i%r.length] + (IIOR?"<br>":"")
 		if(IIOR) {
 		await new Promise(resolve => setTimeout(resolve, 25));
