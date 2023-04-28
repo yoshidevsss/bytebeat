@@ -154,7 +154,7 @@ globalThis.bytebeat = new class {
 			const nextX = this.mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
 			const diagramIteration = this.mod(curTime, (2 ** this.settings.drawScale))
 			// Error value - filling with red color
-			if (isNaNCurY[0] || isNaNCurY[1]) {
+			if ((isNaNCurY[0] || isNaNCurY[1])&&!isDiagram) {
 				for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
 					for (let y = 0; y < height; ++y) {
 						const idx = (drawWidth * y + x) << 2;
@@ -177,7 +177,7 @@ globalThis.bytebeat = new class {
 				ch = 2;
 			}
 			while (ch--) {
-				if (isNaNCurY[ch]) {
+				if (isNaNCurY[ch] && !isDiagram) {
 					continue;
 				}
 				const curYCh = curY[ch];
@@ -199,7 +199,7 @@ globalThis.bytebeat = new class {
 					}
 				} else {//We're drawing diagram, use that
 					for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
-						drawDiagram(data, drawWidth, x, curYCh, diagramIteration, scale, ch);
+						drawDiagram(data, drawWidth, x, curYCh, diagramIteration, scale, isNaNCurY[ch], ch);
 					}
 				}
 			}
@@ -250,19 +250,24 @@ globalThis.bytebeat = new class {
 			data[i] = 160;
 		}
 	}
-	drawDiagramMono(data, DW, j, V, DI, scale) {
+	drawDiagramMono(data, DW, j, V, DI, scale, NaNchk) {
 		const size = Math.max(1, 256 / (2 ** scale))
 		for (let k = 0; k < size; k++) {
 			let i = ((k + (DI * size)) * DW + j) << 2
+			if(NaNchk) {
+				data[i] = 100
+			} else {
 			data[i++] = data[i++] = data[i] = V & 255;
+			}
 		}
-
 	}
-	drawDiagramStereo(data, DW, j, V, DI, scale, ch) {
+	drawDiagramStereo(data, DW, j, V, DI, scale, NaNchk, ch) {
 		const size = 256 / (2 ** scale)
 		for (let k = 0; k < size; k++) {
 			let i = ((k + (DI * size)) * DW + j) << 2
-			if (ch == 1) {
+			if(NaNchk) {
+				data[i] = 100
+			} else if (ch == 1) {
 				data[i] = data[i + 2] = V & 255;
 			} else {
 				data[i + 1] = V & 255;

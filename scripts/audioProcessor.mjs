@@ -10,6 +10,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.playbackSpeed = 1;
 		this.lastByteValue = [null, null];
 		this.lastFuncValue = [null, null];
+		this.divisorStorage = [null, null];
 		this.lastTime = -1;
 		this.outValue = [0, 0];
 		this.sampleRatio = 1;
@@ -59,6 +60,7 @@ class audioProcessor extends AudioWorkletProcessor {
 	}
 	process(inputs, [chData], parameters) {
 		const chDataLen = chData[0].length;
+		const isDiagram = this.DMode === 'Diagram'
 		if(!chDataLen || !this.isPlaying) {
 			return true;
 		}
@@ -71,7 +73,8 @@ class audioProcessor extends AudioWorkletProcessor {
 			const currentTime = Math.floor(time);
 			if(this.lastTime !== currentTime) {
 				let funcValue;
-				const currentSample = Math.floor(byteSample/divisor)*divisor;
+				const currentSample = Math.floor(byteSample);
+				const DivisorMet = (((currentTime%divisor)+divisor)%divisor)==0
 				try {
 					funcValue = this.func(currentSample);
 				} catch(err) {
@@ -91,16 +94,16 @@ class audioProcessor extends AudioWorkletProcessor {
 				let ch = 2;
 				while(ch--) {
 					try {
-						funcValue[ch] = +funcValue[ch];
+						funcValue[ch] = this.divisorStorage[ch] = DivisorMet?+funcValue[ch]:+this.divisorStorage[ch];
 					} catch(err) {
 						funcValue[ch] = NaN;
 					}
-					if(funcValue[ch] === this.lastFuncValue[ch] && this.DMode != 'Diagram') {
+					if(funcValue[ch] === this.lastFuncValue[ch] &&!isDiagram) {
 						continue;
 					} else if(!isNaN(funcValue[ch])) {
 						this.outValue[ch] = this.getValues(funcValue[ch], ch);
 						hasValue = true;
-					} else if(!isNaN(this.lastFuncValue[ch])) {
+					} else if(!isNaN(this.lastFuncValue[ch])||isDiagram) {
 						this.lastByteValue[ch] = NaN;
 						hasValue = true;
 					}
