@@ -140,11 +140,12 @@ globalThis.MAT = new class { //Menus and transformations
 		await this.bytebeatReady;
 
 		let initialCode
+		let toEncode;
 		let parenLayerCount = 0
 		if(this.localTest) {
-			let toEncode = initialCode = this.code.value
+			toEncode = initialCode = this.code.value
 		} else {
-			let toEncode = initialCode = bytebeat.editorValue
+			toEncode = initialCode = bytebeat.editorValue
 		}
 		let inString = false
 		let arrayLayerCount = false
@@ -231,12 +232,13 @@ globalThis.MAT = new class { //Menus and transformations
 		} else {
 			toEncode = bytebeat.editorValue
 			wasPlaying = bytebeat.isPlaying
-			bytebeat.playbackToggle(false)
 		}
 
 		if(/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/.test(toEncode)){
 			alert("Code is already minibaked.")
 			return
+		} else {
+			bytebeat.playbackToggle(false)
 		}
 
 		const l = baker.minibake(toEncode)
