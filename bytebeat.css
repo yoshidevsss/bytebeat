@@ -386,7 +386,18 @@ button[name="close"] {
 }
 
 .dark {
-	background-image: linear-gradient(to bottom, #535353, #7e7e7e) !important	
+	background-image: linear-gradient(to bottom, #535353, #7e7e7e) !important;
+	color: white !important;
+}
+
+.light:hover {
+	background-image: linear-gradient(to bottom, #8b8b8b, #555555) !important;
+	color: #005b6b !important;
+}
+
+.dark:hover {
+	background-image: linear-gradient(to bottom, #858585, #a1a1a1) !important;
+	color: #7ff0ff !important;
 }
 
 .tube {

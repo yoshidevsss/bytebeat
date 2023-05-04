@@ -27,27 +27,14 @@ globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 			output += String.fromCharCode(this.cmb)
 			//output += String.fromCodePoint(cmb)
 		}
-		MAT.output("eval(unescape(escape`" + output + "`.replace(/u(..)/g,\"$1%\")))",true)
+		return "eval(unescape(escape`" + output + "`.replace(/u(..)/g,\"$1%\")))"
 	}
 	debake(str) {
-		let temp = null
-		str = str.replace( /, /g, ",").slice(21,str.length-27)
-		let len = str.length
-		let output = ""
-		for(let i=0;i<len;i++){
-			temp=str.charCodeAt(i)
-			this.cc1=temp>>8
-			this.cc2=temp&255
-			if(this.cc1!=0){
-			output += String.fromCharCode(this.cc1)
-			} if(this.cc2!=0){
-			output += String.fromCharCode(this.cc2)
-			}
-			//output += String.fromCodePoint(cmb)
-		}
-		if(output != "") {
-		MAT.output(output,true)
-		}
+		str = str.trim().replace(
+			/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/,
+			(match, p1) => (unescape(escape(p1).replace(/u(..)/g, '$1%'))));
+
+		return str
 	}
 }
 
@@ -111,8 +98,8 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 
 	changeMenu(x) {
-		var oldMenu = document.getElementById(`controls${this.currentMenu}`)
-		var newMenu = document.getElementById(`controls${x}`)
+		let oldMenu = document.getElementById(`controls${this.currentMenu}`)
+		let newMenu = document.getElementById(`controls${x}`)
 		$(oldMenu).animate({opacity: 0},250,'swing',function(){
 			$(oldMenu).addClass('hidden')
 			newMenu.style="opacity: 0"
@@ -152,16 +139,16 @@ globalThis.MAT = new class { //Menus and transformations
 
 		await this.bytebeatReady;
 
-		var initialCode
-		var parenLayerCount = 0
+		let initialCode
+		let parenLayerCount = 0
 		if(this.localTest) {
-			var toEncode = initialCode = this.code.value
+			let toEncode = initialCode = this.code.value
 		} else {
-			var toEncode = initialCode = bytebeat.editorValue
+			let toEncode = initialCode = bytebeat.editorValue
 		}
-		var inString = false
-		var arrayLayerCount = false
-			for (var i=0;i<toEncode.length;i++) {
+		let inString = false
+		let arrayLayerCount = false
+			for (let i=0;i<toEncode.length;i++) {
 				if (this.isErrored) {break} // error handling
 				switch(toEncode[i]){
 					case `,`: case ``:
@@ -233,35 +220,51 @@ globalThis.MAT = new class { //Menus and transformations
 		this.isErrored=false
 	}
 	async bake(){
-		var wasPlaying = false;
+		let wasPlaying = false;
 
 		await this.bytebeatReady;
 
+		let toEncode
+
 		if(this.localTest) {
-			var toEncode = this.code.value
+			toEncode = this.code.value
 		} else {
-			var toEncode = bytebeat.editorValue
+			toEncode = bytebeat.editorValue
 			wasPlaying = bytebeat.isPlaying
 			bytebeat.playbackToggle(false)
 		}
-		baker.minibake(toEncode)
+
+		if(/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/.test(toEncode)){
+			alert("Code is already minibaked.")
+			return
+		}
+
+		const l = baker.minibake(toEncode)
+		if (baker.debake(l)!==l){
+			this.output(l,true)
+		} else {
+			const warn = "// Minibaking failed: An illegal character would cause the player to lag."
+			this.output(`${warn}\n\n${toEncode}\n\n${warn}`)
+		}
 		if(wasPlaying){
 			bytebeat.playbackToggle(true)
 		}
+		return
 	}
 	async debake(){
-		var wasPlaying = false;
+		let wasPlaying = false;
 
 		await this.bytebeatReady;
+		let toEncode
 
 		if(this.localTest) {
-			var toEncode = this.code.value
+			toEncode = this.code.value
 		} else {
-			var toEncode = bytebeat.editorValue
+			toEncode = bytebeat.editorValue
 			wasPlaying = bytebeat.isPlaying
 			bytebeat.playbackToggle(false)
 		}
-		baker.debake(toEncode)
+		this.output(baker.debake(toEncode),true)
 		if(wasPlaying){
 			bytebeat.playbackToggle(true)
 		}
@@ -276,20 +279,20 @@ globalThis.MAT = new class { //Menus and transformations
 		await this.bytebeatReady;
 
 		if(this.localTest && !toEncode) {
-				var toEncode = this.code.value
+				toEncode = this.code.value
 			} else if (!toEncode) {
-				var toEncode = bytebeat.editorValue
+				toEncode = bytebeat.editorValue
 			}
-			var inputLength = toEncode.length
-			var temp = 0
-			var temp3 = 0
-			for(var i=0;i<inputLength;i++){
+			let inputLength = toEncode.length
+			let temp = 0
+			let temp3 = 0
+			for(let i=0;i<inputLength;i++){
 				temp += toEncode.charCodeAt(Math.ceil(i*1.5)%inputLength)
 				temp3 += toEncode.charCodeAt(i)*(i&1?i:-i)
 			}
-			var temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
-			var temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
-			var finalSeed = (temp2 + ":" + temp4)
+			let temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
+			let temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
+			let finalSeed = (temp2 + ":" + temp4)
 			if(forTitle){
 				this.tabName.innerText = "CHYX: " + finalSeed
 			}
