@@ -1035,6 +1035,12 @@
 				"url": "https://www.reddit.com/r/bytebeat/comments/11zgafh/notral/",
 				"sampleRate": 11025
 			}
+			,
+			{
+				"description": "Default code on t-8492 fork",
+				"codeOriginal": "(t*(-t>>8&15|t>>10&5)&128)+(random()*64|t>>5)",
+				"date": "2023-05-06"
+			}
 		]
 	},
 	{
