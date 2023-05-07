@@ -54,9 +54,9 @@ class audioProcessor extends AudioWorkletProcessor {
 			return `${ when } thrown: ${ typeof err === 'string' ? err : JSON.stringify(err) }`;
 		}
 		const { message, lineNumber, columnNumber } = err;
-		return `${ when } error: ${ typeof message === 'string' ? message : JSON.stringify(message) }${
+		return `${ when } error${
 			typeof lineNumber === 'number' && typeof columnNumber === 'number' ?
-				` (at line ${ lineNumber - 3 }, character ${ +columnNumber })` : '' }`;
+				` (at line ${ lineNumber - 3 }, character ${ +columnNumber })` : '' }: ${ typeof message === 'string' ? message : JSON.stringify(message) }`;
 	}
 	process(inputs, [chData], parameters) {
 		const chDataLen = chData[0].length;
@@ -256,8 +256,8 @@ class audioProcessor extends AudioWorkletProcessor {
 		// Create shortened Math functions
 		const params = Object.getOwnPropertyNames(Math);
 		const values = params.map(k => Math[k]);
-		const chyxNames = ['bitC','br','sinf','cosf','tanf','regG']
-		const chyxFuncs = [ chyx.bitC, chyx.br, chyx.sinf, chyx.cosf, chyx.tanf,chyx.regG]
+		const chyxNames = Object.getOwnPropertyNames(chyx);
+		const chyxFuncs = chyxNames.map(k => chyx[k]);
 		params.push('int', 'window', ...chyxNames);
 		values.push(Math.floor, globalThis, ...chyxFuncs);
 		audioProcessor.deleteGlobals();
