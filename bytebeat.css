@@ -212,7 +212,7 @@ button[name="close"] {
 	color: #a8ff60;
 }
 
-#error {
+#error, warning {
 	color: #f92672;
 	word-break: break-all;
 }
