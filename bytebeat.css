@@ -584,7 +584,7 @@ button[name="close"] {
 	padding: 3px 0;
 }
 
-.controls-group {
+.controls-group, .flex {
 	display: flex;
 }
 
