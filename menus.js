@@ -11,16 +11,16 @@ globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 		this.cmb = null
 		this.sts = null
 	}
-	minibake(str){
-		if (str.length&1) {
-			str+= " "
+	minibake(str) {
+		if (str.length & 1) {
+			str += " "
 		}
-		str = str.replace( /, /g, ",")
-		let len = Math.floor( str.length / 2 )
+		str = str.replace(/, /g, ",")
+		let len = Math.floor(str.length / 2)
 		let output = ""
-		for(let i=0;i<len;i++){
-			this.c1 = str.substring( i * 2, i * 2 + 1)
-			this.c2 = str.substring( i * 2 + 1, i * 2 + 2)
+		for (let i = 0; i < len; i++) {
+			this.c1 = str.substring(i * 2, i * 2 + 1)
+			this.c2 = str.substring(i * 2 + 1, i * 2 + 2)
 			this.cc1 = this.c1.charCodeAt(0)
 			this.cc2 = this.c2.charCodeAt(0)
 			this.cmb = (this.cc1 << 8) | this.cc2
@@ -94,147 +94,149 @@ globalThis.MAT = new class { //Menus and transformations
 	}
 
 	get codeText() {
-		return this.localTest?this.code.value:bytebeat.editorValue
+		return this.localTest ? this.code.value : bytebeat.editorValue
 	}
 
 	changeMenu(x) {
 		let oldMenu = document.getElementById(`controls${this.currentMenu}`)
 		let newMenu = document.getElementById(`controls${x}`)
-		$(oldMenu).animate({opacity: 0},250,'swing',function(){
+		$(oldMenu).animate({ opacity: 0 }, 250, 'swing', function () {
 			$(oldMenu).addClass('hidden')
-			newMenu.style="opacity: 0"
+			newMenu.style = "opacity: 0"
 			$(newMenu).removeClass('hidden')
-			$(newMenu).animate({opacity: 1},250,'swing')
+			$(newMenu).animate({ opacity: 1 }, 250, 'swing')
 		})
 		this.currentMenu = x
 	}
-	startError(reason, char=-1){
+	startError(reason, char = -1) {
 		this.errorReason = reason
 		this.errorChar = char
 		this.isErrored = true
 	}
-	setCodeMirrorEditor(string){
-			bytebeat.editorView.dispatch({
-				changes: {
-					from: 0,
-					to: bytebeat.editorView.state.doc.toString().length,
-					insert: string
-				}
-			})
+	setCodeMirrorEditor(string) {
+		bytebeat.editorView.dispatch({
+			changes: {
+				from: 0,
+				to: bytebeat.editorView.state.doc.toString().length,
+				insert: string
+			}
+		})
 	}
-	async output(text = this.formatted, update=false){
+	async output(text = this.formatted, update = false) {
 
 		await this.bytebeatReady;
-		
-		if(this.localTest) {
+
+		if (this.localTest) {
 			this.code.value = text
 		} else {
 			this.setCodeMirrorEditor(text)
 		}
-		try{if(update && !this.localTest) {
-			bytebeat.updateUrl() //Commit changes to the saved URL
-		}}catch(err){console.error(`URL not saved (${err.message})`)}
+		try {
+			if (update && !this.localTest) {
+				bytebeat.updateUrl() //Commit changes to the saved URL
+			}
+		} catch (err) { console.error(`URL not saved (${err.message})`) }
 	}
-	async commaFormat(){
+	async commaFormat() {
 
 		await this.bytebeatReady;
 
 		let initialCode
 		let toEncode;
 		let parenLayerCount = 0
-		if(this.localTest) {
+		if (this.localTest) {
 			toEncode = initialCode = this.code.value
 		} else {
 			toEncode = initialCode = bytebeat.editorValue
 		}
 		let inString = false
 		let arrayLayerCount = false
-			for (let i=0;i<toEncode.length;i++) {
-				if (this.isErrored) {break} // error handling
-				switch(toEncode[i]){
-					case `,`: case ``:
-						console.log(this.MaxParenLayersAllowed + " , " + parenLayerCount + ": " + (parenLayerCount < (this.MaxParenLayersAllowed+1)))
-						if((parenLayerCount < (this.MaxParenLayersAllowed+1) || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i+1] != `\n`) {
-							toEncode = toEncode.slice(0,i) + `${toEncode[i]}\n` + toEncode.slice(i+1,toEncode.length)
-						}
+		for (let i = 0; i < toEncode.length; i++) {
+			if (this.isErrored) { break } // error handling
+			switch (toEncode[i]) {
+				case `,`: case ``:
+					console.log(this.MaxParenLayersAllowed + " , " + parenLayerCount + ": " + (parenLayerCount < (this.MaxParenLayersAllowed + 1)))
+					if ((parenLayerCount < (this.MaxParenLayersAllowed + 1) || !this.considerParens) && (arrayLayerCount == 0) && !inString && toEncode[i + 1] != `\n`) {
+						toEncode = toEncode.slice(0, i) + `${toEncode[i]}\n` + toEncode.slice(i + 1, toEncode.length)
+					}
 					break
 
-					case `\``: case `'`: case `"`:
-						if (inString && toEncode[i-1]!='\\') {
-							if (inString == toEncode[i]) {
+				case `\``: case `'`: case `"`:
+					if (inString && toEncode[i - 1] != '\\') {
+						if (inString == toEncode[i]) {
 							inString = false
-							}
-						} else (
-							inString=toEncode[i]
-						)
-					break
-
-					case `[`: 
-						if(!inString) {
-							arrayLayerCount++
 						}
+					} else (
+						inString = toEncode[i]
+					)
 					break
 
-					case `]`: 
-						if(!inString) {
-							arrayLayerCount--
-							if (arrayLayerCount<0){
-								this.startError("Unbalanced array",i)
-							}
-						}							
+				case `[`:
+					if (!inString) {
+						arrayLayerCount++
+					}
 					break
 
-					case `(`: 
-						if(!inString) {
-							parenLayerCount++
+				case `]`:
+					if (!inString) {
+						arrayLayerCount--
+						if (arrayLayerCount < 0) {
+							this.startError("Unbalanced array", i)
 						}
+					}
 					break
 
-					case `)`: 
-						if(!inString) {
-							parenLayerCount--
-							if (parenLayerCount<0){
-								this.startError("Unbalanced parenthesies",i)
-							}
-						}
+				case `(`:
+					if (!inString) {
+						parenLayerCount++
+					}
 					break
-				}
+
+				case `)`:
+					if (!inString) {
+						parenLayerCount--
+						if (parenLayerCount < 0) {
+							this.startError("Unbalanced parenthesies", i)
+						}
+					}
+					break
 			}
-			this.formatted=toEncode
-			this.errorText=null
-			if(arrayLayerCount > 0) {
-				console.error(this.errorText = "Error in comma-formatting: Unbalanced array!")
-				this.isErrored = true
-			} else if(parenLayerCount > 0) {
-				console.error(this.errorText = "Error in comma-formatting: Unbalanced parenthesies!")
-				this.isErrored = true
-			} else if (this.isErrored) {
-				console.error(this.errorText = `Error in comma-formatting at char ${this.errorChar}: ${this.errorReason}!`)
-			} else {this.output(this.formatted,true)}
-			if(!this.isErrored){
-				console.log("Sucessfully formatted!")		
-			}
-			if(this.isErrored){
-				this.output(`${initialCode} \n\n// ${this.errorText}`,false)
-				this.oldCode = initialCode
-			}
-		this.isErrored=false
+		}
+		this.formatted = toEncode
+		this.errorText = null
+		if (arrayLayerCount > 0) {
+			console.error(this.errorText = "Error in comma-formatting: Unbalanced array!")
+			this.isErrored = true
+		} else if (parenLayerCount > 0) {
+			console.error(this.errorText = "Error in comma-formatting: Unbalanced parenthesies!")
+			this.isErrored = true
+		} else if (this.isErrored) {
+			console.error(this.errorText = `Error in comma-formatting at char ${this.errorChar}: ${this.errorReason}!`)
+		} else { this.output(this.formatted, true) }
+		if (!this.isErrored) {
+			console.log("Sucessfully formatted!")
+		}
+		if (this.isErrored) {
+			this.output(`${initialCode} \n\n// ${this.errorText}`, false)
+			this.oldCode = initialCode
+		}
+		this.isErrored = false
 	}
-	async bake(){
+	async bake() {
 		let wasPlaying = false;
 
 		await this.bytebeatReady;
 
 		let toEncode
 
-		if(this.localTest) {
+		if (this.localTest) {
 			toEncode = this.code.value
 		} else {
 			toEncode = bytebeat.editorValue
 			wasPlaying = bytebeat.isPlaying
 		}
 
-		if(/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/.test(toEncode)){
+		if (/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/.test(toEncode)) {
 			alert("Code is already minibaked.")
 			return
 		} else {
@@ -242,72 +244,72 @@ globalThis.MAT = new class { //Menus and transformations
 		}
 
 		const l = baker.minibake(toEncode)
-		if (baker.debake(l)!==l){
-			this.output(l,true)
+		if (baker.debake(l) !== l) {
+			this.output(l, true)
 		} else {
 			const warn = "// Minibaking failed: An illegal character would cause the player to lag."
 			this.output(`${warn}\n\n${toEncode}\n\n${warn}`)
 		}
-		if(wasPlaying){
+		if (wasPlaying) {
 			bytebeat.playbackToggle(true)
 		}
 		return
 	}
-	async debake(){
+	async debake() {
 		let wasPlaying = false;
 
 		await this.bytebeatReady;
 		let toEncode
 
-		if(this.localTest) {
+		if (this.localTest) {
 			toEncode = this.code.value
 		} else {
 			toEncode = bytebeat.editorValue
 			wasPlaying = bytebeat.isPlaying
 			bytebeat.playbackToggle(false)
 		}
-		this.output(baker.debake(toEncode),true)
-		if(wasPlaying){
+		this.output(baker.debake(toEncode), true)
+		if (wasPlaying) {
 			bytebeat.playbackToggle(true)
 		}
 	}
-	setParens(x){
-		x-=0
+	setParens(x) {
+		x -= 0
 		this.MaxParenLayersAllowed = x
 		console.log(x + ": " + typeof x)
 	}
-	async seed(forTitle=false, toEncode){
+	async seed(forTitle = false, toEncode) {
 
 		await this.bytebeatReady;
 
-		if(this.localTest && !toEncode) {
-				toEncode = this.code.value
-			} else if (!toEncode) {
-				toEncode = bytebeat.editorValue
-			}
-			let inputLength = toEncode.length
-			let temp = 0
-			let temp3 = 0
-			for(let i=0;i<inputLength;i++){
-				temp += toEncode.charCodeAt(Math.ceil(i*1.5)%inputLength)
-				temp3 += toEncode.charCodeAt(i)*(i&1?i:-i)
-			}
-			let temp2 = btoa(temp.toString(36)).replace('==','').replace('=','')
-			let temp4 = btoa(temp3.toString(36)).replace('==','').replace('=','')
-			let finalSeed = (temp2 + ":" + temp4)
-			if(forTitle){
-				this.tabName.innerText = "CHYX: " + finalSeed
-			}
+		if (this.localTest && !toEncode) {
+			toEncode = this.code.value
+		} else if (!toEncode) {
+			toEncode = bytebeat.editorValue
+		}
+		let inputLength = toEncode.length
+		let temp = 0
+		let temp3 = 0
+		for (let i = 0; i < inputLength; i++) {
+			temp += toEncode.charCodeAt(Math.ceil(i * 1.5) % inputLength)
+			temp3 += toEncode.charCodeAt(i) * (i & 1 ? i : -i)
+		}
+		let temp2 = btoa(temp.toString(36)).replace('==', '').replace('=', '')
+		let temp4 = btoa(temp3.toString(36)).replace('==', '').replace('=', '')
+		let finalSeed = (temp2 + ":" + temp4)
+		if (forTitle) {
+			this.tabName.innerText = "CHYX: " + finalSeed
+		}
 		return finalSeed
 	}
 
-	switch(X){
+	switch(X) {
 		let collection = document.getElementsByClassName('optionalEntry')
-		for (let i=0; i<collection.length; i++) {
-			let x=collection.item(i)
-			if(X==1){x.style="opacity: 0 ";$(x).removeClass('hidden')}
-			$(x).animate({opacity: X?1:0},250,()=>{
-				if(X==0){$(x).addClass('hidden')}
+		for (let i = 0; i < collection.length; i++) {
+			let x = collection.item(i)
+			if (X == 1) { x.style = "opacity: 0 "; $(x).removeClass('hidden') }
+			$(x).animate({ opacity: X ? 1 : 0 }, 250, () => {
+				if (X == 0) { $(x).addClass('hidden') }
 			})
 		}
 	}
@@ -324,6 +326,88 @@ await new Promise(resolve => {
 	checkLoaded();
 });
 
+// \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/Favorites system\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+globalThis.favorites = new class {
+	constructor() {
+		this.save = document.getElementById('favorite-save');
+		this.name = document.getElementById('favorite-name');
+		this.opener = document.getElementById('favorites-button');
+		this.status = document.getElementById('favorites-status');
+		this.contents = document.getElementById('favorites-contents');
+
+		console.log("started!", this);
+		this.init();
+	}
+
+	escapeHTML(text) {
+		bytebeat.cacheTextElem.nodeValue = text;
+		return bytebeat.cacheParentElem.innerHTML;
+	}
+
+	async init() {
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', this.ready);
+			return;
+		}
+		this.ready();
+	}
+
+	ready() {
+		console.log("setup!");
+		this.opener.onclick = () => {
+			this.generate(); this.opener.onclick = null;
+		}
+		this.save.onclick = () => {
+			this.make(this.name.value, bytebeat.editorValue); this.opener.onclick = null;
+		}
+	}
+
+	make(name, code) {
+		const finalName = name.replace(/\n|;|=/g, '');
+		const finalCode = code.replace(/;/g, '&&SEMI&&').replace(/\n/g, '&&BREAK&&').replace(/=/g, '&&EQUAL&&')
+		document.cookie = `${finalName}=${finalCode};`
+
+		this.generate()
+	}
+
+	generate() {
+		this.contents.innerHTML='';
+		const cookies = document.cookie;
+		const cookieRegex = /([^=;\s]+)=([^;]+)/g;
+		let match;
+		while ((match = cookieRegex.exec(cookies)) !== null) {
+			const songName = match[1];
+			const code = match[2];
+			console.log(`Cookie: ${songName} = ${code}`);
+			this.contents.innerHTML += this.generateEntry(songName, code);
+		}
+	}
+
+	generateEntry(name, code) {
+		const header = `Name: ${name}`;
+		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=');
+
+		return `<div><h1><div id="favorite-name">${header}</div> <button class="favorite-delete" onclick="favorites.remove(this)">Delete</button></h1><button id="favorite-code" class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></div>`;
+	}
+
+	remove(Elem) {
+		const section = Elem.parentNode.parentNode; // get the div sourrounding each entry
+		const name = section.querySelector('#favorite-name').innerHTML.slice(5);
+
+		const confirmed = window.confirm("Are you sure you want to remove this favorite?");
+
+		if (confirmed) {
+			document.cookie = `${name}=deleted; expires=Thu, 01 Jan 1970 00:00:00 UTC`
+			section.remove()
+		}
+	}
+
+}();
+
+
+// \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\April fools handler\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
 let logdiv = document.getElementById('log')
 let headers = document.getElementsByClassName('library-header')
 let modes = document.getElementsByClassName('song-options')
@@ -331,37 +415,39 @@ let currentDate = new Date()
 let day = currentDate.getDate()
 let month = currentDate.getMonth() + 1
 
-let apfo = async () => {try{
+let apfo = async () => {
+	try {
 
-if(month==4&&day==1){
-	let r = "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start."
-	const trigger = bytebeat.editorValue=="a=\"CHASYXX Bytebeat composer\",aa=a.charCodeAt((((t&t>>14)&7)+t*(t>>11&7^t>>10&3))%(a.length)),\nb=\"by Chase T\",bb=b.charCodeAt((((t&t>>17)&7)+t*(t>>12&7^t>>10&7))%(b.length)),\nc=\"Fork of StephanShi's player\"	,cc=c.charCodeAt(((t&t>>20)+((t*1.07)>>2)*(t>>13&7^t>>10&15))%(c.length)),\n((aa+bb+cc)/2)|t>>4"
+		if (month == 4 && day == 1) {
+			let r = "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start."
+			const trigger = bytebeat.editorValue == "a=\"CHASYXX Bytebeat composer\",aa=a.charCodeAt((((t&t>>14)&7)+t*(t>>11&7^t>>10&3))%(a.length)),\nb=\"by Chase T\",bb=b.charCodeAt((((t&t>>17)&7)+t*(t>>12&7^t>>10&7))%(b.length)),\nc=\"Fork of StephanShi's player\"	,cc=c.charCodeAt(((t&t>>20)+((t*1.07)>>2)*(t>>13&7^t>>10&15))%(c.length)),\n((aa+bb+cc)/2)|t>>4"
 
-	if(trigger){
-		MAT.setCodeMirrorEditor(r)
-	MAT.AprilFoolsElements.forEach(X => {
-		X.innerText=r
-	});
-	for(let i=0;i<headers.length;i++){
-		headers.item(i).innerText = "pls??"
-	}
-}
-for(let i=0;i<modes.length;i++){
-	modes.item(i).innerText = trigger?"ngl you should try it":"You should've seen the quote!"
-}
-	let s = Math.floor(Math.random()*(r.length)*2)+(r.length*1)
-	for(let i=0;i<s;i++){
-		const IIOR=Math.random()>0.5
-		logdiv.innerHTML+= r[i%r.length] + (IIOR?"<br>":"")
-		if(IIOR) {
-		await new Promise(resolve => setTimeout(resolve, 25));
+			if (trigger) {
+				MAT.setCodeMirrorEditor(r)
+				MAT.AprilFoolsElements.forEach(X => {
+					X.innerText = r
+				});
+				for (let i = 0; i < headers.length; i++) {
+					headers.item(i).innerText = "beep"
+				}
+			}
+			for (let i = 0; i < modes.length; i++) {
+				modes.item(i).inneHTML = trigger ? "pacing" : modes.item(i).innerHTML
+			}
+			let s = Math.floor(Math.random() * (r.length) * 2) + (r.length * 1)
+			for (let i = 0; i < s; i++) {
+				const IIOR = Math.random() > 0.5
+				logdiv.innerHTML += r[i % r.length] + (IIOR ? "<br>" : "")
+				if (IIOR) {
+					await new Promise(resolve => setTimeout(resolve, 25));
+				}
+			}
 		}
+
+	} catch (ERR) {
+		logdiv.innerText = ERR.stack
 	}
 }
 
-} catch(ERR) {
-	logdiv.innerText = ERR.stack
-}}
-
-setTimeout(apfo,1000)
+setTimeout(apfo, 1000)
 
