@@ -364,8 +364,8 @@ globalThis.favorites = new class {
 	}
 
 	make(name, code) {
-		const finalName = name.replace(/\n|;|=/g, '');
-		const finalCode = code.replace(/;/g, '&&SEMI&&').replace(/\n/g, '&&BREAK&&').replace(/=/g, '&&EQUAL&&')
+		const finalName = name.replace(/\n|;|=/g, '').replace(/ /g, '&&SPACE&&');
+		const finalCode = code.replace(/;/g, '&&SEMI&&').replace(/\n/g, '&&BREAK&&').replace(/=/g, '&&EQUAL&&').replace(/ /g, '&&SPACE&&');
 		document.cookie = `${finalName}=${finalCode};`
 
 		this.generate()
@@ -385,19 +385,20 @@ globalThis.favorites = new class {
 	}
 
 	generateEntry(name, code) {
-		const header = `Name: ${name}`;
-		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=');
+		const header = `Name: ${name.replace(/&&SPACE&&/g,' ')}`;
+		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=').replace(/&&SPACE&&/g, ' ');
 
 		return `<div><h1><div id="favorite-name">${header}</div> <button class="favorite-delete" onclick="favorites.remove(this)">Delete</button></h1><button id="favorite-code" class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></div>`;
 	}
 
 	remove(Elem) {
 		const section = Elem.parentNode.parentNode; // get the div sourrounding each entry
-		const name = section.querySelector('#favorite-name').innerHTML.slice(5);
+		const name = section.querySelector('#favorite-name').innerHTML.slice(6).replace(/ /g, '&&SPACE&&');
 
 		const confirmed = window.confirm("Are you sure you want to remove this favorite?");
 
 		if (confirmed) {
+			console.log(name)
 			document.cookie = `${name}=deleted; expires=Thu, 01 Jan 1970 00:00:00 UTC`
 			section.remove()
 		}
