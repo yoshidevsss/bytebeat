@@ -386,7 +386,7 @@ globalThis.favorites = new class {
 	}
 
 	generateEntry(name, code) {
-		const header = `Name: ${name.replace(/&&SPACE&&/g,' ')}`;
+		const header = this.escapeHTML(`Name: ${name.replace(/&&SPACE&&/g,' ')}`);
 		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=').replace(/&&SPACE&&/g, ' ');
 
 		return `<div><h1><div id="favorite-name">${header}</div> <button class="favorite-delete" onclick="favorites.remove(this)">Delete</button></h1><button id="favorite-code" class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></div>`;
