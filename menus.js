@@ -378,6 +378,7 @@ globalThis.favorites = new class {
 		let match;
 		while ((match = cookieRegex.exec(cookies)) !== null) {
 			const songName = match[1];
+			if(songName="_ga"){continue}
 			const code = match[2];
 			console.log(`Cookie: ${songName} = ${code}`);
 			this.contents.innerHTML += this.generateEntry(songName, code);
