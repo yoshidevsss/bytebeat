@@ -364,7 +364,7 @@ globalThis.favorites = new class {
 	}
 
 	make(name, code) {
-		const finalName = name.replace(/\n|;|=|<\/?n?o?script>|<\/?style>/g, '').replace(/ /g, '&&SPACE&&');
+		const finalName = name.replace(/\n|;|=/g, '').replace(/ /g, '&&SPACE&&');
 		const finalCode = code.replace(/;/g, '&&SEMI&&').replace(/\n/g, '&&BREAK&&').replace(/=/g, '&&EQUAL&&').replace(/ /g, '&&SPACE&&');
 		document.cookie = `${finalName}=${finalCode};`
 
@@ -386,7 +386,7 @@ globalThis.favorites = new class {
 	}
 
 	generateEntry(name, code) {
-		const header = name.replace(/&&SPACE&&/g,' ');
+		const header = this.escapeHTML(name.replace(/&&SPACE&&/g,' '));
 		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=').replace(/&&SPACE&&/g, ' ');
 
 		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`;
@@ -394,7 +394,7 @@ globalThis.favorites = new class {
 
 	remove(Elem) {
 		const section = Elem.parentNode; // get the li sourrounding each entry
-		const name = Elem.innerHTML.replace(/ /g, '&&SPACE&&');
+		const name = Elem.innerText.replace(/ /g, '&&SPACE&&');
 
 		console.log(name)
 
