@@ -389,7 +389,7 @@ globalThis.favorites = new class {
 	make(name, code) {
 		const finalName = this.cook(name);
 		const finalCode = this.cook(code);
-		document.cookie = `${finalName}=${finalCode};`
+		document.cookie = `${finalName}=${finalCode}; expires=Fri, 01 Jan 2038 06:00:00 GMT` // change this in 2037
 
 		this.generate();
 		this.name.value = "Name";
@@ -402,8 +402,8 @@ globalThis.favorites = new class {
 		let match;
 		while ((match = cookieRegex.exec(cookies)) !== null) {
 			const songName = match[1];
-			if (songName == "_ga") { continue };
 			const code = match[2];
+			if (songName == "_ga" || code == "deleted-favorite") { continue };
 			console.log(`Cookie: ${songName} = ${code}`);
 			this.contents.innerHTML += this.generateEntry(songName, code);
 		}
@@ -425,7 +425,7 @@ globalThis.favorites = new class {
 		const confirmed = window.confirm("Are you sure you want to remove this favorite?");
 
 		if (confirmed) {
-			document.cookie = `${name}=deleted; expires=Thu, 01 Jan 1970 00:00:00 UTC`
+			document.cookie = `${name}=deleted-favorite; expires=Thu, 01 Jan 1970 00:00:00 UTC`
 			section.remove()
 		}
 	}
