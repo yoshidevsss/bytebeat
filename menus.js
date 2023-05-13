@@ -336,8 +336,31 @@ globalThis.favorites = new class {
 		this.status = document.getElementById('favorites-status');
 		this.contents = document.getElementById('favorites-contents');
 
+		this.first = [";","\n","="," ", "\t"];
+		this.second = ["&SEMI","&BREAK","&EQUAL","&SPACE","&TAB"];
+
 		console.log("started!", this);
 		this.init();
+	}
+
+	cook(str) {
+		let temp = str.replace(/&/g,"&AND");
+		for(let i in this.first){
+			let detector=new RegExp((this.first)[i],'g')
+			let replacor=(this.second)[i]
+			temp=temp.replace(detector,replacor)
+		}
+		return temp
+	}
+
+	uncook(str) {
+		let temp = str;
+		for(let i in this.first){
+			let detector=new RegExp(this.second[i],'g')
+			let replacor=this.first[i]
+			temp=temp.replace(detector,replacor)
+		}
+		return temp.replace(/&AND/g,"&")
 	}
 
 	escapeHTML(text) {
@@ -359,16 +382,17 @@ globalThis.favorites = new class {
 			this.generate(); this.opener.onclick = null;
 		}
 		this.save.onclick = () => {
-			this.make(this.name.value, bytebeat.editorValue); this.opener.onclick = null;
+			this.make(this.name.value, bytebeat.editorValue);
 		}
 	}
 
 	make(name, code) {
-		const finalName = name.replace(/\n|;|=/g, '').replace(/ /g, '&&SPACE&&');
-		const finalCode = code.replace(/;/g, '&&SEMI&&').replace(/\n/g, '&&BREAK&&').replace(/=/g, '&&EQUAL&&').replace(/ /g, '&&SPACE&&');
+		const finalName = this.cook(name.replace(/\n|;|=/g, ''));
+		const finalCode = this.cook(code);
 		document.cookie = `${finalName}=${finalCode};`
 
-		this.generate()
+		this.generate();
+		this.name.value = "Name";
 	}
 
 	generate() {
@@ -378,7 +402,7 @@ globalThis.favorites = new class {
 		let match;
 		while ((match = cookieRegex.exec(cookies)) !== null) {
 			const songName = match[1];
-			if(songName=="_ga"){continue}
+			if(songName=="_ga"){continue};
 			const code = match[2];
 			console.log(`Cookie: ${songName} = ${code}`);
 			this.contents.innerHTML += this.generateEntry(songName, code);
@@ -387,7 +411,7 @@ globalThis.favorites = new class {
 
 	generateEntry(name, code) {
 		const header = this.escapeHTML(name.replace(/&&SPACE&&/g,' '));
-		const contents = code.replace(/&&SEMI&&/g, ';').replace(/&&BREAK&&/g, '\n').replace(/&&EQUAL&&/g, '=').replace(/&&SPACE&&/g, ' ');
+		const contents = this.uncook(code)
 
 		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`;
 	}
