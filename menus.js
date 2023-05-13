@@ -336,31 +336,31 @@ globalThis.favorites = new class {
 		this.status = document.getElementById('favorites-status');
 		this.contents = document.getElementById('favorites-contents');
 
-		this.first = [";","\n","="," ", "\t"];
-		this.second = ["&SEMI","&BREAK","&EQUAL","&SPACE","&TAB"];
+		this.first = [";", "\n", "=", " ", "\t"];
+		this.second = ["&SEMI", "&BREAK", "&EQUAL", "&SPACE", "&TAB"];
 
 		console.log("started!", this);
 		this.init();
 	}
 
 	cook(str) {
-		let temp = str.replace(/&/g,"&AND");
-		for(let i in this.first){
-			let detector=new RegExp((this.first)[i],'g')
-			let replacor=(this.second)[i]
-			temp=temp.replace(detector,replacor)
+		let temp = str.replace(/&/g, "&AND");
+		for (let i in this.first) {
+			let detector = new RegExp((this.first)[i], 'g')
+			let replacor = (this.second)[i]
+			temp = temp.replace(detector, replacor)
 		}
 		return temp
 	}
 
 	uncook(str) {
 		let temp = str;
-		for(let i in this.first){
-			let detector=new RegExp(this.second[i],'g')
-			let replacor=this.first[i]
-			temp=temp.replace(detector,replacor)
+		for (let i in this.first) {
+			let detector = new RegExp(this.second[i], 'g')
+			let replacor = this.first[i]
+			temp = temp.replace(detector, replacor)
 		}
-		return temp.replace(/&AND/g,"&")
+		return temp.replace(/&AND/g, "&")
 	}
 
 	escapeHTML(text) {
@@ -396,13 +396,13 @@ globalThis.favorites = new class {
 	}
 
 	generate() {
-		this.contents.innerHTML='';
+		this.contents.innerHTML = '';
 		const cookies = document.cookie;
 		const cookieRegex = /([^=;\s]+)=([^;]+)/g;
 		let match;
 		while ((match = cookieRegex.exec(cookies)) !== null) {
 			const songName = match[1];
-			if(songName=="_ga"){continue};
+			if (songName == "_ga") { continue };
 			const code = match[2];
 			console.log(`Cookie: ${songName} = ${code}`);
 			this.contents.innerHTML += this.generateEntry(songName, code);
@@ -418,7 +418,7 @@ globalThis.favorites = new class {
 
 	remove(Elem) {
 		const section = Elem.parentNode; // get the li sourrounding each entry
-		const name = Elem.innerText.replace(/ /g, '&&SPACE&&');
+		const name = this.cook(Elem.innerText)
 
 		console.log(name)
 
@@ -457,9 +457,9 @@ let apfo = async () => {
 				for (let i = 0; i < headers.length; i++) {
 					headers.item(i).innerText = "beep"
 				}
-			}
-			for (let i = 0; i < modes.length; i++) {
-				modes.item(i).inneHTML = trigger ? "pacing" : modes.item(i).innerHTML
+				for (let i = 0; i < modes.length; i++) {
+					modes.item(i).inneHTML = "pacing"
+				}
 			}
 			let s = Math.floor(Math.random() * (r.length) * 2) + (r.length * 1)
 			for (let i = 0; i < s; i++) {
