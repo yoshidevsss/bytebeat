@@ -387,7 +387,7 @@ globalThis.favorites = new class {
 	}
 
 	make(name, code) {
-		const finalName = this.cook(name.replace(/\n|;|=/g, ''));
+		const finalName = this.cook(name);
 		const finalCode = this.cook(code);
 		document.cookie = `${finalName}=${finalCode};`
 
@@ -410,7 +410,7 @@ globalThis.favorites = new class {
 	}
 
 	generateEntry(name, code) {
-		const header = this.escapeHTML(name.replace(/&&SPACE&&/g,' '));
+		const header = this.escapeHTML(this.uncook(name));
 		const contents = this.uncook(code)
 
 		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`;
