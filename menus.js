@@ -43,7 +43,6 @@ globalThis.baker = new class { //Chasyxx's bakers chasyxx.github.io/minibaker
 /*===========================  =  = =  = ====  =  = = =  ===========================*/
 /*===========================  =   =   = =  = === =  ==  ===========================*/
 
-
 globalThis.MAT = new class { //Menus and transformations
 	constructor() {
 		this.currentMenu = 1
@@ -66,31 +65,7 @@ globalThis.MAT = new class { //Menus and transformations
 		this.MaxParenLayersAllowed = 0
 		this.localTest = null
 
-		this.bytebeatReady = new Promise(resolve => {
-			const checkLoaded = () => {
-				if (typeof bytebeat !== 'undefined') {
-					resolve();
-				} else {
-					setTimeout(checkLoaded, 50);
-				}
-			};
-			checkLoaded();
-		});
-
-		this.bytebeatReady.then(() => {
-			const lookforeditor = () => {
-				try {
-					if (bytebeat?.editorValue === undefined) {
-						this.localTest = true;
-					}
-				} catch {
-					setTimeout(lookforeditor, 100)
-				}
-			}
-			// The bytebeat class has fully loaded, so we can safely access its properties and methods. 
-			// Check to make sure the editor value is registered after 50ms
-			lookforeditor()
-		});
+		this.init()
 	}
 
 	get codeText() {
@@ -237,7 +212,8 @@ globalThis.MAT = new class { //Menus and transformations
 		}
 
 		if (/^eval\(unescape\(escape(?:`|\('|\("|\(`)(.*?)(?:`|'\)|"\)|`\)).replace\(\/u\(\.\.\)\/g,["'`]\$1%["'`]\)\)\)$/.test(toEncode)) {
-			alert("Code is already minibaked.")
+			document.getElementById("code-is-already-minibaked").showModal()
+			document.getElementById("dialog-close").onclick=()=>{document.getElementById("code-is-already-minibaked").close()}
 			return
 		} else {
 			bytebeat.playbackToggle(false)
@@ -272,6 +248,33 @@ globalThis.MAT = new class { //Menus and transformations
 		if (wasPlaying) {
 			bytebeat.playbackToggle(true)
 		}
+	}
+	init() {
+		this.bytebeatReady = new Promise(resolve => {
+			const checkLoaded = () => {
+				if (typeof bytebeat !== 'undefined') {
+					resolve();
+				} else {
+					setTimeout(checkLoaded, 50);
+				}
+			};
+			checkLoaded();
+		});
+
+		this.bytebeatReady.then(() => {
+			const lookforeditor = () => {
+				try {
+					if (bytebeat?.editorValue === undefined) {
+						this.localTest = true;
+					}
+				} catch {
+					setTimeout(lookforeditor, 100)
+				}
+			}
+			// The bytebeat class has fully loaded, so we can safely access its properties and methods. 
+			// Check to make sure the editor value is registered after 50ms
+			lookforeditor()
+		});
 	}
 	setParens(x) {
 		x -= 0
@@ -416,18 +419,27 @@ globalThis.favorites = new class {
 		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`;
 	}
 
-	remove(Elem) {
+	async remove(Elem) {
 		const section = Elem.parentNode; // get the li sourrounding each entry
 		const name = this.cook(Elem.innerText)
 
 		console.log(name)
 
-		const confirmed = window.confirm("Are you sure you want to remove this favorite?");
+		let waiter = new Promise((resolve, reject) => {
+			document.getElementById("are-you-sure").showModal()
+			document.getElementById("dialog-yes").onclick = () => resolve()
+			document.getElementById("dialog-no").onclick = () => reject()
+		})
 
-		if (confirmed) {
+		waiter.then(() => {
 			document.cookie = `${name}=deleted-favorite; expires=Thu, 01 Jan 1970 00:00:00 UTC`
 			section.remove()
-		}
+			document.getElementById("are-you-sure").close()
+		}).catch(()=>{
+			document.getElementById("are-you-sure").close()			
+		})
+
+		try{await waiter}catch{}
 	}
 
 }();
@@ -475,6 +487,5 @@ let apfo = async () => {
 		logdiv.innerText = ERR.stack
 	}
 }
-
 setTimeout(apfo, 1000)
 

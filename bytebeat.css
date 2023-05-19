@@ -584,6 +584,15 @@ button[name="close"] {
 	padding: 3px 0;
 }
 
+dialog {
+	background-image: linear-gradient(to bottom,#000,#050);
+	font: 24px monospace;
+}
+
+dialog > button, dialog > div > button {
+	font: 16px monospace;
+}
+
 .controls-group, .flex {
 	display: flex;
 }
