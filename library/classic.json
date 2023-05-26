@@ -1055,14 +1055,6 @@
 		"codeOriginal": "(-t&(t>>4&t>>4)&t>>11)-1&-t>>4",
 		"codeMinified": "(-t&t>>4&t>>4&t>>11)-1&-t>>4"
 	}, {
-		"description": "chaotic craziness",
-		"author": "T_yknow",
-		"url": "https://www.reddit.com/r/bytebeat/comments/120dijk/chaotic_craziness/",
-		"date": "2023-03-24",
-		"sampleRate": 22050,
-		"codeOriginal": "(t^t>>12)*t>>8",
-		"starred": 1
-	}, {
 		"description": "H_YPN0T1Z3%",
 		"author": "absolute199",
 		"url": "https://www.reddit.com/r/bytebeat/comments/122rwfc/h_ypn0t1z3/",
@@ -1077,49 +1069,46 @@
 		"author": "u/glebguything",
 		"url": "https://www.reddit.com/r/bytebeat/comments/11xeu0c/bytebiast/",
 		"starred": 1
-	},
-	{
+	}, {
 		"author": "u/T_yknow",
 		"children": [
 			{
+				"codeOriginal":"(t>>(t>>(t>>10)))*(1+(t&t>>15))|t>>6",
+				"date": "2023-04-17",
+				"url": "https://www.reddit.com/r/bytebeat/comments/12prupa/80khz_beat/",
+				"sampleRate": 80000
+			},{
 				"description": "bitbeat thingy",
 				"codeOriginal": "t>>4&t>>10|t>>8&t>>11|t>>5&t>>12",
 				"date": "2023-03-21",
 				"mode": "Bitbeat",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11xcxyy/bitbeat_thingy/"
-			},
-			{
+			}, {
 				"description": "another bitbeat thingy",
 				"codeOriginal": "(t%255&t%257)>>6|t>>5&(t%255)>>6",
 				"date": "2023-03-21",
 				"mode": "Bitbeat",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11xe1zr/another_bitbeat_thingy/"
-			},
-			{
+			}, {
 				"description": "yet another bitbeat thingy",
 				"codeOriginal": "t>>(t&2048?5:4)+(t&8192?1:0)",
 				"date": "2023-03-21",
 				"mode": "Bitbeat",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11xe98r/yet_another_bitbeat_thingy/",
 				"sampleRate": 16000
-			}
-			,
-			{
+			}, {
 				"description": "not%ral",
 				"codeOriginal": "t%255|(t&t>>2|t>>5)",
 				"date": "2023-03-23",
 				"url": "https://www.reddit.com/r/bytebeat/comments/11zgafh/notral/",
 				"sampleRate": 11025
-			}
-			,
-			{
+			}, {
 				"description": "Default code on t-8492 fork",
 				"codeOriginal": "(t*(-t>>8&15|t>>10&5)&128)+(random()*64|t>>5)",
 				"date": "2023-05-06"
 			}
 		]
-	},
-	{
+	}, {
 		"codeOriginal": "t*(t&-(t>>8)&t>>(t>>15)&t>>(t>>15))",
 		"author": "cokufaqikk#6481",
 		"date": "2023-01-04",

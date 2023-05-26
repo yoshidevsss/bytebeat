@@ -719,6 +719,48 @@
 		"fileOriginal": true,
 		"starred": 2
 	}, {
+		"author": "awogler9124812041",
+		"children": [{
+			"description": "bitcrushed amen break",
+			"url": "https://www.reddit.com/r/bytebeat/comments/yc9rut/bitcrushed_amen_break/",
+			"date": "2022-10-24",
+			"file": "awogler9124812041 - bitcrushed amen break.js",
+			"fileOriginal": true
+		}, {
+			"description": "bitcrushed amen break (44100hz version)",
+			"url": "https://www.reddit.com/r/bytebeat/comments/yc9rut/bitcrushed_amen_break/",
+			"date": "2022-10-24",
+			"sampleRate": 44100,
+			"file": "awogler9124812041 - bitcrushed amen break (44100hz version).js",
+			"fileOriginal": true,
+			"starred": 1
+		}, {
+			"description": "sparta remix chorus",
+			"url": "https://www.reddit.com/r/bytebeat/comments/yex2iz/sparta_remix_chorus/",
+			"date": "2022-10-27",
+			"sampleRate": 16000,
+			"file": "awogler9124812041 - sparta remix chorus.js",
+			"fileOriginal": true
+		}, {
+			"description": "the midi to bytebeat tool",
+			"remixed": {
+				"description": "now its FM synth",
+				"author": "Bp103",
+				"url": "https://twitter.com/Bp103/status/1345905059964530688"
+			},
+			"url": "https://www.reddit.com/r/bytebeat/comments/11s10f8/a_demonstration_of_my_latest_invention_yet_the/",
+			"date": "2023-3-15",
+			"sampleRate": 44100,
+			"file": "awogler9124812041 - the midi to bytebeat tool.js",
+			"fileOriginal": true
+		}, {
+			"description": "adventurous song",
+			"url": "https://www.reddit.com/r/bytebeat/comments/120gv4f/adventurous_song_the_result_of_combining_the/",
+			"date": "2023-3-24",
+			"file": "awogler9124812041 - adventurous song.js",
+			"fileOriginal": true
+		}]
+		}, {
 		"author": "cabbage drop",
 		"description": "twenty six",
 		"url": "https://battleofthebits.org/arena/Entry/twenty+six/57195/",

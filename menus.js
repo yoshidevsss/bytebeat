@@ -416,7 +416,7 @@ globalThis.favorites = new class {
 		const header = this.escapeHTML(this.uncook(name));
 		const contents = this.uncook(code)
 
-		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`;
+		return `<li><button id="favorite-name" onclick="favorites.remove(this)">${header}</button><br /><button class="code-text code-text-original" data-songdata='{}' code-length="${contents.length}">${this.escapeHTML(contents)}</button></li>`
 	}
 
 	async remove(Elem) {
