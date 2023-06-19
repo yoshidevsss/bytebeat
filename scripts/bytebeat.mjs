@@ -7,7 +7,7 @@ const loadScript = src => new Promise((resolve, reject) => {
 		scriptElem.async = true;
 		scriptElem.src = src;
 		scriptElem.addEventListener('load', () => resolve());
-		scriptElem.addEventListener('error', () => {console.error(`Failed to load the script ${src}`); reject(`Failed to load the script ${src}`)});
+		scriptElem.addEventListener('error', () => { console.error(`Failed to load the script ${src}`); reject(`Failed to load the script ${src}`) });
 		document.head.appendChild(scriptElem);
 	} catch (err) {
 		console.error(err.message);
@@ -154,7 +154,7 @@ globalThis.bytebeat = new class {
 			const nextX = this.mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
 			const diagramIteration = this.mod(curTime, (2 ** this.settings.drawScale))
 			// Error value - filling with red color
-			if ((isNaNCurY[0] || isNaNCurY[1])&&!isDiagram) {
+			if ((isNaNCurY[0] || isNaNCurY[1]) && !isDiagram) {
 				for (let x = curX; x !== nextX; x = this.mod(x + 1, width)) {
 					for (let y = 0; y < height; ++y) {
 						const idx = (drawWidth * y + x) << 2;
@@ -254,10 +254,10 @@ globalThis.bytebeat = new class {
 		const size = Math.max(1, 256 / (2 ** scale))
 		for (let k = 0; k < size; k++) {
 			let i = ((k + (DI * size)) * DW + j) << 2
-			if(NaNchk) {
+			if (NaNchk) {
 				data[i] = 100
 			} else {
-			data[i++] = data[i++] = data[i] = V & 255;
+				data[i++] = data[i++] = data[i] = V & 255;
 			}
 		}
 	}
@@ -265,7 +265,7 @@ globalThis.bytebeat = new class {
 		const size = 256 / (2 ** scale)
 		for (let k = 0; k < size; k++) {
 			let i = ((k + (DI * size)) * DW + j) << 2
-			if(NaNchk) {
+			if (NaNchk) {
 				data[i] = 100
 			} else if (ch == 1) {
 				data[i] = data[i + 2] = V & 255;
@@ -563,12 +563,12 @@ globalThis.bytebeat = new class {
 		}
 		this.sendData(data);
 		await new Promise(resolve => {
-			const LOOK=(x)=>{
-				if(typeof MAT === 'undefined') {
-					setTimeout(()=>{
-						console[x>8?'warn':'log']("Couldn't get MAT. Retrying. Attempt " + (x+1))
-						LOOK(x+1)
-					},50*Math.pow(1.2,x))
+			const LOOK = (x) => {
+				if (typeof MAT === 'undefined') {
+					setTimeout(() => {
+						console[x > 8 ? 'warn' : 'log']("Couldn't get MAT. Retrying. Attempt " + (x + 1))
+						LOOK(x + 1)
+					}, 50 * Math.pow(1.2, x))
 				} else {
 					resolve()
 				}
@@ -582,8 +582,8 @@ globalThis.bytebeat = new class {
 	}
 	async onclickCodeLoadButton(buttonElem) {
 		const response = await fetch(`library/${buttonElem.classList.contains('code-load-formatted') ? 'formatted' :
-				buttonElem.classList.contains('code-load-minified') ? 'minified' :
-					buttonElem.classList.contains('code-load-original') ? 'original' : ''
+			buttonElem.classList.contains('code-load-minified') ? 'minified' :
+				buttonElem.classList.contains('code-load-original') ? 'original' : ''
 			}/${buttonElem.dataset.codeFile}`, { cache: 'no-cache' });
 		this.loadCode(Object.assign(JSON.parse(buttonElem.dataset.songdata),
 			{ code: await response.text() }));
@@ -666,14 +666,14 @@ globalThis.bytebeat = new class {
 		}
 		let songData;
 		if (hash.startsWith('#v3b64') || hash.startsWith('#EnBeat2-')) {
-			const hashString = hash.startsWith('#EnBeat2-') ? atob(hash.slice(9)) : atob(hash.slice(6));
-			const dataBuffer = new Uint8Array(hashString.length);
-			for (const i in hashString) {
-				if (Object.prototype.hasOwnProperty.call(hashString, i)) {
-					dataBuffer[i] = hashString.charCodeAt(i);
-				}
-			}
 			try {
+				const hashString = hash.startsWith('#EnBeat2-') ? atob(hash.slice(9)) : atob(hash.slice(6));
+				const dataBuffer = new Uint8Array(hashString.length);
+				for (const i in hashString) {
+					if (Object.prototype.hasOwnProperty.call(hashString, i)) {
+						dataBuffer[i] = hashString.charCodeAt(i);
+					}
+				}
 				songData = inflateRaw(dataBuffer, { to: 'string' });
 				if (!songData.startsWith('{')) { // XXX: old format
 					songData = { code: songData, sampleRate: 8000, mode: 'Bytebeat' };
@@ -802,7 +802,7 @@ globalThis.bytebeat = new class {
 		this.setCounterValue(this.byteSample);
 	}
 	setCodeSize(value) {
-		this.controlCodeSize.textContent = value + 'c';
+		this.controlCodeSize.textContent = `${value}c (${String(window.location).length}c)`;
 	}
 	setCounterValue(value) {
 		this.controlTime.value = this.settings.isSeconds ?
@@ -928,8 +928,10 @@ globalThis.bytebeat = new class {
 		if (this.songData.mode !== 'Bytebeat') {
 			songData.mode = this.songData.mode;
 		}
+		window.location.hash =
+			`#EnBeat2-${btoa(String.fromCharCode.apply(undefined,
+				deflateRaw(JSON.stringify(songData))
+			)).replaceAll('=', '')}`;
 		this.setCodeSize(code.length);
-		window.location.hash = `#EnBeat2-${btoa(String.fromCharCode.apply(undefined,
-			deflateRaw(JSON.stringify(songData)))).replaceAll('=', '')}`;
 	}
 }();
