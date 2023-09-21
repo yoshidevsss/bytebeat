@@ -16,6 +16,7 @@ const loadScript = src => new Promise((resolve, reject) => {
 
 globalThis.bytebeat = new class {
 	constructor() {
+		this.loadEndCode = null;
 		this.audioCtx = null;
 		this.audioGain = null;
 		this.audioRecordChunks = [];
@@ -23,6 +24,7 @@ globalThis.bytebeat = new class {
 		this.audioWorkletNode = null;
 		this.byteSample = 0;
 		this.cacheParentElem = null;
+		this.waitElem = null;
 		this.cacheTextElem = null;
 		this.canvasContainer = null;
 		this.canvasCtx = null;
@@ -495,6 +497,7 @@ globalThis.bytebeat = new class {
 	initElements() {
 		// Containers
 		this.cacheParentElem = document.createElement('div');
+		this.waitElem = document.getElementById('please-wait');
 		this.cacheTextElem = document.createTextNode('');
 		this.cacheParentElem.appendChild(this.cacheTextElem);
 		this.containerFixedElem = document.getElementById('container-fixed');
@@ -581,12 +584,22 @@ globalThis.bytebeat = new class {
 		return ((a % b) + b) % b;
 	}
 	async onclickCodeLoadButton(buttonElem) {
+		this.beginLoad();
 		const response = await fetch(`library/${buttonElem.classList.contains('code-load-formatted') ? 'formatted' :
 			buttonElem.classList.contains('code-load-minified') ? 'minified' :
 				buttonElem.classList.contains('code-load-original') ? 'original' : ''
 			}/${buttonElem.dataset.codeFile}`, { cache: 'no-cache' });
 		this.loadCode(Object.assign(JSON.parse(buttonElem.dataset.songdata),
 			{ code: await response.text() }));
+		this.endLoad();
+	}
+	beginLoad() {
+		this.loadEndCode = setTimeout(()=>{this.waitElem.show();},2000)
+	}
+	endLoad() {
+		clearTimeout(this.loadEndCode);
+		this.waitElem.close();
+		this.loadEndCode = null;
 	}
 	onclickCodeToggleButton(buttonElem) {
 		const parentElem = buttonElem.parentNode;
@@ -610,8 +623,19 @@ globalThis.bytebeat = new class {
 		state.add('loaded');
 		const waitElem = headerElem.querySelector('.loading-wait');
 		waitElem.classList.remove('hidden');
-		const response = await fetch(`./library/${containerElem.id.replace('library-', '')}.json`,
+		let response;
+		this.beginLoad();
+		try {
+			response = await fetch(`https://dollchan.net/bytebeat/library/${containerElem.id.replace('library-', '')}.json`,
 			{ cache: 'no-cache' });
+		} catch(error) {
+			if(error instanceof TypeError) {
+				console.error("CORS error detected loading library");
+			}
+			console.warn("Couldn't load up-to-date dE Library. Using fallback");
+			response  = await fetch(`./library/${containerElem.id.replace('library-', '')}.json`,
+			{ cache: 'no-cache' });
+		}
 		const { status } = response;
 		waitElem.classList.add('hidden');
 		if (status !== 200 && status !== 304) {
@@ -626,6 +650,7 @@ globalThis.bytebeat = new class {
 			libraryHTML += `<div class="entry-top">${this.generateLibraryEntry(libraryArr[i])}</div>`;
 		}
 		containerElem.insertAdjacentHTML('beforeend', libraryHTML);
+		this.endLoad();
 	}
 	oninputCounter(e) {
 		if (e.key === 'Enter') {

@@ -615,6 +615,24 @@ dialog > button, dialog > div > button {
 	flex-grow: 1;
 }
 
+/* ==[ Waiting dialog ] =================================================================================== */
+
+#please-wait {
+	position: absolute;
+	height: 128px;
+	width: 256px;
+	/* left: calc(50% - 64px); */
+	top: calc(50% - 96px);
+	z-index: 100;
+	text-align: center;
+}
+  
+#please-wait p {
+	margin: 0;
+	line-height: 128px;
+}
+  
+
 /* ==[ Adaptive screen ] ================================================================================== */
 
 @media screen and (max-width: 768px) {
