@@ -128,8 +128,8 @@ globalThis.bytebeat = new class {
 				if (drawEndBuffer) {
 					const idx = (drawWidth * (255 - y) + x) << 2;
 					data[idx] = drawEndBuffer[0];
-					data[idx+1] = drawEndBuffer[1];
-					data[idx+2] = drawEndBuffer[2];
+					data[idx + 1] = drawEndBuffer[1];
+					data[idx + 2] = drawEndBuffer[2];
 				}
 			}
 		}
@@ -162,7 +162,7 @@ globalThis.bytebeat = new class {
 					}
 				}
 			}
-			for (let ch=0; ch<3; ch++) {
+			for (let ch = 0; ch < 3; ch++) {
 				if (isNaNCurY[ch] && !isDiagram) {
 					continue;
 				}
@@ -213,11 +213,11 @@ globalThis.bytebeat = new class {
 		this.drawBuffer = [{ t: endTime, value: buffer[bufferLen - 1].value }];
 	}
 	drawPoint(data, i, ch) {
-		data[i+ch] = 255;
+		data[i + ch] = 255;
 	}
 	drawWaveLine(data, i, ch) {
-		if(data[i+ch]<101)
-			data[i+ch] = 160;
+		if (data[i + ch] < 101)
+			data[i + ch] = 160;
 	}
 	drawDiagram(data, DW, j, V, DI, scale, NaNchk, ch) {
 		const size = 256 / (2 ** scale)
@@ -238,12 +238,13 @@ globalThis.bytebeat = new class {
 		this.containerFixedElem.classList.toggle('container-expanded');
 	}
 	generateLibraryEntry({
-		author, children, codeMinified, codeOriginal, date, description, file, fileFormatted, fileMinified,
-		fileOriginal, mode, remixed, sampleRate, starred, stereo, url
+		author, children, codeMinified, codeOriginal, cover, date, description, file, fileFormatted,
+		fileMinified, fileOriginal, mode, name, remix, sampleRate, starred, stereo, url
 	}) {
 		let entry = '';
-		if (description) {
-			entry += !url ? description : `<a href="${url}" target="_blank">${description}</a>`;
+		const noArrayUrl = url && !Array.isArray(url);
+		if (name) {
+			entry += url ? `<a href="${noArrayUrl ? url : url[0]}" target="_blank">${name}</a>` : name;
 		}
 		if (author) {
 			let authorsList = '';
@@ -251,7 +252,7 @@ globalThis.bytebeat = new class {
 			for (let i = 0, len = authorsArr.length; i < len; ++i) {
 				const authorElem = authorsArr[i];
 				if (typeof authorElem === 'string') {
-					authorsList += description || !url ? authorElem :
+					authorsList += name || !noArrayUrl ? authorElem :
 						`<a href="${url}" target="_blank">${authorElem}</a>`;
 				} else {
 					authorsList += `<a href="${authorElem[1]}" target="_blank">${authorElem[0]}</a>`;
@@ -260,15 +261,35 @@ globalThis.bytebeat = new class {
 					authorsList += ', ';
 				}
 			}
-			entry += `<span>${description ? ` (by ${authorsList})` : `by ${authorsList}`}</span>`;
+			entry += `<span>${name ? ` (by ${authorsList})` : `by ${authorsList}`}</span>`;
 		}
-		if (url && !description && !author) {
-			entry += `(<a href="${url}" target="_blank">source</a>)`;
+		if (url && (!noArrayUrl || !name && !author)) {
+			if (noArrayUrl) {
+				entry += `(<a href="${url}" target="_blank">link</a>)`;
+			} else {
+				const urlsList = [];
+				for (let i = name ? 1 : 0, len = url.length; i < len; ++i) {
+					urlsList.push(`<a href="${url[i]}" target="_blank">link${i + 1}</a>`);
+				}
+				entry += ` (${urlsList.join(', ')})`;
+			}
 		}
-		if (remixed) {
-			const { url: rUrl, description: rDescription, author: rAuthor } = remixed;
-			entry += ` (remix of ${rUrl ? `<a href="${rUrl}" target="_blank">${rDescription || rAuthor}</a>` : `"${rDescription}"`
-				}${rDescription && rAuthor ? ' by ' + rAuthor : ''})`;
+		if (cover) {
+			const { url: cUrl, name: coverName } = cover;
+			entry += ` (cover of ${cUrl ?
+				`<a href="${cUrl}" target="_blank">${coverName}</a>` :
+				`"${coverName}"`
+				})`;
+		}
+		if (remix) {
+			const arr = [];
+			const remixArr = Array.isArray(remix) ? remix : [remix];
+			for (let i = 0, len = remixArr.length; i < len; ++i) {
+				const { url: rUrl, name: remixName, author: rAuthor } = remixArr[i];
+				arr.push(`${rUrl ? `<a href="${rUrl}" target="_blank">${remixName || rAuthor}</a>` : `"${remixName}"`
+					}${remixName && rAuthor ? ' by ' + rAuthor : ''}`);
+			}
+			entry += ` (remix of ${arr.join(', ')})`;
 		}
 
 		if (date || sampleRate || mode || stereo) {
@@ -286,26 +307,31 @@ globalThis.bytebeat = new class {
 		}
 		const songData = codeOriginal || codeMinified || file ? JSON.stringify({ sampleRate, mode }) : '';
 		if (codeMinified) {
-			if (codeOriginal) {
-				entry += ` <span class="code-length" title="Size in characters">${codeMinified.length}c</span><button class="code-button code-toggle"` +
-					' title="Minified version shown. Click to view the original version.">+</button>';
-			}
+			entry += ` <span class="code-length" title="Size in characters">${codeMinified.length}c</span>` + (codeOriginal ? '<button class="code-button code-toggle"' +
+					' title="Minified version shown. Click to view the original version.">+</button>' : '');
 		} else if (codeOriginal) {
 			entry += ` <span class="code-length" title="Size in characters">${codeOriginal.length}c</span>`;
 		}
 		if (file) {
+			let codeBtn = '';
 			if (fileFormatted) {
-				entry += `<button class="code-button code-load code-load-formatted" data-songdata='${songData}' data-code-file="${file
+				codeBtn += `<button class="code-button code-load code-load-formatted" data-songdata='${songData}' data-code-file="${file
 					}" title="Click to load and play the formatted code">formatted</button>`;
 			}
 			if (fileOriginal) {
-				entry += `<button class="code-button code-load code-load-original" data-songdata='${songData}' data-code-file="${file
+				codeBtn += `<button class="code-button code-load code-load-original" data-songdata='${songData}' data-code-file="${file
 					}" title="Click to load and play the original code">original</button>`;
 			}
 			if (fileMinified) {
-				entry += `<button class="code-button code-load code-load-minified" data-songdata='${songData}' data-code-file="${file
+				codeBtn += `<button class="code-button code-load code-load-minified" data-songdata='${songData}' data-code-file="${file
 					}" title="Click to load and play the minified code">minified</button>`;
 			}
+			if (codeBtn) {
+				entry += `<div class="code-buttons-container">${codeBtn}</div>`;
+			}
+		}
+		if (description) {
+			entry += (entry ? '<br>' : '') + description;
 		}
 		if (codeOriginal) {
 			if (Array.isArray(codeOriginal)) {
@@ -324,8 +350,9 @@ globalThis.bytebeat = new class {
 			}
 			entry += `<div class="entry-children">${childrenStr}</div>`;
 		}
-		return `<div class="${codeOriginal || codeMinified || file || children ? 'entry' : 'entry-text'}${starred ? ' ' + ['star-white', 'star-green'][starred - 1] : ''}">${entry}</div>`;
+		return `<div class="${codeOriginal || codeMinified || file || children ? 'entry' : 'entry-text'}${starred ? ' ' + ['star-1', 'star-2'][starred - 1] : ''}">${entry}</div>`;
 	}
+
 	getX(t) {
 		return t / (1 << this.settings.drawScale);
 	}
@@ -548,7 +575,7 @@ globalThis.bytebeat = new class {
 		this.endLoad();
 	}
 	beginLoad() {
-		this.loadEndCode = setTimeout(()=>{this.waitElem.show();},2000)
+		this.loadEndCode = setTimeout(() => { this.waitElem.show(); }, 2000)
 	}
 	endLoad() {
 		clearTimeout(this.loadEndCode);
@@ -581,14 +608,14 @@ globalThis.bytebeat = new class {
 		this.beginLoad();
 		try {
 			response = await fetch(`https://dollchan.net/bytebeat/library/${containerElem.id.replace('library-', '')}.json`,
-			{ cache: 'no-cache' });
-		} catch(error) {
-			if(error instanceof TypeError) {
+				{ cache: 'no-cache' });
+		} catch (error) {
+			if (error instanceof TypeError) {
 				console.error("CORS error detected loading library");
 			}
 			console.warn("Couldn't load up-to-date dE Library. Using fallback");
-			response  = await fetch(`./library/${containerElem.id.replace('library-', '')}.json`,
-			{ cache: 'no-cache' });
+			response = await fetch(`./library/${containerElem.id.replace('library-', '')}.json`,
+				{ cache: 'no-cache' });
 		}
 		const { status } = response;
 		waitElem.classList.add('hidden');
