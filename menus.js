@@ -297,11 +297,11 @@ globalThis.MAT = new class { //Menus and transformations
 			temp += toEncode.charCodeAt(Math.ceil(i * 1.5) % inputLength)
 			temp3 += toEncode.charCodeAt(i) * (i & 1 ? i : -i)
 		}
-		let temp2 = btoa(temp.toString(36)).replace('==', '').replace('=', '')
-		let temp4 = btoa(temp3.toString(36)).replace('==', '').replace('=', '')
-		let finalSeed = (temp2 + ":" + temp4)
+		let temp2 = btoa(temp.toString(36)).replaceAll('=', '');
+		let temp4 = btoa(temp3.toString(36)).replaceAll('=', '');
+		let finalSeed = (temp2 + "-" + temp4)
 		if (forTitle) {
-			this.tabName.innerText = "CHYX: " + finalSeed
+			this.tabName.innerText = "CHASYXX-" + finalSeed
 		}
 		return finalSeed
 	}
