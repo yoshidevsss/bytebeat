@@ -44,6 +44,16 @@ option {
 	height: 100%;
 }
 
+div#disabled-msg {
+	position: absolute;
+	top: 33%;
+	left: 33%;
+	background-color: #0000FF;
+	color: black;
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
 .container-expanded + #container-scroll {
 	display: none;
 }
@@ -634,6 +644,40 @@ dialog > button, dialog > div > button {
   
 
 /* ==[ Adaptive screen ] ================================================================================== */
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+	#container-fixed {
+		flex-shrink: 0;
+		max-width: 516px;
+		height: 100%;
+	}
+
+	#container-scroll {
+		display: block !important;
+		height: 100%;
+		margin-top: 0;
+		margin-left: 6px;
+		padding-right: 6px;
+	}
+
+	#content {
+		flex-flow: row;
+		align-items: start;
+	}
+
+	#control-counter {
+		width: 66px;
+	}
+
+	#control-expand {
+		display: none;
+	}
+
+	#editor-container {
+		flex: auto;
+		resize: none;
+	}
+}
 
 @media screen and (max-width: 768px) {
 	#container-fixed, #container-scroll {
