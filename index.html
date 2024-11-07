@@ -12,6 +12,40 @@
 	<link rel="modulepreload" href="./scripts/audioProcessor.mjs?version=2023022000">
 	<script type="module" async src="./scripts/bytebeat.mjs?version=2023022000"></script>
 	<script type="module" async src="menus.js"></script>
+	<script>
+    // Função para converter o MP3 e injetar o código Bytebeat no editor
+    document.getElementById('uploadForm').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('file', document.getElementById('audioFile').files[0]);
+        formData.append('samplerate', document.getElementById('samplerate').value);
+        formData.append('format', document.getElementById('format').value);
+        formData.append('loop', document.getElementById('loop').checked ? 'y' : 'n');
+        
+        document.getElementById('status').textContent = 'Convertendo...';
+        
+        try {
+            const response = await fetch('/convert', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.error) {
+                document.getElementById('status').textContent = 'Erro: ' + data.error;
+            } else {
+                document.getElementById('status').textContent = 'Conversão completa!';
+                
+                // Insere o código Bytebeat no editor automaticamente
+                document.getElementById('editor-default').value = data.formula;
+            }
+        } catch (error) {
+            document.getElementById('status').textContent = 'Erro ao converter: ' + error;
+        }
+    };
+	</script>
 </head>
 <body>
 	<!--p align="center" style="color: #FFFF00; font-size: 12px">This is not the dollChan player! That's <a href="https://dollchan.net/bytebeat/">this one.</a><br />Still, credit to SthephanShi for making the original site!</p>
@@ -19,6 +53,29 @@
 		<div id="log"></div>
 	<main id="content">
 		<section id="container-fixed">
+			<!-- Conversor MP3 para Bytebeat -->
+<div id="converter-container" class="controls" style="margin-bottom: 20px;">
+    <h3>Converter MP3 para Bytebeat</h3>
+    <form id="uploadForm">
+        <input type="file" id="audioFile" accept=".mp3" required>
+        <label for="samplerate">Sample Rate:</label>
+        <input type="number" id="samplerate" value="8000" min="1000" max="44100">
+        
+        <label for="format">Formato:</label>
+        <select id="format">
+            <option value="f">Formatado (\\x69, \\x00)</option>
+            <option value="m">Misto (E, \\x00)</option>
+            <option value="s">Especial (E, NUL)</option>
+        </select>
+        
+        <label>
+            <input type="checkbox" id="loop"> Loop
+        </label>
+        
+        <button type="submit">Converter para Bytebeat</button>
+    </form>
+    <div id="status"></div>
+</div>
 			<div id="editor-container">
 				<textarea  id="editor-default" spellcheck="false">a=&quot;CHASYXX Bytebeat composer&quot;,aa=a.charCodeAt((((t&amp;t&gt;&gt;14)&amp;7)+t*(t&gt;&gt;11&amp;7^t&gt;&gt;10&amp;3))%(a.length)),
 b=&quot;by Chase T&quot;,bb=b.charCodeAt((((t&amp;t&gt;&gt;17)&amp;7)+t*(t&gt;&gt;12&amp;7^t&gt;&gt;10&amp;7))%(b.length)),
