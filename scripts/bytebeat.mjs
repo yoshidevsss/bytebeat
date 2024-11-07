@@ -438,7 +438,7 @@ globalThis.bytebeat = new class {
 		// Below challenges trivial clones. All you have to do is remove the if,
 		// and it will work correctly.
 		// ONLY do this if you know what you're doing!
-		if (!window.location.hostname.includes`chasyxx`) { // You may also change this line to your hostname. (instead of `chasyxx`, use `t-8492` for example)
+		if (!window.location.hostname.includes`yoshidevsss`) { // You may also change this line to your hostname. (instead of `chasyxx`, use `t-8492` for example)
 			if (/127.\d+.\d+.\d+|\[::1\]/.test(window.location.hostname)) {
 				console.warn("The trivial clone check was tripped. See line 438 for details.")
 				document.body.innerHTML+="<p align=\"center\">The trivial clone check was tripped. See line 438 for details.</p>"
